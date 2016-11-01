@@ -4,9 +4,9 @@
   <subtitle>Simple Is Perfect</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http:/"/>
-  <updated>2016-10-30T01:35:15.502Z</updated>
-  <id>http:/</id>
+  <link href="http://blade6.top/"/>
+  <updated>2016-10-30T16:03:06.906Z</updated>
+  <id>http://blade6.top/</id>
   
   <author>
     <name>Blade6</name>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http:/2016/10/24/hello-world/"/>
-    <id>http:/2016/10/24/hello-world/</id>
+    <link href="http://blade6.top/2016/10/24/hello-world/"/>
+    <id>http://blade6.top/2016/10/24/hello-world/</id>
     <published>2016-10-24T13:04:31.869Z</published>
-    <updated>2016-10-30T01:35:15.502Z</updated>
+    <updated>2016-10-30T16:03:06.906Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
@@ -41,6 +41,12 @@
     
     </summary>
     
+      <category term="Others" scheme="http://blade6.top/categories/Others/"/>
+    
+    
+      <category term="hexo" scheme="http://blade6.top/tags/hexo/"/>
+    
+      <category term="hello world" scheme="http://blade6.top/tags/hello-world/"/>
     
   </entry>
   
