@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://blade6.top/2016/11/01/%E5%BB%BA%E7%AB%99%E6%97%A5%E5%BF%97/</loc>
+    <lastmod>2016-11-01T05:24:41.215Z</lastmod>
+    <data>
+        <display>
+        <title>建站日志</title>
+        <pubTime>2016-11-01T03:26:18.000Z</pubTime>
+        
+        <tag>hexo</tag>
+         
+        <tag>blog</tag>
+         
+         
+           
+             
+              <breadCrumb title="Blog" url="http://blade6.top/categories/Blog/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://blade6.top/2016/10/24/hello-world/</loc>
+    <lastmod>2016-10-30T16:03:06.906Z</lastmod>
+    <data>
+        <display>
+        <title>Hello World</title>
+        <pubTime>2016-10-24T13:04:31.869Z</pubTime>
+        
+        <tag>hexo</tag>
+         
+        <tag>hello world</tag>
+         
+         
+           
+             
+              <breadCrumb title="Others" url="http://blade6.top/categories/Others/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+</urlset>
