@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blade6.top/"/>
-  <updated>2016-11-04T02:06:10.409Z</updated>
+  <updated>2016-11-04T05:26:59.247Z</updated>
   <id>http://blade6.top/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>使用Hexo搭建个人博客小记</title>
-    <link href="http://blade6.top/2016/11/01/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%B0%8F%E8%AE%B0/"/>
-    <id>http://blade6.top/2016/11/01/使用Hexo搭建个人博客小记/</id>
+    <link href="http://blade6.top/posts/21637/"/>
+    <id>http://blade6.top/posts/21637/</id>
     <published>2016-11-01T03:26:18.000Z</published>
-    <updated>2016-11-04T02:06:10.409Z</updated>
+    <updated>2016-11-04T05:26:59.247Z</updated>
     
     <content type="html"><![CDATA[<p>今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~</p>
 <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学生怎么能没有自己的个人网站，于是我萌生了搭建博客网站的想法。因为现在Nodejs+Hexo+Github Pages搭建博客很流行，于是我也加入了这股潮流。说干就干，网上的资料十分多，可能是每个搭建博客的都写了一篇建站日志, : )<br><a id="more"></a></p>
@@ -34,12 +34,12 @@
 </ul>
 </li>
 <li>购买域名。</li>
-<li>sitemap</li>
-<li>优化</li>
+<li>SEO推广</li>
+<li>文章链接唯一永久化</li>
 </ol>
 <h4 id="更改阅读全文样式"><a href="#更改阅读全文样式" class="headerlink" title="更改阅读全文样式"></a>更改阅读全文样式</h4><p>打开\themes\next\source\css_common\components\post\post-more-link.styl文件，把<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">.post-more-link &#123;</div><div class="line">  margin-top: 50px;</div><div class="line"></div><div class="line">  .btn &#123;</div><div class="line">    color: $read-more-color;</div><div class="line">    font-size: $read-more-font-size;</div><div class="line">    background: $read-more-bg-color;</div><div class="line">    border-radius: $read-more-border-radius;</div><div class="line">    line-height: 2;</div><div class="line">  &#125;</div><div class="line">  .btn:hover &#123;</div><div class="line">    @extend .btn:hover;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>改成<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">.post-more-link &#123;</div><div class="line">  margin-top: 50px;</div><div class="line"></div><div class="line">  .btn &#123;</div><div class="line">    display: inline-block;</div><div class="line"></div><div class="line">    border-width: 2px;</div><div class="line">    border-style: solid;</div><div class="line">    border-color: rgb(85,85,85);</div><div class="line"></div><div class="line">    padding: 0 20px;</div><div class="line"></div><div class="line">    line-height: 2;</div><div class="line"></div><div class="line">    font-size: 14px;</div><div class="line"></div><div class="line">    color: #555555;</div><div class="line"></div><div class="line">    text-decoration: none;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">  .btn:hover &#123;</div><div class="line">    color: white;</div><div class="line">    background-color: black;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.shijinrong.cn/2016/01/03/How-to-build-a-blog/" target="_blank" rel="external">如何使用10个小时搭建出个人域名而又Geek的独立博客</a><br><a href="http://opiece.me/2015/04/09/hexo-guide/" target="_blank" rel="external">使用Hexo搭建个人博客(基于hexo3.0)</a><br><a href="http://willxue.coding.me/categories/hexo/" target="_blank" rel="external">Hexo系列教程</a></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.shijinrong.cn/2016/01/03/How-to-build-a-blog/" target="_blank" rel="external">如何使用10个小时搭建出个人域名而又Geek的独立博客</a><br><a href="http://opiece.me/2015/04/09/hexo-guide/" target="_blank" rel="external">使用Hexo搭建个人博客(基于hexo3.0)</a><br><a href="http://willxue.coding.me/categories/hexo/" target="_blank" rel="external">Hexo系列教程</a><br><a href="http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/" target="_blank" rel="external">Hexo+nexT主题搭建个人博客</a><br><a href="http://blog.tangxiaozhu.com/p/45374067/" target="_blank" rel="external">使用Hexo搭建博客的深度优化</a></p>
 <p>在此致谢所有无形中帮助到我的人，谢谢你们的分享。互联网精神万岁！</p>
 ]]></content>
     
