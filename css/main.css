@@ -1342,7 +1342,7 @@ pre .javascript .function {
 }
 .post-more-link .btn:hover {
   color: #fff;
-  background-color: #000;
+  background-color: #222;
 }
 .posts-expand .post-tags {
   margin-top: 40px;
@@ -1693,7 +1693,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffff57;
+  background: #d95061;
 }
 .links-of-blogroll {
   font-size: 13px;
