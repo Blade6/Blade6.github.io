@@ -2,4 +2,5 @@
 
 User-agent: *
 
-Sitemap: http://blade6.top/sitemap.xml 
+Sitemap: http://blade6.top/sitemap.xml
+Sitemap: http://blade6.top/baidusitemap.xml 
