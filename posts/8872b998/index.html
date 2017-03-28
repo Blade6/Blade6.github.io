@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Blade6, Hexo, Next">
+  <meta name="keywords" content="Java,leetcode,算法,">
 
 
 
@@ -86,15 +86,16 @@
 
 
 
-<meta name="description" content="欲速则不达">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blade6">
-<meta property="og:url" content="http://blade6.top/categories/Blog/index.html">
+<meta name="description" content="问题：给定字符串s，求出其最长回文子串。方法一：动态规划。思想描述：假设 s[i][j] 表示字符串 s 下标从 i 到 j 的子串，如果该子串是回文子串，则令 dp[i][j] 为 true 。如果我们已经得到了最优解，这个最优解是 s[i][j] ，无疑 dp[i][j] = true 。而 dp[i][j]=true 实际上等价于 dp[i+1][j-1] = true &amp;amp;&amp;amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="求最长回文子串">
+<meta property="og:url" content="http://blade6.top/posts/8872b998/index.html">
 <meta property="og:site_name" content="Blade6">
-<meta property="og:description" content="欲速则不达">
+<meta property="og:description" content="问题：给定字符串s，求出其最长回文子串。方法一：动态规划。思想描述：假设 s[i][j] 表示字符串 s 下标从 i 到 j 的子串，如果该子串是回文子串，则令 dp[i][j] 为 true 。如果我们已经得到了最优解，这个最优解是 s[i][j] ，无疑 dp[i][j] = true 。而 dp[i][j]=true 实际上等价于 dp[i+1][j-1] = true &amp;amp;&amp;amp;">
+<meta property="og:updated_time" content="2017-03-28T16:03:07.861Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blade6">
-<meta name="twitter:description" content="欲速则不达">
+<meta name="twitter:title" content="求最长回文子串">
+<meta name="twitter:description" content="问题：给定字符串s，求出其最长回文子串。方法一：动态规划。思想描述：假设 s[i][j] 表示字符串 s 下标从 i 到 j 的子串，如果该子串是回文子串，则令 dp[i][j] 为 true 。如果我们已经得到了最优解，这个最优解是 s[i][j] ，无疑 dp[i][j] = true 。而 dp[i][j]=true 实际上等价于 dp[i+1][j-1] = true &amp;amp;&amp;amp;">
 
 
 
@@ -115,10 +116,10 @@
 
 
 
-  <link rel="canonical" href="http://blade6.top/categories/Blog/">
+  <link rel="canonical" href="http://blade6.top/posts/8872b998/">
 
 
-  <title> 分类: Blog | Blade6 </title>
+  <title> 求最长回文子串 | Blade6 </title>
 </head>
 
 <body itemscope="" itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -139,7 +140,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="//schema.org/WPHeader">
@@ -260,52 +261,215 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2>
-        Blog
-        <small>分类</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="//schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                求最长回文子串
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-29T00:03:28+08:00" content="2017-03-29">
+              2017-03-29
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
+                  <a href="/categories/ACM/" itemprop="url" rel="index">
+                    <span itemprop="name">ACM</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/posts/8872b998/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="posts/8872b998/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/posts/8872b998/" class="leancloud_visitors" data-flag-title="求最长回文子串">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope="" itemtype="//schema.org/Article">
-    <header class="post-header">
+      
+        <h3 id="问题：给定字符串s，求出其最长回文子串。"><a href="#问题：给定字符串s，求出其最长回文子串。" class="headerlink" title="问题：给定字符串s，求出其最长回文子串。"></a>问题：给定字符串s，求出其最长回文子串。</h3><h4 id="方法一：动态规划。"><a href="#方法一：动态规划。" class="headerlink" title="方法一：动态规划。"></a>方法一：动态规划。</h4><p><strong>思想描述：</strong><br>假设 s[i][j] 表示字符串 s 下标从 i 到 j 的子串，如果该子串是回文子串，则令 dp[i][j] 为 true 。如果我们已经得到了最优解，这个最优解是 s[i][j] ，无疑 dp[i][j] = true 。而 dp[i][j]=true 实际上等价于 dp[i+1][j-1] = true &amp;&amp; s[i] == s[j] ，这就是<strong>推导式</strong>。<br>考虑 i+1 == j-1 ， i+1 == (j-1)-1 ，分别对应回文子串长度为1和为2的情况，这就是<strong>基准情况</strong>：<br>a. dp[i][i] = true<br>b. dp[i][i+1] = true if s[i] == s[i+1]<br><a id="more"></a></p>
+<p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">//Dynamic Programming</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(s.length()==<span class="number">0</span> || s.length() == <span class="number">1</span>) <span class="keyword">return</span> s;</div><div class="line">        <span class="keyword">int</span> length = s.length();</div><div class="line">        <span class="keyword">int</span> max = <span class="number">1</span>;</div><div class="line">        String result = <span class="string">""</span> +s.charAt(<span class="number">0</span>);</div><div class="line">        <span class="keyword">boolean</span>[][] dp = <span class="keyword">new</span> <span class="keyword">boolean</span>[length][length];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++) dp[i][i] = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length-<span class="number">1</span>;i++)&#123;</div><div class="line">        	<span class="keyword">if</span>(s.charAt(i) == s.charAt(i+<span class="number">1</span>))&#123;</div><div class="line">        		dp[i][i+<span class="number">1</span>] = <span class="keyword">true</span>;</div><div class="line">        		<span class="keyword">if</span>(max != <span class="number">2</span>)&#123;</div><div class="line">        			max = <span class="number">2</span>;</div><div class="line">        			result = s.substring(i, i+<span class="number">2</span>);</div><div class="line">        		&#125;        		</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">       </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = length - <span class="number">3</span>; i &gt;= <span class="number">0</span>; i--)&#123;</div><div class="line">        	<span class="keyword">for</span>(<span class="keyword">int</span> j = i+<span class="number">2</span>; j &lt; length; j++)&#123;</div><div class="line">        		<span class="keyword">if</span>(dp[i+<span class="number">1</span>][j-<span class="number">1</span>] &amp;&amp; s.charAt(i) == s.charAt(j))&#123;</div><div class="line">        			dp[i][j] = <span class="keyword">true</span>;</div><div class="line">        			<span class="keyword">if</span>(j-i+<span class="number">1</span> &gt; max)&#123;</div><div class="line">        				max = j-i+<span class="number">1</span>;</div><div class="line">        				result = s.substring(i, j+<span class="number">1</span>);</div><div class="line">        			&#125;</div><div class="line">        		&#125;<span class="keyword">else</span>&#123;</div><div class="line">        			dp[i][j] = <span class="keyword">false</span>;</div><div class="line">        		&#125;</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>需要注意的地方：实现动态规划时，需要注意边界，从哪里开始，到哪里结束。</p>
+<h4 id="方法二：中心扩展。"><a href="#方法二：中心扩展。" class="headerlink" title="方法二：中心扩展。"></a>方法二：中心扩展。</h4><p><strong>思想描述：</strong><br>回文串是中心对称的，以 s[i] 为中心，用两个指针向两侧扩展判断是否相等可以得到以s[i]为中心的回文子串，对s的每个字符重复此操作，最终可以求得最大回文子串。</p>
+<p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(s.length() == <span class="number">1</span> || s.length() == <span class="number">0</span>) <span class="keyword">return</span> s;</div><div class="line">		<span class="keyword">int</span> max = <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> ans;</div><div class="line">		String result = <span class="string">""</span> +s.charAt(<span class="number">0</span>);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;s.length();i++)&#123;</div><div class="line">			ans = Math.max(PS_length(s, i-<span class="number">1</span>, i+<span class="number">1</span>), PS_length(s, i-<span class="number">1</span>, i));</div><div class="line">			<span class="keyword">if</span>(ans &gt; max)&#123;</div><div class="line">				max = ans;</div><div class="line">				<span class="keyword">if</span>(ans % <span class="number">2</span> == <span class="number">0</span>) result = s.substring(i-ans/<span class="number">2</span>, i+ans/<span class="number">2</span>);</div><div class="line">				<span class="keyword">else</span> result = s.substring(i-ans/<span class="number">2</span>, i+ans/<span class="number">2</span>+<span class="number">1</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//PS is short for Palindromic Substring</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">PS_length</span><span class="params">(String s, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>&#123;</div><div class="line">		<span class="keyword">while</span>(i &gt;=<span class="number">0</span> &amp;&amp; j &lt; s.length())&#123;</div><div class="line">			<span class="keyword">if</span>(s.charAt(i)!=s.charAt(j)) <span class="keyword">break</span>;</div><div class="line">			--i;</div><div class="line">			++j;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> j-i-<span class="number">1</span>;</div><div class="line">		<span class="comment">//return (j-i-1)+2</span></div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>小trick：在求子串时，下标可以通过实例来明确。</p>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/posts/21637/" itemprop="url">
-              
-                <span itemprop="name">使用Hexo搭建个人博客小记</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Make the world a better place.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat-reward-image.jpg" alt="Blade6 WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2016-11-01T11:26:18+08:00" content="2016-11-01">
-          11-01
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+            <a href="/tags/leetcode/" rel="tag">#leetcode</a>
+          
+            <a href="/tags/算法/" rel="tag">#算法</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/285ba2a7/" rel="next" title="回车符与换行符">
+                <i class="fa fa-chevron-left"></i> 回车符与换行符
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="posts/8872b998/" data-title="求最长回文子串" data-content="" data-url="http://blade6.top/posts/8872b998/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
 
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
 
 
           </div>
           
 
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="posts/8872b998/" data-title="求最长回文子串" data-url="http://blade6.top/posts/8872b998/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -325,8 +489,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="//schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/uploads/Blade6.jpg" alt="Blade6">
           <p class="site-author-name" itemprop="name">Blade6</p>
@@ -432,6 +605,17 @@
       </section>
 
       
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题：给定字符串s，求出其最长回文子串。"><span class="nav-number">1.</span> <span class="nav-text">问题：给定字符串s，求出其最长回文子串。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一：动态规划。"><span class="nav-number">1.1.</span> <span class="nav-text">方法一：动态规划。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二：中心扩展。"><span class="nav-number">1.2.</span> <span class="nav-text">方法二：中心扩展。</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
 
     </div>
   </aside>
@@ -527,6 +711,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 

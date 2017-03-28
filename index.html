@@ -284,6 +284,137 @@
             
               
                 
+                <a class="post-title-link" href="/posts/8872b998/" itemprop="url">
+                  求最长回文子串
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-29T00:03:28+08:00" content="2017-03-29">
+              2017-03-29
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
+                  <a href="/categories/ACM/" itemprop="url" rel="index">
+                    <span itemprop="name">ACM</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/posts/8872b998/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="posts/8872b998/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/posts/8872b998/" class="leancloud_visitors" data-flag-title="求最长回文子串">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="问题：给定字符串s，求出其最长回文子串。"><a href="#问题：给定字符串s，求出其最长回文子串。" class="headerlink" title="问题：给定字符串s，求出其最长回文子串。"></a>问题：给定字符串s，求出其最长回文子串。</h3><h4 id="方法一：动态规划。"><a href="#方法一：动态规划。" class="headerlink" title="方法一：动态规划。"></a>方法一：动态规划。</h4><p><strong>思想描述：</strong><br>假设 s[i][j] 表示字符串 s 下标从 i 到 j 的子串，如果该子串是回文子串，则令 dp[i][j] 为 true 。如果我们已经得到了最优解，这个最优解是 s[i][j] ，无疑 dp[i][j] = true 。而 dp[i][j]=true 实际上等价于 dp[i+1][j-1] = true &amp;&amp; s[i] == s[j] ，这就是<strong>推导式</strong>。<br>考虑 i+1 == j-1 ， i+1 == (j-1)-1 ，分别对应回文子串长度为1和为2的情况，这就是<strong>基准情况</strong>：<br>a. dp[i][i] = true<br>b. dp[i][i+1] = true if s[i] == s[i+1]<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/posts/8872b998/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </p></div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/posts/285ba2a7/" itemprop="url">
                   回车符与换行符
                 </a>
@@ -827,7 +958,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -835,7 +966,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -844,7 +975,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
