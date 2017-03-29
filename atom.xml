@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blade6.top/"/>
-  <updated>2017-03-28T16:03:07.861Z</updated>
+  <updated>2017-03-28T16:05:02.552Z</updated>
   <id>http://blade6.top/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://blade6.top/posts/8872b998/"/>
     <id>http://blade6.top/posts/8872b998/</id>
     <published>2017-03-28T16:03:28.126Z</published>
-    <updated>2017-03-28T16:03:07.861Z</updated>
+    <updated>2017-03-28T16:05:02.552Z</updated>
     
     <content type="html"><![CDATA[<h3 id="问题：给定字符串s，求出其最长回文子串。"><a href="#问题：给定字符串s，求出其最长回文子串。" class="headerlink" title="问题：给定字符串s，求出其最长回文子串。"></a>问题：给定字符串s，求出其最长回文子串。</h3><h4 id="方法一：动态规划。"><a href="#方法一：动态规划。" class="headerlink" title="方法一：动态规划。"></a>方法一：动态规划。</h4><p><strong>思想描述：</strong><br>假设 s[i][j] 表示字符串 s 下标从 i 到 j 的子串，如果该子串是回文子串，则令 dp[i][j] 为 true 。如果我们已经得到了最优解，这个最优解是 s[i][j] ，无疑 dp[i][j] = true 。而 dp[i][j]=true 实际上等价于 dp[i+1][j-1] = true &amp;&amp; s[i] == s[j] ，这就是<strong>推导式</strong>。<br>考虑 i+1 == j-1 ， i+1 == (j-1)-1 ，分别对应回文子串长度为1和为2的情况，这就是<strong>基准情况</strong>：<br>a. dp[i][i] = true<br>b. dp[i][i+1] = true if s[i] == s[i+1]<br><a id="more"></a></p>
 <p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">//Dynamic Programming</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(s.length()==<span class="number">0</span> || s.length() == <span class="number">1</span>) <span class="keyword">return</span> s;</div><div class="line">        <span class="keyword">int</span> length = s.length();</div><div class="line">        <span class="keyword">int</span> max = <span class="number">1</span>;</div><div class="line">        String result = <span class="string">""</span> +s.charAt(<span class="number">0</span>);</div><div class="line">        <span class="keyword">boolean</span>[][] dp = <span class="keyword">new</span> <span class="keyword">boolean</span>[length][length];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++) dp[i][i] = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length-<span class="number">1</span>;i++)&#123;</div><div class="line">        	<span class="keyword">if</span>(s.charAt(i) == s.charAt(i+<span class="number">1</span>))&#123;</div><div class="line">        		dp[i][i+<span class="number">1</span>] = <span class="keyword">true</span>;</div><div class="line">        		<span class="keyword">if</span>(max != <span class="number">2</span>)&#123;</div><div class="line">        			max = <span class="number">2</span>;</div><div class="line">        			result = s.substring(i, i+<span class="number">2</span>);</div><div class="line">        		&#125;        		</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">       </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = length - <span class="number">3</span>; i &gt;= <span class="number">0</span>; i--)&#123;</div><div class="line">        	<span class="keyword">for</span>(<span class="keyword">int</span> j = i+<span class="number">2</span>; j &lt; length; j++)&#123;</div><div class="line">        		<span class="keyword">if</span>(dp[i+<span class="number">1</span>][j-<span class="number">1</span>] &amp;&amp; s.charAt(i) == s.charAt(j))&#123;</div><div class="line">        			dp[i][j] = <span class="keyword">true</span>;</div><div class="line">        			<span class="keyword">if</span>(j-i+<span class="number">1</span> &gt; max)&#123;</div><div class="line">        				max = j-i+<span class="number">1</span>;</div><div class="line">        				result = s.substring(i, j+<span class="number">1</span>);</div><div class="line">        			&#125;</div><div class="line">        		&#125;<span class="keyword">else</span>&#123;</div><div class="line">        			dp[i][j] = <span class="keyword">false</span>;</div><div class="line">        		&#125;</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -39,9 +39,9 @@
       <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
       <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+    
+      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
     
       <category term="算法" scheme="http://blade6.top/tags/%E7%AE%97%E6%B3%95/"/>
     
@@ -109,11 +109,11 @@
       <category term="编程" scheme="http://blade6.top/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
+      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+    
       <category term="符号" scheme="http://blade6.top/tags/%E7%AC%A6%E5%8F%B7/"/>
     
       <category term="技术" scheme="http://blade6.top/tags/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
     
       <category term="Python" scheme="http://blade6.top/tags/Python/"/>
     
