@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="hexo,blog,">
+  <meta name="keywords" content="Java,leetcode,">
 
 
 
@@ -89,19 +89,19 @@
 
 
 
-<meta name="description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
+<meta name="description" content="3数和为0问题，对于这个问题，网上一致认为，这个问题是两数和问题的升级版，最终能够优化到O(n^2)级别。
+解题思路对于给定数组中的每个下标i，用前指针left指向其下一个数，后指针right指向数组最后的数。如果三个数的和为0，则判断结果是否已出现，如果出现过，不添加，否则添加到结果集。如果三数和小于0，则前指针指向后一个数，否则后指针指向前一个数。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Hexo搭建个人博客小记">
-<meta property="og:url" content="http://blade6.top/posts/21637/index.html">
+<meta property="og:title" content="leetcode 3Sum">
+<meta property="og:url" content="http://blade6.top/posts/92e6a03a/index.html">
 <meta property="og:site_name" content="Blade6">
-<meta property="og:description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
-<meta property="og:updated_time" content="2017-03-29T07:45:32.497Z">
+<meta property="og:description" content="3数和为0问题，对于这个问题，网上一致认为，这个问题是两数和问题的升级版，最终能够优化到O(n^2)级别。
+解题思路对于给定数组中的每个下标i，用前指针left指向其下一个数，后指针right指向数组最后的数。如果三个数的和为0，则判断结果是否已出现，如果出现过，不添加，否则添加到结果集。如果三数和小于0，则前指针指向后一个数，否则后指针指向前一个数。">
+<meta property="og:updated_time" content="2017-04-19T06:22:07.634Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Hexo搭建个人博客小记">
-<meta name="twitter:description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
+<meta name="twitter:title" content="leetcode 3Sum">
+<meta name="twitter:description" content="3数和为0问题，对于这个问题，网上一致认为，这个问题是两数和问题的升级版，最终能够优化到O(n^2)级别。
+解题思路对于给定数组中的每个下标i，用前指针left指向其下一个数，后指针right指向数组最后的数。如果三个数的和为0，则判断结果是否已出现，如果出现过，不添加，否则添加到结果集。如果三数和小于0，则前指针指向后一个数，否则后指针指向前一个数。">
 
 
 
@@ -129,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://blade6.top/posts/21637/">
+  <link rel="canonical" href="http://blade6.top/posts/92e6a03a/">
 
 
 
 
 
-  <title> 使用Hexo搭建个人博客小记 | Blade6 </title>
+  <title> leetcode 3Sum | Blade6 </title>
 </head>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +306,7 @@
   
 
   <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://blade6.top/posts/21637/">
+    <link itemprop="mainEntityOfPage" href="http://blade6.top/posts/92e6a03a/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Blade6">
@@ -327,7 +327,7 @@
             
             
               
-                使用Hexo搭建个人博客小记
+                leetcode 3Sum
               
             
           </h1>
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-01T11:26:18+08:00">
-                2016-11-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-19T14:20:21+08:00">
+                2017-04-19
               </time>
             
 
@@ -365,8 +365,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Blog/" itemprop="url" rel="index">
-                    <span itemprop="name">Blog</span>
+                  <a href="/categories/ACM/" itemprop="url" rel="index">
+                    <span itemprop="name">ACM</span>
                   </a>
                 </span>
 
@@ -382,7 +382,7 @@
 
           
           
-             <span id="/posts/21637/" class="leancloud_visitors" data-flag-title="使用Hexo搭建个人博客小记">
+             <span id="/posts/92e6a03a/" class="leancloud_visitors" data-flag-title="leetcode 3Sum">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -411,24 +411,18 @@
       
 
       
-        <p>今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~</p>
-<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学生怎么能没有自己的个人网站，于是我萌生了搭建博客网站的想法。因为现在Nodejs+Hexo+Github Pages搭建博客很流行，于是我也加入了这股潮流。说干就干，网上的资料十分多，可能是每个搭建博客的都写了一篇建站日志, : )<br><a id="more"></a></p>
-<h3 id="建站大致过程"><a href="#建站大致过程" class="headerlink" title="建站大致过程"></a>建站大致过程</h3><ol>
-<li>安装Git Bash,Nodejs,Hexo.</li>
-<li>GitHub新建repo，并设置SSH.</li>
-<li>下载安装next主题，并按照<a href="http://theme-next.iissnan.com/getting-started.html" rel="external nofollow noopener noreferrer" target="_blank">NexT</a>的内容进行各项参数的设置。<ul>
-<li>多说评论、分享、热评文章</li>
-<li>LeanCloud阅读次数统计</li>
-<li>Local Search</li>
-</ul>
-</li>
-<li>购买域名。</li>
-<li>SEO推广</li>
-<li>文章链接唯一永久化</li>
-</ol>
-<h4 id="更改阅读全文样式"><a href="#更改阅读全文样式" class="headerlink" title="更改阅读全文样式"></a>更改阅读全文样式</h4><p>打开<code>\themes\next\source\css\_common\components\post\post-button.styl</code>文件，修改成<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">.post-button &#123;</div><div class="line">  margin-top: 50px;</div><div class="line"></div><div class="line">  .btn &#123;</div><div class="line">    display: inline-block;</div><div class="line"></div><div class="line">    border-width: 2px;</div><div class="line">    border-style: solid;</div><div class="line">    border-color: rgb(85,85,85);</div><div class="line"></div><div class="line">    padding: 0 20px;</div><div class="line"></div><div class="line">    line-height: 2;</div><div class="line"></div><div class="line">    font-size: 14px;</div><div class="line"></div><div class="line">    color: #555555;</div><div class="line"></div><div class="line">    text-decoration: none;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">  .btn:hover &#123;</div><div class="line">    color: white;</div><div class="line">    background-color: #222222;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.shijinrong.cn/2016/01/03/How-to-build-a-blog/" rel="external nofollow noopener noreferrer" target="_blank">如何使用10个小时搭建出个人域名而又Geek的独立博客</a><br><a href="http://opiece.me/2015/04/09/hexo-guide/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建个人博客(基于hexo3.0)</a><br><a href="http://willxue.coding.me/categories/hexo/" rel="external nofollow noopener noreferrer" target="_blank">Hexo系列教程</a><br><a href="http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/" rel="external nofollow noopener noreferrer" target="_blank">Hexo+nexT主题搭建个人博客</a><br><a href="http://blog.tangxiaozhu.com/p/45374067/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建博客的深度优化</a><br><a href="http://www.jianshu.com/p/7ad9d3cd4d6e#" rel="external nofollow noopener noreferrer" target="_blank">将hexo博客同时托管到github和coding</a><br><a href="http://www.cnblogs.com/tengj/p/5357879.html" rel="external nofollow noopener noreferrer" target="_blank">hexo提交搜索引擎</a></p>
-<p>在此致谢所有无形中帮助到我的人，谢谢你们的分享。互联网精神万岁！</p>
+        <p>3数和为0问题，对于这个问题，网上一致认为，这个问题是两数和问题的升级版，最终能够优化到O(n^2)级别。</p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于给定数组中的每个下标i，用前指针left指向其下一个数，后指针right指向数组最后的数。如果三个数的和为0，则判断结果是否已出现，如果出现过，不添加，否则添加到结果集。如果三数和小于0，则前指针指向后一个数，否则后指针指向前一个数。<br><a id="more"></a><br>根据解题思路，结合网上找到的别人的代码，我迅速地写出了第一个答案：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; threeSum(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">        List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Arrays.sort(nums);</div><div class="line">		<span class="keyword">int</span> length = nums.length;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">			<span class="keyword">int</span> left = i + <span class="number">1</span>;</div><div class="line">			<span class="keyword">int</span> right = length - <span class="number">1</span>;</div><div class="line">			<span class="keyword">while</span> (left &lt; right) &#123;</div><div class="line">				<span class="keyword">int</span> sum = nums[i] + nums[left] + nums[right];</div><div class="line">				<span class="keyword">if</span> (sum == <span class="number">0</span>) &#123;</div><div class="line">					List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">					list.add(nums[i]);</div><div class="line">					list.add(nums[left]);</div><div class="line">					list.add(nums[right]);</div><div class="line">					<span class="keyword">if</span> (!Compare(result, list)) result.add(list);</div><div class="line">					++left;</div><div class="line">					--right;</div><div class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</div><div class="line">					++left;</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					--right;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">Compare</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; result, List&lt;Integer&gt; list)</span> </span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; result.size(); i++) &#123;</div><div class="line">			List&lt;Integer&gt; test = result.get(i);</div><div class="line">			<span class="keyword">if</span> (test.contains(list.get(<span class="number">0</span>)) &amp;&amp; test.contains(list.get(<span class="number">1</span>)) </div><div class="line">					&amp;&amp; test.contains(list.get(<span class="number">2</span>)))</div><div class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过Compare方法去重。然后死在了以下TestCase：<br>[-4,-2,1,-5,-4,-4,4,-2,0,4,0,-2,3,1,-5,0]<br>死亡原因：程序运行的结果集不正确，缺少[0,0,0]。<br>我自个分析，原因在于Compare方法有错误，如果有一个结果（比如：[-4,4,0]）包含0和两个相反数，则[0,0,0]无法添加到结果集。而且这个方法需要对结果集做一个遍历，效率太低。</p>
+<p>自己的代码too young too naive,我决定模仿现成的代码，从网上找到一段代码，Submit：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; threeSum(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">		List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Arrays.sort(nums);</div><div class="line">		<span class="keyword">int</span> length = nums.length;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">			<span class="keyword">int</span> left = i + <span class="number">1</span>;</div><div class="line">			<span class="keyword">int</span> right = length - <span class="number">1</span>;</div><div class="line">			<span class="keyword">while</span> (left &lt; right) &#123;</div><div class="line">				<span class="keyword">int</span> sum = nums[i] + nums[left] + nums[right];</div><div class="line">				<span class="keyword">if</span> (sum == <span class="number">0</span>) &#123;</div><div class="line">					List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">					list.add(nums[i]);</div><div class="line">					list.add(nums[left]);</div><div class="line">					list.add(nums[right]);</div><div class="line">					result.add(list);</div><div class="line">					++left;</div><div class="line">					--right;</div><div class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</div><div class="line">					++left;</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					--right;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		Set set = <span class="keyword">new</span> HashSet&lt;&gt;(result);</div><div class="line">		result = <span class="keyword">new</span> ArrayList&lt;List&lt;Integer&gt;&gt;(set);</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这次313个TestCase，死在了第313个，也就是最后一个变态TestCase上：<br>[0,…,0]<br>0的出现次数有数千次之多。。<br>死亡原因：Time Limit Exceeded</p>
+<p>这个方法的优点自然是利用集合的无序性来达到去重的效果。缺点则是这是一个事后弥补的方法。对于每次得出的结果，则将该结果加入结果集。最后再对结果集进行筛选去重。为什么不在加入前先去重？</p>
+<p>根据这个TestCase，经过一番反省后，我想出两种办法来去重，第一种是采用过滤方法，第二种是备忘录方法。过滤方法的原理是，对于给定数组nums，如果其中有一个数出现了三次，那么除非这个数是0，否则第三次出现是没有意义的，因为我们最多也只会用到两个。举例来说：<br>[4,-2,-2,-2]<br>三数和为0的结果为[4,-2,-2]，-2在nums中出现了三次，其实出现两次就已经能得到结果[4,-2,-2]了，所以第三个-2是无效的。但0是可以出现三次的。对于任意数，出现了三次以上，就会有很多无效的数，这些数不会改变最终结果，但却会耗费大量运算时间。可以通过对nums进行过滤，剔除出现次数在3次以上的数，使得其出现次数减少至2次，0可以保持3次。<br>第二种方法是备忘录方法，因为最终求和是nums[i]+nums[left]+nums[right]，nums[left]+nums[right]其实存在重复运算的可能性，说不定能存起来，以便下次调用，减少运算次数，但这样一想，感觉方法要走向动态规划了。</p>
+<p>这两个idea都是在对nums做过滤，避免因为某个数的出现次数过多而做无用功，在一定程度上能够减少运算次数。但是回到问题本身，问题里给出了一个TestCase：[-1, 0, 1, 2, -1, -4]，上面的两个idea最终都会使输入的数组变成类似这样的形式（任意一个数的出现次数不会超过2次，0可以出现3次）。但这不是最优的形式。因为即使是这样的形式，还是存在重复运算。比如有TestCase：[-4,-4,2,2]。根据解题思路，在整个程序跑的过程中，会出现以下情况：<br>1.当i=0,left=2,right=3时，得到结果[-4,2,2]，将其加入结果集；<br>2.当i=1,left=2,right=2时，得到结果[-4,2,2]，不加入结果集。<br>程序优化的目标就是使得情况2不要出现，因为情况2和情况1是一样的情况。<br>对于每个i，如果array[i]==array[i-1]，那么可以跳过array[i]，因为它的情况和它的前一个数的情况相同。相应地left、right也可以做同样处理。</p>
+<p>最终可以编写出如下的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; threeSum(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">		List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Arrays.sort(nums);</div><div class="line">		<span class="keyword">int</span> length = nums.length;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length - <span class="number">2</span>; i++) &#123;</div><div class="line">			<span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;            </div><div class="line">	            <span class="keyword">continue</span>;</div><div class="line">	        &#125;</div><div class="line">			<span class="keyword">int</span> left = i + <span class="number">1</span>;</div><div class="line">			<span class="keyword">int</span> right = length - <span class="number">1</span>;</div><div class="line">			<span class="keyword">while</span> (left &lt; right) &#123;</div><div class="line">				<span class="keyword">int</span> sum = nums[i] + nums[left] + nums[right];</div><div class="line">				<span class="keyword">if</span> (sum == <span class="number">0</span>) &#123;</div><div class="line">					List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">					list.add(nums[i]);</div><div class="line">					list.add(nums[left]);</div><div class="line">					list.add(nums[right]);</div><div class="line">					result.add(list);</div><div class="line">					++left;</div><div class="line">					--right;</div><div class="line">					<span class="keyword">while</span> (left &lt; right &amp;&amp; nums[left] == nums[left - <span class="number">1</span>]) left++;</div><div class="line">		            <span class="keyword">while</span> (left &lt; right &amp;&amp; nums[right] == nums[right + <span class="number">1</span>]) right--;</div><div class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</div><div class="line">					++left;</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					--right;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		Set set = <span class="keyword">new</span> HashSet&lt;&gt;(result);</div><div class="line">		result = <span class="keyword">new</span> ArrayList&lt;List&lt;Integer&gt;&gt;(set);</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个代码被AC了，但是运算速度排在18%左右。仔细想想，我们可以知道实际上对i、left、right进行处理后，情况2是不会出现的，其实也不需要去重了。所以可以对代码做进一步的优化，如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; threeSum(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">		List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		Arrays.sort(nums);</div><div class="line">		<span class="keyword">int</span> length = nums.length;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length - <span class="number">2</span>; i++) &#123;</div><div class="line">			<span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;            </div><div class="line">	            <span class="keyword">continue</span>;</div><div class="line">	        &#125;</div><div class="line">			<span class="keyword">int</span> left = i + <span class="number">1</span>;</div><div class="line">			<span class="keyword">int</span> right = length - <span class="number">1</span>;</div><div class="line">			<span class="keyword">while</span> (left &lt; right) &#123;</div><div class="line">				<span class="keyword">int</span> sum = nums[i] + nums[left] + nums[right];</div><div class="line">				<span class="keyword">if</span> (sum == <span class="number">0</span>) &#123;</div><div class="line">					result.add(Arrays.asList(nums[i], nums[left], nums[right]));</div><div class="line">					++left;</div><div class="line">					--right;</div><div class="line">					<span class="keyword">while</span> (left &lt; right &amp;&amp; nums[left] == nums[left - <span class="number">1</span>]) left++;</div><div class="line">		            <span class="keyword">while</span> (left &lt; right &amp;&amp; nums[right] == nums[right + <span class="number">1</span>]) right--;</div><div class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</div><div class="line">					++left;</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					--right;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>提交之后自然是AC了，运算速度排名在65%。</p>
+<p>回过头来看我的那两个idea，真是太稚嫩了。nums在排序后，去重其实是很容易做到的，通过指针的移动即可完成，我却还试图费大功夫来实现一个效果不见得好的去重，而忽视排序所带来的便利，一叶障目，不见泰山。</p>
 
       
     </div>
@@ -474,9 +468,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
-            <a href="/tags/blog/" rel="tag"># blog</a>
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
           
         </div>
       
@@ -489,15 +483,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/posts/c9c9e9c7/" rel="next" title="Java方法参数——值传递">
+                <i class="fa fa-chevron-left"></i> Java方法参数——值传递
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/posts/c8eb575c/" rel="prev" title="往事如烟">
-                往事如烟 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -681,7 +675,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建站大致过程"><span class="nav-number">2.</span> <span class="nav-text">建站大致过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改阅读全文样式"><span class="nav-number">2.1.</span> <span class="nav-text">更改阅读全文样式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#解题思路"><span class="nav-number">1.</span> <span class="nav-text">解题思路</span></a></li></ol></div>
             
 
           </div>
