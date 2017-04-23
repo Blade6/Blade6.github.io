@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Blade6, Hexo, Next">
+  <meta name="keywords" content="Java,leetcode,">
 
 
 
@@ -89,15 +89,19 @@
 
 
 
-<meta name="description" content="欲速则不达">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blade6">
-<meta property="og:url" content="http://blade6.top/tags/哲思/index.html">
+<meta name="description" content="给定n，求n对括号可以生成的括号嵌套种数。这道题其实不难，很快就能想出解题思路。
+解题思路对于n，记录的是括号的数目，本质上也是左括号和右括号的出现次数。假设t记录左括号的剩余出现次数，cur记录当前未匹配的左括号个数，str记录单次结果，str的长度是固定的，必然是2n。首先要初始化：t=n，cur=0，str=””。当循环开始时，第1个符号必须是左括号，然后t-=1，表示左括号的剩余出现次数变">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Generate Parentheses">
+<meta property="og:url" content="http://blade6.top/posts/c59bb016/index.html">
 <meta property="og:site_name" content="Blade6">
-<meta property="og:description" content="欲速则不达">
+<meta property="og:description" content="给定n，求n对括号可以生成的括号嵌套种数。这道题其实不难，很快就能想出解题思路。
+解题思路对于n，记录的是括号的数目，本质上也是左括号和右括号的出现次数。假设t记录左括号的剩余出现次数，cur记录当前未匹配的左括号个数，str记录单次结果，str的长度是固定的，必然是2n。首先要初始化：t=n，cur=0，str=””。当循环开始时，第1个符号必须是左括号，然后t-=1，表示左括号的剩余出现次数变">
+<meta property="og:updated_time" content="2017-04-23T02:40:09.980Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blade6">
-<meta name="twitter:description" content="欲速则不达">
+<meta name="twitter:title" content="Generate Parentheses">
+<meta name="twitter:description" content="给定n，求n对括号可以生成的括号嵌套种数。这道题其实不难，很快就能想出解题思路。
+解题思路对于n，记录的是括号的数目，本质上也是左括号和右括号的出现次数。假设t记录左括号的剩余出现次数，cur记录当前未匹配的左括号个数，str记录单次结果，str的长度是固定的，必然是2n。首先要初始化：t=n，cur=0，str=””。当循环开始时，第1个符号必须是左括号，然后t-=1，表示左括号的剩余出现次数变">
 
 
 
@@ -125,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://blade6.top/tags/哲思/">
+  <link rel="canonical" href="http://blade6.top/posts/c59bb016/">
 
 
 
 
 
-  <title> 标签: 哲思 | Blade6 </title>
+  <title> Generate Parentheses | Blade6 </title>
 </head>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -156,7 +160,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -292,44 +296,214 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2>
-        哲思
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://blade6.top/posts/c59bb016/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Blade6">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/Blade6.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blade6">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Generate Parentheses
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-23T10:38:48+08:00">
+                2017-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ACM/" itemprop="url" rel="index">
+                    <span itemprop="name">ACM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/posts/c59bb016/" class="leancloud_visitors" data-flag-title="Generate Parentheses">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <p>给定n，求n对括号可以生成的括号嵌套种数。这道题其实不难，很快就能想出解题思路。</p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于n，记录的是括号的数目，本质上也是左括号和右括号的出现次数。假设t记录左括号的剩余出现次数，cur记录当前未匹配的左括号个数，str记录单次结果，str的长度是固定的，必然是2n。<br>首先要初始化：t=n，cur=0，str=””。当循环开始时，第1个符号必须是左括号，然后t-=1，表示左括号的剩余出现次数变成n-1了。同时str+=”(“，cur+=1，表示str中有1个左括号未匹配。<br><a id="more"></a><br>对于第i个符号：<br>如果t==0且cur==0，说明循环结束，将str加到结果集中。<br>如果t==0，说明左括号的剩余出现次数已用完，那么第i个符号只能取右括号，同时cur-=1；<br>如果cur==0，说明str中不存在未匹配的左括号，那么第i个符号只能取左括号，同时t-=1；<br>如果t&gt;0且cur&gt;0，则第i个符号可以是左括号也可以是右括号，如果第i个符号取左括号，那么t-=1，cur+=1，如果第i个符号取右括号，那么cur-=1。<br><strong>注意：因为对于第i个符号，当t&gt;0且cur&gt;0的时候，第i个符号可以有两种取值，所以使用递归会取得事半功倍的效果。</strong></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">generateParenthesis</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        List&lt;String&gt; l = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">        test(l, n, <span class="number">0</span>, <span class="string">""</span>);</div><div class="line">        <span class="keyword">return</span> l;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(List&lt;String&gt; l, <span class="keyword">int</span> t, <span class="keyword">int</span> cur, String str)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(t==<span class="number">0</span> &amp;&amp; cur == <span class="number">0</span>)&#123;</div><div class="line">            l.add(str);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(cur == <span class="number">0</span>)&#123;</div><div class="line">            test(l, t-<span class="number">1</span>, cur+<span class="number">1</span>, str+<span class="string">"("</span>);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(t==<span class="number">0</span>)&#123;</div><div class="line">            test(l, t, cur-<span class="number">1</span>, str+<span class="string">")"</span>);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            test(l, t-<span class="number">1</span>, cur+<span class="number">1</span>, str+<span class="string">"("</span>);</div><div class="line">            test(l, t, cur-<span class="number">1</span>, str+<span class="string">")"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一次AC通过，运行速度排名39%。</p>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/posts/c8eb575c/" itemprop="url">
-              
-                <span itemprop="name">往事如烟</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Make the world a better place.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat-reward-image.jpg" alt="Blade6 WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2016-12-04T19:31:10+08:00" content="2016-12-04">
-          12-04
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/a72883c7/" rel="next" title="Merge Two Sorted Lists">
+                <i class="fa fa-chevron-left"></i> Merge Two Sorted Lists
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/b8913e5e/" rel="prev" title="Maximum Subarray">
+                Maximum Subarray <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -337,6 +511,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -356,8 +534,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/uploads/Blade6.jpg" alt="Blade6">
           <p class="site-author-name" itemprop="name">Blade6</p>
@@ -475,6 +662,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#解题思路"><span class="nav-number">1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -586,6 +789,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 

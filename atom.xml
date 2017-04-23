@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blade6.top/"/>
-  <updated>2017-04-22T08:42:12.423Z</updated>
+  <updated>2017-04-23T14:07:15.435Z</updated>
   <id>http://blade6.top/</id>
   
   <author>
@@ -14,6 +14,69 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Maximum Subarray</title>
+    <link href="http://blade6.top/posts/b8913e5e/"/>
+    <id>http://blade6.top/posts/b8913e5e/</id>
+    <published>2017-04-23T14:05:29.819Z</published>
+    <updated>2017-04-23T14:07:15.435Z</updated>
+    
+    <content type="html"><![CDATA[<p>给定数组，求数组中的所有子串中最大的子串和。<br>很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlgN)，但是仍然超时，第二种为O(N)。</p>
+<h2 id="分治法"><a href="#分治法" class="headerlink" title="分治法"></a>分治法</h2><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中间向两侧扩散的，写代码的时候要注意这一点。<br><a id="more"></a></p>
+<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> maxSum(nums, <span class="number">0</span>, nums.length-<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSum</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (left == right) <span class="keyword">return</span> nums[left];    </div><div class="line">        </div><div class="line">        <span class="keyword">int</span> center = (left + right) / <span class="number">2</span>;</div><div class="line">        <span class="keyword">int</span> maxLeft = maxSum(nums, left, center);</div><div class="line">        <span class="keyword">int</span> maxRight = maxSum(nums, center+<span class="number">1</span>, right);</div><div class="line">        </div><div class="line">        <span class="keyword">int</span> maxLeftBorder = nums[center], leftBorder = nums[center];        </div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = center-<span class="number">1</span>; i &gt;= left; i--) &#123;</div><div class="line">            leftBorder += nums[i];</div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (leftBorder &gt; maxLeftBorder) maxLeftBorder = leftBorder;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">int</span> maxRightBorder = nums[center+<span class="number">1</span>], rightBorder = nums[center+<span class="number">1</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = center+<span class="number">2</span>; j &lt;= right; j++) &#123;</div><div class="line">            rightBorder += nums[j];</div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (rightBorder &gt; maxRightBorder) maxRightBorder = rightBorder;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">return</span> Math.max(Math.max(maxLeft, maxRight), maxLeftBorder+maxRightBorder);    </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>循环的结束条件只判断了left==right的情况，left&gt;right的情况是不会出现的，利用反证法可以轻易证明，此处不展开叙述。</p>
+<p>但是提交后仍然超时了。善良的leetcode在结果页面上告诉了我202个Testcase都通过了，代码本身是正确的，只是用时过长。</p>
+<h2 id="一次扫描法"><a href="#一次扫描法" class="headerlink" title="一次扫描法"></a>一次扫描法</h2><h3 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h3><p>因为leetcode对题目做了限定，返回的最大子串和所在的子串至少包含一个数，换言之数组中所有数都是负数的情况下，最大子串和必然是最大的那个负数，这就是情况1。<br>情况2：当所有数都是非负数，最大子串和就是数组中所有数的和。<br>情况3：当输入的数组有正数有负数时，令max=0，temp=0，max表示最大子串和，因为数组中有正数，所以max的值会在循环中被改变，不会一直保持为0。temp表示当前的子串和。<br>令指针i初始时指向数组第一个元素，i每次向后移动一位。对于i当前指向的元素，把它加到temp里。然后判断temp和max的大小，决定是否把temp的值赋给max。如果<code>temp&lt;max</code>时，还要判断temp的值是否小于0，如果小于0，则temp=0，表示舍弃temp所表示的子串，从该子串的下一个数开始求最大子串和，此处可以用反证法证明如下：<br>若temp表示从下标m到n的子串和，假设我们最终求得的最大子串和MAX是从下标m到n+p的子串的和。那么<code>MAX=temp+nums[n+1]+...+nums[n+p]</code>，而又因为<code>temp&lt;0</code>，则存在<code>REAL_MAX=nums[n+1]+...+nums[n+p]&gt;MAX</code>，这与假设矛盾。</p>
+<p>情况2和情况3可以一起处理，情况1需要特殊处理。</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> max = <span class="number">0</span>, temp = <span class="number">0</span>;</div><div class="line">        <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</div><div class="line">            temp += nums[i];</div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (temp &gt; max) max = temp;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (temp &lt; <span class="number">0</span>) temp = <span class="number">0</span>;</div><div class="line">            </div><div class="line">            <span class="comment">//如果数组中存在非负数，且flag为false的话，</span></div><div class="line">            <span class="comment">//flag置为true表示数组中存在非负数</span></div><div class="line">            <span class="keyword">if</span> (!flag &amp;&amp; nums[i] &gt;= <span class="number">0</span>) flag = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (flag) <span class="keyword">return</span> max;</div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">int</span> N_max = nums[<span class="number">0</span>];</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</div><div class="line">                <span class="keyword">if</span> (nums[i] &gt; N_max) N_max = nums[i];</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> N_max;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>提交后代码AC了，运行速度排名在67%左右。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;给定数组，求数组中的所有子串中最大的子串和。&lt;br&gt;很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlgN)，但是仍然超时，第二种为O(N)。&lt;/p&gt;
+&lt;h2 id=&quot;分治法&quot;&gt;&lt;a href=&quot;#分治法&quot; class=&quot;headerlink&quot; title=&quot;分治法&quot;&gt;&lt;/a&gt;分治法&lt;/h2&gt;&lt;h3 id=&quot;解题思路&quot;&gt;&lt;a href=&quot;#解题思路&quot; class=&quot;headerlink&quot; title=&quot;解题思路&quot;&gt;&lt;/a&gt;解题思路&lt;/h3&gt;&lt;p&gt;对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中间向两侧扩散的，写代码的时候要注意这一点。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+    
+    
+      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+    
+      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Generate Parentheses</title>
+    <link href="http://blade6.top/posts/c59bb016/"/>
+    <id>http://blade6.top/posts/c59bb016/</id>
+    <published>2017-04-23T02:38:48.778Z</published>
+    <updated>2017-04-23T02:40:09.980Z</updated>
+    
+    <content type="html"><![CDATA[<p>给定n，求n对括号可以生成的括号嵌套种数。这道题其实不难，很快就能想出解题思路。</p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于n，记录的是括号的数目，本质上也是左括号和右括号的出现次数。假设t记录左括号的剩余出现次数，cur记录当前未匹配的左括号个数，str记录单次结果，str的长度是固定的，必然是2n。<br>首先要初始化：t=n，cur=0，str=””。当循环开始时，第1个符号必须是左括号，然后t-=1，表示左括号的剩余出现次数变成n-1了。同时str+=”(“，cur+=1，表示str中有1个左括号未匹配。<br><a id="more"></a><br>对于第i个符号：<br>如果t==0且cur==0，说明循环结束，将str加到结果集中。<br>如果t==0，说明左括号的剩余出现次数已用完，那么第i个符号只能取右括号，同时cur-=1；<br>如果cur==0，说明str中不存在未匹配的左括号，那么第i个符号只能取左括号，同时t-=1；<br>如果t&gt;0且cur&gt;0，则第i个符号可以是左括号也可以是右括号，如果第i个符号取左括号，那么t-=1，cur+=1，如果第i个符号取右括号，那么cur-=1。<br><strong>注意：因为对于第i个符号，当t&gt;0且cur&gt;0的时候，第i个符号可以有两种取值，所以使用递归会取得事半功倍的效果。</strong></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">generateParenthesis</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        List&lt;String&gt; l = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">        test(l, n, <span class="number">0</span>, <span class="string">""</span>);</div><div class="line">        <span class="keyword">return</span> l;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(List&lt;String&gt; l, <span class="keyword">int</span> t, <span class="keyword">int</span> cur, String str)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(t==<span class="number">0</span> &amp;&amp; cur == <span class="number">0</span>)&#123;</div><div class="line">            l.add(str);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(cur == <span class="number">0</span>)&#123;</div><div class="line">            test(l, t-<span class="number">1</span>, cur+<span class="number">1</span>, str+<span class="string">"("</span>);</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(t==<span class="number">0</span>)&#123;</div><div class="line">            test(l, t, cur-<span class="number">1</span>, str+<span class="string">")"</span>);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            test(l, t-<span class="number">1</span>, cur+<span class="number">1</span>, str+<span class="string">"("</span>);</div><div class="line">            test(l, t, cur-<span class="number">1</span>, str+<span class="string">")"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一次AC通过，运行速度排名39%。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;给定n，求n对括号可以生成的括号嵌套种数。这道题其实不难，很快就能想出解题思路。&lt;/p&gt;
+&lt;h3 id=&quot;解题思路&quot;&gt;&lt;a href=&quot;#解题思路&quot; class=&quot;headerlink&quot; title=&quot;解题思路&quot;&gt;&lt;/a&gt;解题思路&lt;/h3&gt;&lt;p&gt;对于n，记录的是括号的数目，本质上也是左括号和右括号的出现次数。假设t记录左括号的剩余出现次数，cur记录当前未匹配的左括号个数，str记录单次结果，str的长度是固定的，必然是2n。&lt;br&gt;首先要初始化：t=n，cur=0，str=””。当循环开始时，第1个符号必须是左括号，然后t-=1，表示左括号的剩余出现次数变成n-1了。同时str+=”(“，cur+=1，表示str中有1个左括号未匹配。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+    
+    
+      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+    
+      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+    
+  </entry>
   
   <entry>
     <title>Merge Two Sorted Lists</title>
