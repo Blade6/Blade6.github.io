@@ -89,19 +89,19 @@
 
 
 
-<meta name="description" content="给定数组，求数组中的所有子串中最大的子串和。很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlgN)，但是仍然超时，第二种为O(N)。
-分治法解题思路对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中间">
+<meta name="description" content="给定数组，求数组中的所有子串中最大的子串和。很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlogN)，但是仍然超时，第二种为O(N)。
+分治法解题思路对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Maximum Subarray">
 <meta property="og:url" content="http://blade6.top/posts/b8913e5e/index.html">
 <meta property="og:site_name" content="Blade6">
-<meta property="og:description" content="给定数组，求数组中的所有子串中最大的子串和。很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlgN)，但是仍然超时，第二种为O(N)。
-分治法解题思路对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中间">
-<meta property="og:updated_time" content="2017-04-24T08:34:51.127Z">
+<meta property="og:description" content="给定数组，求数组中的所有子串中最大的子串和。很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlogN)，但是仍然超时，第二种为O(N)。
+分治法解题思路对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中">
+<meta property="og:updated_time" content="2017-04-24T12:07:34.763Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maximum Subarray">
-<meta name="twitter:description" content="给定数组，求数组中的所有子串中最大的子串和。很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlgN)，但是仍然超时，第二种为O(N)。
-分治法解题思路对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中间">
+<meta name="twitter:description" content="给定数组，求数组中的所有子串中最大的子串和。很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlogN)，但是仍然超时，第二种为O(N)。
+分治法解题思路对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中">
 
 
 
@@ -411,7 +411,7 @@
       
 
       
-        <p>给定数组，求数组中的所有子串中最大的子串和。<br>很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlgN)，但是仍然超时，第二种为O(N)。</p>
+        <p>给定数组，求数组中的所有子串中最大的子串和。<br>很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlogN)，但是仍然超时，第二种为O(N)。</p>
 <h2 id="分治法"><a href="#分治法" class="headerlink" title="分治法"></a>分治法</h2><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中间向两侧扩散的，写代码的时候要注意这一点。<br><a id="more"></a></p>
 <h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> maxSum(nums, <span class="number">0</span>, nums.length-<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSum</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (left == right) <span class="keyword">return</span> nums[left];    </div><div class="line">        </div><div class="line">        <span class="keyword">int</span> center = (left + right) / <span class="number">2</span>;</div><div class="line">        <span class="keyword">int</span> maxLeft = maxSum(nums, left, center);</div><div class="line">        <span class="keyword">int</span> maxRight = maxSum(nums, center+<span class="number">1</span>, right);</div><div class="line">        </div><div class="line">        <span class="keyword">int</span> maxLeftBorder = nums[center], leftBorder = nums[center];        </div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = center-<span class="number">1</span>; i &gt;= left; i--) &#123;</div><div class="line">            leftBorder += nums[i];</div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (leftBorder &gt; maxLeftBorder) maxLeftBorder = leftBorder;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">int</span> maxRightBorder = nums[center+<span class="number">1</span>], rightBorder = nums[center+<span class="number">1</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = center+<span class="number">2</span>; j &lt;= right; j++) &#123;</div><div class="line">            rightBorder += nums[j];</div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (rightBorder &gt; maxRightBorder) maxRightBorder = rightBorder;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">return</span> Math.max(Math.max(maxLeft, maxRight), maxLeftBorder+maxRightBorder);    </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>循环的结束条件只判断了left==right的情况，left&gt;right的情况是不会出现的，利用反证法可以轻易证明，此处不展开叙述。</p>
@@ -566,7 +566,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -757,8 +757,6 @@
   
 
 
-  
-
 
 
 
@@ -780,9 +778,6 @@
 
   
   <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-  
-  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
 
 
   
