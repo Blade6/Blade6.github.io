@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Blade6, Hexo, Next">
+  <meta name="keywords" content="Java,leetcode,String,">
 
 
 
@@ -89,15 +89,16 @@
 
 
 
-<meta name="description" content="欲速则不达">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blade6">
-<meta property="og:url" content="http://blade6.top/categories/杂谈/index.html">
+<meta name="description" content="把字符串转整数。这是一道考察代码健壮性的题目。当我第一次写好代码以为自己很厉害时，现实很快就狠狠地打脸。我觉得代码之所以没写好，主要是想象力不够。总是有些脑回路特殊的人写出一些出乎意料的TestCase，真够变态的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="String to Integer(atoi)">
+<meta property="og:url" content="http://blade6.top/posts/ecbf921f/index.html">
 <meta property="og:site_name" content="Blade6">
-<meta property="og:description" content="欲速则不达">
+<meta property="og:description" content="把字符串转整数。这是一道考察代码健壮性的题目。当我第一次写好代码以为自己很厉害时，现实很快就狠狠地打脸。我觉得代码之所以没写好，主要是想象力不够。总是有些脑回路特殊的人写出一些出乎意料的TestCase，真够变态的。">
+<meta property="og:updated_time" content="2017-05-03T08:17:41.094Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blade6">
-<meta name="twitter:description" content="欲速则不达">
+<meta name="twitter:title" content="String to Integer(atoi)">
+<meta name="twitter:description" content="把字符串转整数。这是一道考察代码健壮性的题目。当我第一次写好代码以为自己很厉害时，现实很快就狠狠地打脸。我觉得代码之所以没写好，主要是想象力不够。总是有些脑回路特殊的人写出一些出乎意料的TestCase，真够变态的。">
 
 
 
@@ -125,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://blade6.top/categories/杂谈/">
+  <link rel="canonical" href="http://blade6.top/posts/ecbf921f/">
 
 
 
 
 
-  <title> 分类: 杂谈 | Blade6 </title>
+  <title> String to Integer(atoi) | Blade6 </title>
 </head>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -156,7 +157,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -292,97 +293,215 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2>
-        杂谈
-        <small>分类</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/posts/17e47df0/" itemprop="url">
-              
-                <span itemprop="name">金庸小说语录</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2017-04-05T19:41:20+08:00" content="2017-04-05">
-          04-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/posts/e441dee4/" itemprop="url">
-              
-                <span itemprop="name">2016年总结</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2016-12-31T14:36:56+08:00" content="2016-12-31">
-          12-31
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/posts/c8eb575c/" itemprop="url">
-              
-                <span itemprop="name">往事如烟</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2016-12-04T19:31:10+08:00" content="2016-12-04">
-          12-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://blade6.top/posts/ecbf921f/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Blade6">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/Blade6.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blade6">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                String to Integer(atoi)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-02T21:13:24+08:00">
+                2017-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ACM/" itemprop="url" rel="index">
+                    <span itemprop="name">ACM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/posts/ecbf921f/" class="leancloud_visitors" data-flag-title="String to Integer(atoi)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>把字符串转整数。这是一道考察代码健壮性的题目。当我第一次写好代码以为自己很厉害时，现实很快就狠狠地打脸。<br>我觉得代码之所以没写好，主要是想象力不够。总是有些脑回路特殊的人写出一些出乎意料的TestCase，真够变态的。<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">myAtoi</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">    <span class="comment">// 处理字符串包含空格的情况，比如"   010"</span></div><div class="line">    str = str.trim();</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (str == <span class="keyword">null</span> || str.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;   </div><div class="line">    <span class="keyword">if</span> (str.length() == <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (!Character.isDigit(str.charAt(<span class="number">0</span>))) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">return</span> str.charAt(<span class="number">0</span>) - <span class="string">'0'</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">char</span>[] array = str.toCharArray();</div><div class="line">    <span class="comment">// 默认为正数</span></div><div class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span> (array[<span class="number">0</span>] == <span class="string">'-'</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (Character.isDigit(array[<span class="number">1</span>])) &#123;</div><div class="line">            ans = - (array[<span class="number">1</span>] - <span class="string">'0'</span>);</div><div class="line">            flag = <span class="keyword">false</span>;</div><div class="line">            index = <span class="number">2</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (array[<span class="number">0</span>] == <span class="string">'+'</span>) &#123;</div><div class="line">        index = <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (; index &lt; array.length ; index++) &#123;</div><div class="line">        <span class="keyword">if</span> (Character.isDigit(array[index])) &#123;</div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (ans * <span class="number">10</span> / <span class="number">10</span> != ans) &#123;</div><div class="line">                <span class="keyword">if</span> (flag) <span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">            &#125; <span class="keyword">else</span> ans *= <span class="number">10</span>;</div><div class="line">            </div><div class="line">            <span class="comment">//System.out.println("ans: " + ans);</span></div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (flag) ans += array[index] - <span class="string">'0'</span>;</div><div class="line">            <span class="keyword">else</span> ans -= array[index] - <span class="string">'0'</span>;</div><div class="line">            </div><div class="line">            <span class="comment">// 当为正数时，结果却为负数，说明溢出了，返回最大正整数</span></div><div class="line">            <span class="keyword">if</span> (ans == Integer.MIN_VALUE &amp;&amp; flag) <span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">            <span class="comment">// 与上述正相反</span></div><div class="line">            <span class="keyword">if</span> (ans == Integer.MAX_VALUE &amp;&amp; !flag) <span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">            </div><div class="line">            <span class="comment">//System.out.println("ans: " + ans);</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> </div><div class="line">            <span class="keyword">return</span> ans;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (index == array.length) <span class="keyword">return</span> ans;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>写出来的代码虽然AC了，但是惨不忍睹，也不便于维护。看了看leetcode大神们写的简洁的代码，每一步都是如此地恰到好处，完美地演绎Just Enough的哲学。而我等小白，路还很长。</p>
+<p>走过的坑(TestCases)：<br>“hello”,<br>“15”,<br>“-2147483647”,<br>“01234”,<br>“2147483648”,<br>“3333333333”,<br>“he123”,<br>“+444”,<br>“-2147483649”,<br>“-“,<br>“-3333333333”,<br>“    010”,<br>“01    12”,<br>“  12   “,<br>“     +004500”,<br>“123hehe”,<br>“   -  12”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Make the world a better place.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat-reward-image.jpg" alt="Blade6 WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+            <a href="/tags/String/" rel="tag"># String</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/64c8f80f/" rel="next" title="Add Two Numbers">
+                <i class="fa fa-chevron-left"></i> Add Two Numbers
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/9799a86c/" rel="prev" title="Roman to Integer">
+                Roman to Integer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -390,6 +509,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -423,7 +546,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -434,7 +557,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -445,7 +568,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -634,6 +757,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
