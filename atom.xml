@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blade6.top/"/>
-  <updated>2017-05-03T08:19:14.500Z</updated>
+  <updated>2017-05-21T02:19:52.574Z</updated>
   <id>http://blade6.top/</id>
   
   <author>
@@ -16,11 +16,71 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>指令重排</title>
+    <link href="http://blade6.top/posts/c12d9bbd/"/>
+    <id>http://blade6.top/posts/c12d9bbd/</id>
+    <published>2017-05-21T02:12:54.530Z</published>
+    <updated>2017-05-21T02:19:52.574Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>节选自《实战Java高并发程序设计》，有删改</p>
+</blockquote>
+<p>为什么要指令重排呢？让他一步一步执行多好呀！也不会那么多奇葩的问题。</p>
+<p>之所以这么做，完全是因为性能考虑。我们知道，一条指令的执行时可以分为很多步骤的。简单地说，可以分为以下几步：</p>
+<ul>
+<li>取指 IF</li>
+<li>译码和取寄存器操作数 ID</li>
+<li>执行或者有效地址计算 EX</li>
+<li>存储器访问MEM</li>
+<li>写回WB</li>
+</ul>
+<p>由于每一个步骤都可能使用不同的硬件完成，因此，聪明的工程师们就发明了流水线技术来执行指令，如图1所示，显示了流水线的工作原理。<br><a id="more"></a></p>
+<p><img src="http://oncw676n6.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF.png" alt="图1-指令流水线"></p>
+<p>可以看到，当第2条指令执行时，第1条指令其实并未执行完，确切地说第1条指令还没开始执行，只是刚刚完成了取值操作而已。这样的好处非常明显，假如这里每一个步骤都需要花费1毫秒，那么指令2等待指令1完全执行后，再执行，则需要等待5毫秒，而使用流水线后，指令2只需要等待1毫秒就可以执行了。如此大的性能提升，当然让人眼红。更何况，实际的商业CPU的流水线级别甚至可以达到10级以上，则性能提升就更加明显。</p>
+<p>而流水线总是害怕被中断，因为一旦中断，所有的硬件设备都会进入一个停顿期，再次满载又需要几个周期，因此，性能损失会比较大。而指令重排，就是为了减少中断而使用的技术。</p>
+<p>让我们来看一个具体例子。图2展示了A=B+C这个操作的执行过程。写在左边的指令就是汇编指令。<br>LW R1,B表示把B的值加载到R1寄存器中。<br>ADD R3,R1,R2表示把R1、R2的值相加，并存放到R3中。<br>SW A,R3表示把R3寄存器的值保存到变量A中。</p>
+<p><img src="http://oncw676n6.bkt.clouddn.com/A=B+C%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" alt="图2-A=B+C的执行过程"></p>
+<p>注意，在ADD指令上，有一个间隔，表示一个中断。为什么会中断？原因很简单，R2的数据还没有准备好。所以，ADD操作必须进行一次等待。由于ADD的延迟，导致其后面所有的指令都要慢一个节拍。</p>
+<p>理解了上面这个例子，我们就可以来看一个更加复杂的情况。<br>a=b+c<br>d=e-f<br>上述代码的执行如图3所示。</p>
+<p><img src="http://oncw676n6.bkt.clouddn.com/%E9%87%8D%E6%8E%92%E5%89%8D%E6%8C%87%E4%BB%A4%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" alt="图3-重排前指令执行过程"></p>
+<p>由于ADD和SUB都需要等待上一条指令的结果，因此，在这里插入了不少停顿。那么对于这段代码，是否有可能消除这些停顿呢？显然是可以的。我们只需要将LW Re,e和LW Rf,f移动到前面执行即可。思想很简单，先加载e和f对程序是没有影响的。既然在ADD的时候一定要停顿一下，那么停顿的时间还不如去做点有意义的事情。<br>重排后的结果如图4所示。可以看到，所有的停顿都已经消除，流水线已经可以十分顺畅地执行。</p>
+<p><img src="http://oncw676n6.bkt.clouddn.com/%E9%87%8D%E6%8E%92%E5%90%8E%E7%9A%84%E6%8C%87%E4%BB%A4.png" alt="图4-重排后指令执行过程"></p>
+<p>由此可见，指令重排对于提高CPU处理性能是十分必要的。虽然确实带来了乱序的问题，但是这点牺牲是完全值得的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;节选自《实战Java高并发程序设计》，有删改&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;为什么要指令重排呢？让他一步一步执行多好呀！也不会那么多奇葩的问题。&lt;/p&gt;
+&lt;p&gt;之所以这么做，完全是因为性能考虑。我们知道，一条指令的执行时可以分为很多步骤的。简单地说，可以分为以下几步：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;取指 IF&lt;/li&gt;
+&lt;li&gt;译码和取寄存器操作数 ID&lt;/li&gt;
+&lt;li&gt;执行或者有效地址计算 EX&lt;/li&gt;
+&lt;li&gt;存储器访问MEM&lt;/li&gt;
+&lt;li&gt;写回WB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;由于每一个步骤都可能使用不同的硬件完成，因此，聪明的工程师们就发明了流水线技术来执行指令，如图1所示，显示了流水线的工作原理。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://blade6.top/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="编译原理" scheme="http://blade6.top/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+    
+      <category term="节选" scheme="http://blade6.top/tags/%E8%8A%82%E9%80%89/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Roman to Integer</title>
     <link href="http://blade6.top/posts/9799a86c/"/>
     <id>http://blade6.top/posts/9799a86c/</id>
     <published>2017-05-03T08:17:20.647Z</published>
-    <updated>2017-05-03T08:19:14.500Z</updated>
+    <updated>2017-05-03T08:20:16.937Z</updated>
     
     <content type="html"><![CDATA[<p>罗马数字转整数。首先需要知道罗马数字的表示，百度一下就能找到。然后我首先想到了用HashMap把罗马符号和它对应的数字存起来，方便之后取用。<br><a id="more"></a><br>于是写出了第一个程序：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">romanToInt</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">    String[] signs = <span class="keyword">new</span> String[]&#123;</div><div class="line">        <span class="string">"I"</span>,<span class="string">"II"</span>,<span class="string">"III"</span>,<span class="string">"IV"</span>,<span class="string">"V"</span>,<span class="string">"VI"</span>,<span class="string">"VII"</span>,<span class="string">"VIII"</span>,<span class="string">"IX"</span>,</div><div class="line">        <span class="string">"X"</span>,<span class="string">"XX"</span>,<span class="string">"XXX"</span>,<span class="string">"XL"</span>,<span class="string">"L"</span>,<span class="string">"LX"</span>,<span class="string">"LXX"</span>,<span class="string">"LXXX"</span>,<span class="string">"XC"</span>,</div><div class="line">        <span class="string">"C"</span>,<span class="string">"CC"</span>,<span class="string">"CCC"</span>,<span class="string">"CD"</span>,<span class="string">"D"</span>,<span class="string">"DC"</span>,<span class="string">"DCC"</span>,<span class="string">"DCCC"</span>,<span class="string">"CM"</span>,</div><div class="line">        <span class="string">"M"</span>,<span class="string">"MM"</span>,<span class="string">"MMM"</span>&#125;;</div><div class="line">    <span class="keyword">int</span>[] number = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;</div><div class="line">        <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,</div><div class="line">        <span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>,<span class="number">50</span>,<span class="number">60</span>,<span class="number">70</span>,<span class="number">80</span>,<span class="number">90</span>,</div><div class="line">        <span class="number">100</span>,<span class="number">200</span>,<span class="number">300</span>,<span class="number">400</span>,<span class="number">500</span>,<span class="number">600</span>,<span class="number">700</span>,<span class="number">800</span>,<span class="number">900</span>,</div><div class="line">        <span class="number">1000</span>,<span class="number">2000</span>,<span class="number">3000</span></div><div class="line">    &#125;;</div><div class="line">    HashMap&lt;String, Integer&gt; num = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; signs.length; i++) &#123;</div><div class="line">        num.put(signs[i], number[i]);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">int</span> length = s.length();</div><div class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length;) &#123;</div><div class="line">        <span class="keyword">if</span> (length - i &gt;= <span class="number">4</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (num.containsKey(s.substring(i, i + <span class="number">4</span>))) &#123;</div><div class="line">                result += num.get(s.substring(i, i + <span class="number">4</span>));</div><div class="line">                i += <span class="number">4</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;    </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (length - i &gt;= <span class="number">3</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (num.containsKey(s.substring(i, i + <span class="number">3</span>))) &#123;</div><div class="line">                result += num.get(s.substring(i, i + <span class="number">3</span>));</div><div class="line">                i += <span class="number">3</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;        </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (length - i &gt;= <span class="number">2</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (num.containsKey(s.substring(i, i + <span class="number">2</span>))) &#123;</div><div class="line">                result += num.get(s.substring(i, i + <span class="number">2</span>));</div><div class="line">                i += <span class="number">2</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;    </div><div class="line">        &#125;</div><div class="line">        result += num.get(s.substring(i, i + <span class="number">1</span>));</div><div class="line">        ++i;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>提交后虽然AC了，但是排名12%还是不太满意。仔细看看程序，发现可以优化，VIII实际上只需要存V和I就行了，并不需要单独存储。这样一来，程序可以简化如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">romanToInt</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">    String[] signs = <span class="keyword">new</span> String[]&#123;</div><div class="line">        <span class="string">"I"</span>,<span class="string">"IV"</span>,<span class="string">"V"</span>,<span class="string">"VI"</span>,<span class="string">"IX"</span>,</div><div class="line">        <span class="string">"X"</span>,<span class="string">"XL"</span>,<span class="string">"L"</span>,<span class="string">"LX"</span>,<span class="string">"XC"</span>,</div><div class="line">        <span class="string">"C"</span>,<span class="string">"CD"</span>,<span class="string">"D"</span>,<span class="string">"DC"</span>,<span class="string">"CM"</span>,</div><div class="line">        <span class="string">"M"</span>&#125;;</div><div class="line">    <span class="keyword">int</span>[] number = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;</div><div class="line">        <span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">9</span>,</div><div class="line">        <span class="number">10</span>,<span class="number">40</span>,<span class="number">50</span>,<span class="number">60</span>,<span class="number">90</span>,</div><div class="line">        <span class="number">100</span>,<span class="number">400</span>,<span class="number">500</span>,<span class="number">600</span>,<span class="number">900</span>,</div><div class="line">        <span class="number">1000</span></div><div class="line">    &#125;;</div><div class="line">    HashMap&lt;String, Integer&gt; num = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; signs.length; i++)</div><div class="line">        num.put(signs[i], number[i]);</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length();) &#123;</div><div class="line">        <span class="keyword">if</span> (i + <span class="number">1</span> &lt; s.length()) &#123;</div><div class="line">            <span class="keyword">if</span> (num.containsKey(s.substring(i, i+<span class="number">2</span>))) &#123;</div><div class="line">                result += num.get(s.substring(i, i+<span class="number">2</span>));</div><div class="line">                i += <span class="number">2</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                result += num.get(s.substring(i, i+<span class="number">1</span>));</div><div class="line">                ++i;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            result += num.get(s.substring(i, i+<span class="number">1</span>));</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -51,7 +111,7 @@
     <link href="http://blade6.top/posts/ecbf921f/"/>
     <id>http://blade6.top/posts/ecbf921f/</id>
     <published>2017-05-02T13:13:24.234Z</published>
-    <updated>2017-05-03T08:17:41.094Z</updated>
+    <updated>2017-05-03T08:20:16.941Z</updated>
     
     <content type="html"><![CDATA[<p>把字符串转整数。这是一道考察代码健壮性的题目。当我第一次写好代码以为自己很厉害时，现实很快就狠狠地打脸。<br>我觉得代码之所以没写好，主要是想象力不够。总是有些脑回路特殊的人写出一些出乎意料的TestCase，真够变态的。<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">myAtoi</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">    <span class="comment">// 处理字符串包含空格的情况，比如"   010"</span></div><div class="line">    str = str.trim();</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (str == <span class="keyword">null</span> || str.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;   </div><div class="line">    <span class="keyword">if</span> (str.length() == <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (!Character.isDigit(str.charAt(<span class="number">0</span>))) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">return</span> str.charAt(<span class="number">0</span>) - <span class="string">'0'</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">char</span>[] array = str.toCharArray();</div><div class="line">    <span class="comment">// 默认为正数</span></div><div class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span> (array[<span class="number">0</span>] == <span class="string">'-'</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (Character.isDigit(array[<span class="number">1</span>])) &#123;</div><div class="line">            ans = - (array[<span class="number">1</span>] - <span class="string">'0'</span>);</div><div class="line">            flag = <span class="keyword">false</span>;</div><div class="line">            index = <span class="number">2</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (array[<span class="number">0</span>] == <span class="string">'+'</span>) &#123;</div><div class="line">        index = <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (; index &lt; array.length ; index++) &#123;</div><div class="line">        <span class="keyword">if</span> (Character.isDigit(array[index])) &#123;</div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (ans * <span class="number">10</span> / <span class="number">10</span> != ans) &#123;</div><div class="line">                <span class="keyword">if</span> (flag) <span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">            &#125; <span class="keyword">else</span> ans *= <span class="number">10</span>;</div><div class="line">            </div><div class="line">            <span class="comment">//System.out.println("ans: " + ans);</span></div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (flag) ans += array[index] - <span class="string">'0'</span>;</div><div class="line">            <span class="keyword">else</span> ans -= array[index] - <span class="string">'0'</span>;</div><div class="line">            </div><div class="line">            <span class="comment">// 当为正数时，结果却为负数，说明溢出了，返回最大正整数</span></div><div class="line">            <span class="keyword">if</span> (ans == Integer.MIN_VALUE &amp;&amp; flag) <span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">            <span class="comment">// 与上述正相反</span></div><div class="line">            <span class="keyword">if</span> (ans == Integer.MAX_VALUE &amp;&amp; !flag) <span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">            </div><div class="line">            <span class="comment">//System.out.println("ans: " + ans);</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> </div><div class="line">            <span class="keyword">return</span> ans;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (index == array.length) <span class="keyword">return</span> ans;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>写出来的代码虽然AC了，但是惨不忍睹，也不便于维护。看了看leetcode大神们写的简洁的代码，每一步都是如此地恰到好处，完美地演绎Just Enough的哲学。而我等小白，路还很长。</p>
@@ -179,9 +239,9 @@
     
       <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
-      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
-    
       <category term="Array" scheme="http://blade6.top/tags/Array/"/>
+    
+      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
     
   </entry>
   
@@ -245,9 +305,9 @@
     
       <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
-      <category term="List" scheme="http://blade6.top/tags/List/"/>
-    
       <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
+    
+      <category term="List" scheme="http://blade6.top/tags/List/"/>
     
   </entry>
   
@@ -350,9 +410,9 @@
     
       <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
-      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
-    
       <category term="Array" scheme="http://blade6.top/tags/Array/"/>
+    
+      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
     
   </entry>
   

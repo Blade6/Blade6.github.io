@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="hexo,blog,">
+  <meta name="keywords" content="编译原理,节选,">
 
 
 
@@ -89,19 +89,54 @@
 
 
 
-<meta name="description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
+<meta name="description" content="节选自《实战Java高并发程序设计》，有删改
+
+为什么要指令重排呢？让他一步一步执行多好呀！也不会那么多奇葩的问题。
+之所以这么做，完全是因为性能考虑。我们知道，一条指令的执行时可以分为很多步骤的。简单地说，可以分为以下几步：
+
+取指 IF
+译码和取寄存器操作数 ID
+执行或者有效地址计算 EX
+存储器访问MEM
+写回WB
+
+由于每一个步骤都可能使用不同的硬件完成，因此，聪明的工程师们就发明了流">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Hexo搭建个人博客小记">
-<meta property="og:url" content="http://blade6.top/posts/21637/index.html">
+<meta property="og:title" content="指令重排">
+<meta property="og:url" content="http://blade6.top/posts/c12d9bbd/index.html">
 <meta property="og:site_name" content="Blade6">
-<meta property="og:description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
-<meta property="og:updated_time" content="2017-03-29T07:45:32.497Z">
+<meta property="og:description" content="节选自《实战Java高并发程序设计》，有删改
+
+为什么要指令重排呢？让他一步一步执行多好呀！也不会那么多奇葩的问题。
+之所以这么做，完全是因为性能考虑。我们知道，一条指令的执行时可以分为很多步骤的。简单地说，可以分为以下几步：
+
+取指 IF
+译码和取寄存器操作数 ID
+执行或者有效地址计算 EX
+存储器访问MEM
+写回WB
+
+由于每一个步骤都可能使用不同的硬件完成，因此，聪明的工程师们就发明了流">
+<meta property="og:image" content="http://oncw676n6.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF.png">
+<meta property="og:image" content="http://oncw676n6.bkt.clouddn.com/A=B+C%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://oncw676n6.bkt.clouddn.com/%E9%87%8D%E6%8E%92%E5%89%8D%E6%8C%87%E4%BB%A4%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://oncw676n6.bkt.clouddn.com/%E9%87%8D%E6%8E%92%E5%90%8E%E7%9A%84%E6%8C%87%E4%BB%A4.png">
+<meta property="og:updated_time" content="2017-05-21T02:19:52.574Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Hexo搭建个人博客小记">
-<meta name="twitter:description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
+<meta name="twitter:title" content="指令重排">
+<meta name="twitter:description" content="节选自《实战Java高并发程序设计》，有删改
+
+为什么要指令重排呢？让他一步一步执行多好呀！也不会那么多奇葩的问题。
+之所以这么做，完全是因为性能考虑。我们知道，一条指令的执行时可以分为很多步骤的。简单地说，可以分为以下几步：
+
+取指 IF
+译码和取寄存器操作数 ID
+执行或者有效地址计算 EX
+存储器访问MEM
+写回WB
+
+由于每一个步骤都可能使用不同的硬件完成，因此，聪明的工程师们就发明了流">
+<meta name="twitter:image" content="http://oncw676n6.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF.png">
 
 
 
@@ -129,13 +164,13 @@
 
 
 
-  <link rel="canonical" href="http://blade6.top/posts/21637/">
+  <link rel="canonical" href="http://blade6.top/posts/c12d9bbd/">
 
 
 
 
 
-  <title> 使用Hexo搭建个人博客小记 | Blade6 </title>
+  <title> 指令重排 | Blade6 </title>
 </head>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +341,7 @@
   
 
   <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://blade6.top/posts/21637/">
+    <link itemprop="mainEntityOfPage" href="http://blade6.top/posts/c12d9bbd/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Blade6">
@@ -327,7 +362,7 @@
             
             
               
-                使用Hexo搭建个人博客小记
+                指令重排
               
             
           </h1>
@@ -342,8 +377,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-01T11:26:18+08:00">
-                2016-11-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-21T10:12:54+08:00">
+                2017-05-21
               </time>
             
 
@@ -365,8 +400,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Blog/" itemprop="url" rel="index">
-                    <span itemprop="name">Blog</span>
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
                   </a>
                 </span>
 
@@ -382,7 +417,7 @@
 
           
           
-             <span id="/posts/21637/" class="leancloud_visitors" data-flag-title="使用Hexo搭建个人博客小记">
+             <span id="/posts/c12d9bbd/" class="leancloud_visitors" data-flag-title="指令重排">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -411,24 +446,30 @@
       
 
       
-        <p>今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~</p>
-<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学生怎么能没有自己的个人网站，于是我萌生了搭建博客网站的想法。因为现在Nodejs+Hexo+Github Pages搭建博客很流行，于是我也加入了这股潮流。说干就干，网上的资料十分多，可能是每个搭建博客的都写了一篇建站日志, : )<br><a id="more"></a></p>
-<h3 id="建站大致过程"><a href="#建站大致过程" class="headerlink" title="建站大致过程"></a>建站大致过程</h3><ol>
-<li>安装Git Bash,Nodejs,Hexo.</li>
-<li>GitHub新建repo，并设置SSH.</li>
-<li>下载安装next主题，并按照<a href="http://theme-next.iissnan.com/getting-started.html" rel="external nofollow noopener noreferrer" target="_blank">NexT</a>的内容进行各项参数的设置。<ul>
-<li>多说评论、分享、热评文章</li>
-<li>LeanCloud阅读次数统计</li>
-<li>Local Search</li>
+        <blockquote>
+<p>节选自《实战Java高并发程序设计》，有删改</p>
+</blockquote>
+<p>为什么要指令重排呢？让他一步一步执行多好呀！也不会那么多奇葩的问题。</p>
+<p>之所以这么做，完全是因为性能考虑。我们知道，一条指令的执行时可以分为很多步骤的。简单地说，可以分为以下几步：</p>
+<ul>
+<li>取指 IF</li>
+<li>译码和取寄存器操作数 ID</li>
+<li>执行或者有效地址计算 EX</li>
+<li>存储器访问MEM</li>
+<li>写回WB</li>
 </ul>
-</li>
-<li>购买域名。</li>
-<li>SEO推广</li>
-<li>文章链接唯一永久化</li>
-</ol>
-<h4 id="更改阅读全文样式"><a href="#更改阅读全文样式" class="headerlink" title="更改阅读全文样式"></a>更改阅读全文样式</h4><p>打开<code>\themes\next\source\css\_common\components\post\post-button.styl</code>文件，修改成<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">.post-button &#123;</div><div class="line">  margin-top: 50px;</div><div class="line"></div><div class="line">  .btn &#123;</div><div class="line">    display: inline-block;</div><div class="line"></div><div class="line">    border-width: 2px;</div><div class="line">    border-style: solid;</div><div class="line">    border-color: rgb(85,85,85);</div><div class="line"></div><div class="line">    padding: 0 20px;</div><div class="line"></div><div class="line">    line-height: 2;</div><div class="line"></div><div class="line">    font-size: 14px;</div><div class="line"></div><div class="line">    color: #555555;</div><div class="line"></div><div class="line">    text-decoration: none;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">  .btn:hover &#123;</div><div class="line">    color: white;</div><div class="line">    background-color: #222222;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.shijinrong.cn/2016/01/03/How-to-build-a-blog/" rel="external nofollow noopener noreferrer" target="_blank">如何使用10个小时搭建出个人域名而又Geek的独立博客</a><br><a href="http://opiece.me/2015/04/09/hexo-guide/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建个人博客(基于hexo3.0)</a><br><a href="http://willxue.coding.me/categories/hexo/" rel="external nofollow noopener noreferrer" target="_blank">Hexo系列教程</a><br><a href="http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/" rel="external nofollow noopener noreferrer" target="_blank">Hexo+nexT主题搭建个人博客</a><br><a href="http://blog.tangxiaozhu.com/p/45374067/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建博客的深度优化</a><br><a href="http://www.jianshu.com/p/7ad9d3cd4d6e#" rel="external nofollow noopener noreferrer" target="_blank">将hexo博客同时托管到github和coding</a><br><a href="http://www.cnblogs.com/tengj/p/5357879.html" rel="external nofollow noopener noreferrer" target="_blank">hexo提交搜索引擎</a></p>
-<p>在此致谢所有无形中帮助到我的人，谢谢你们的分享。互联网精神万岁！</p>
+<p>由于每一个步骤都可能使用不同的硬件完成，因此，聪明的工程师们就发明了流水线技术来执行指令，如图1所示，显示了流水线的工作原理。<br><a id="more"></a></p>
+<p><img src="http://oncw676n6.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF.png" alt="图1-指令流水线"></p>
+<p>可以看到，当第2条指令执行时，第1条指令其实并未执行完，确切地说第1条指令还没开始执行，只是刚刚完成了取值操作而已。这样的好处非常明显，假如这里每一个步骤都需要花费1毫秒，那么指令2等待指令1完全执行后，再执行，则需要等待5毫秒，而使用流水线后，指令2只需要等待1毫秒就可以执行了。如此大的性能提升，当然让人眼红。更何况，实际的商业CPU的流水线级别甚至可以达到10级以上，则性能提升就更加明显。</p>
+<p>而流水线总是害怕被中断，因为一旦中断，所有的硬件设备都会进入一个停顿期，再次满载又需要几个周期，因此，性能损失会比较大。而指令重排，就是为了减少中断而使用的技术。</p>
+<p>让我们来看一个具体例子。图2展示了A=B+C这个操作的执行过程。写在左边的指令就是汇编指令。<br>LW R1,B表示把B的值加载到R1寄存器中。<br>ADD R3,R1,R2表示把R1、R2的值相加，并存放到R3中。<br>SW A,R3表示把R3寄存器的值保存到变量A中。</p>
+<p><img src="http://oncw676n6.bkt.clouddn.com/A=B+C%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" alt="图2-A=B+C的执行过程"></p>
+<p>注意，在ADD指令上，有一个间隔，表示一个中断。为什么会中断？原因很简单，R2的数据还没有准备好。所以，ADD操作必须进行一次等待。由于ADD的延迟，导致其后面所有的指令都要慢一个节拍。</p>
+<p>理解了上面这个例子，我们就可以来看一个更加复杂的情况。<br>a=b+c<br>d=e-f<br>上述代码的执行如图3所示。</p>
+<p><img src="http://oncw676n6.bkt.clouddn.com/%E9%87%8D%E6%8E%92%E5%89%8D%E6%8C%87%E4%BB%A4%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" alt="图3-重排前指令执行过程"></p>
+<p>由于ADD和SUB都需要等待上一条指令的结果，因此，在这里插入了不少停顿。那么对于这段代码，是否有可能消除这些停顿呢？显然是可以的。我们只需要将LW Re,e和LW Rf,f移动到前面执行即可。思想很简单，先加载e和f对程序是没有影响的。既然在ADD的时候一定要停顿一下，那么停顿的时间还不如去做点有意义的事情。<br>重排后的结果如图4所示。可以看到，所有的停顿都已经消除，流水线已经可以十分顺畅地执行。</p>
+<p><img src="http://oncw676n6.bkt.clouddn.com/%E9%87%8D%E6%8E%92%E5%90%8E%E7%9A%84%E6%8C%87%E4%BB%A4.png" alt="图4-重排后指令执行过程"></p>
+<p>由此可见，指令重排对于提高CPU处理性能是十分必要的。虽然确实带来了乱序的问题，但是这点牺牲是完全值得的。</p>
 
       
     </div>
@@ -474,9 +515,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/编译原理/" rel="tag"># 编译原理</a>
           
-            <a href="/tags/blog/" rel="tag"># blog</a>
+            <a href="/tags/节选/" rel="tag"># 节选</a>
           
         </div>
       
@@ -489,15 +530,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/posts/9799a86c/" rel="next" title="Roman to Integer">
+                <i class="fa fa-chevron-left"></i> Roman to Integer
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/posts/285ba2a7/" rel="prev" title="回车符与换行符">
-                回车符与换行符 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -544,17 +585,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/uploads/Blade6.jpg" alt="Blade6">
           <p class="site-author-name" itemprop="name">Blade6</p>
@@ -671,22 +703,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建站大致过程"><span class="nav-number">2.</span> <span class="nav-text">建站大致过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改阅读全文样式"><span class="nav-number">2.1.</span> <span class="nav-text">更改阅读全文样式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
