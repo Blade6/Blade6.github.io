@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blade6.top/"/>
-  <updated>2017-05-21T02:19:52.574Z</updated>
+  <updated>2017-09-10T02:36:59.980Z</updated>
   <id>http://blade6.top/</id>
   
   <author>
@@ -16,11 +16,209 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Java的static关键字</title>
+    <link href="http://blade6.top/posts/584c0905/"/>
+    <id>http://blade6.top/posts/584c0905/</id>
+    <published>2017-09-10T02:35:30.750Z</published>
+    <updated>2017-09-10T02:36:59.980Z</updated>
+    
+    <content type="html"><![CDATA[<p>通常，在一个类中定义一个方法为static，那就是说，无需本类的对象即可调用此方法，关于static方法，声明为static的方法有以下几条限制：</p>
+<ul>
+<li>它们仅能调用其他的static方法。</li>
+<li>它们只能访问static数据。  </li>
+<li>它们不能以任何方式引用this或super。</li>
+</ul>
+<p>无论是static修饰的变量，还是static修饰的方法，我们都知道他们是属于类本身的，不是属于某一个对象的，当声明一个对象时，并不产生static变量和方法的拷贝。也就是说，用static修饰的变量和方法在类加载的时候，只分配一块存储空间，所有此类的对象都可以操控此块存储空间。</p>
+<blockquote>
+<p>当子类没有与之同名的static变量（或方法时），子类的对象也可以操控这块内存空间。但是子类并没有继承父类中static修饰的变量和方法。因为static修饰的变量和方法是属于父类本身的。</p>
+</blockquote>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">T</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">3</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">T</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">5</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		System.out.println(Test.i);</div><div class="line">		++Test.i;</div><div class="line">		System.out.println(Test.i);</div><div class="line">		System.out.println(T.i);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果为<br>5 6 3<br>如果把第7行去掉，输出结果为<br>3 4 4<br>这说明子类的确没有继承父类的static字段，因为如果是继承的话，子类和父类的应该是区分的，而不会出现T.i和Test.i访问的是同一个字段的情况。</p>
+<blockquote>
+<p>静态方法不能被覆盖，但如果子类重新实现的话，会被隐藏，需要使用父类名.方法名来访问。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">T</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">A</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"T.A"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">B</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"T.B"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">T</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">B</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"Test.B"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Test.A(); <span class="comment">// 访问父类方法</span></div><div class="line">		Test.B(); <span class="comment">// 访问类方法</span></div><div class="line">		</div><div class="line">		T t1 = <span class="keyword">new</span> Test();</div><div class="line">		t1.A(); <span class="comment">// 访问父类方法</span></div><div class="line">		t1.B(); <span class="comment">// 访问父类方法</span></div><div class="line">		</div><div class="line">		Test t2 = <span class="keyword">new</span> Test();</div><div class="line">		t2.A(); <span class="comment">// 访问父类方法</span></div><div class="line">		t2.B(); <span class="comment">// 访问类方法</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果为：<br>T.A<br>Test.B<br>T.A<br>T.B<br>T.A<br>Test.B</p>
+<p>static修饰变量、方法、内部类：不用实例化类，可直接通过类名.xx访问静态变量、方法、内部类。<br>修饰代码块：对于静态代码块，仅在类加载时执行，仅执行一次。</p>
+<blockquote>
+<p>对于定义于类中的非静态的初始化语句或代码块，这些是与对象捆绑的，这些语句将在构造方法之前执行，实际上是JVM把这些类之中的非static语句或块和构造方法合并在一起，形成了<init>方法，每次使用new调用构造方法会使实例构造器<init>方法执行。而static修饰的代码块，语句都合并在一起，形成<clinit>方法，仅在类加载的时候执行一次。</clinit></init></init></p>
+</blockquote>
+<p>最后再来欣赏一段代码，关于static代码块和普通代码块的执行时机，各大企业的笔试题最喜欢考了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;	</div><div class="line">	</div><div class="line">	&#123;</div><div class="line">		System.out.println(<span class="string">"A:父类的代码块总是在父类构造方法被调用前先执行"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		System.out.println(<span class="string">"A:父类的静态代码块是最早加载的"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">	</div><div class="line">	A() &#123;</div><div class="line">		System.out.println(<span class="string">"A:父类的构造器在new子类实例时被调用"</span>);</div><div class="line">		System.out.println(++i);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LearnStatic</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		System.out.println(<span class="string">"B:静态代码块只加载一次"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	&#123;</div><div class="line">		System.out.println(<span class="string">"B:代码块"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	LearnStatic() &#123;</div><div class="line">		System.out.println(<span class="string">"B:构造函数"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		System.out.println(<span class="string">"C:静态代码块甚至早于父类构造器"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	&#123;</div><div class="line">		System.out.println(<span class="string">"C:代码块"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	C() &#123;</div><div class="line">		System.out.println(<span class="string">"C:构造函数"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>新建一个类来测试刚才的内容：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLearnStatic</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		LearnStatic b = <span class="keyword">new</span> LearnStatic();</div><div class="line">		A b2 = <span class="keyword">new</span> LearnStatic();</div><div class="line">		C c = <span class="keyword">new</span> C();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果为</p>
+<blockquote>
+<p>A:父类的静态代码块是最早加载的<br>B:静态代码块只加载一次<br>A:父类的代码块总是在父类构造方法被调用前先执行<br>A:父类的构造器在new子类实例时被调用<br>1<br>B:代码块<br>B:构造函数<br>A:父类的代码块总是在父类构造方法被调用前先执行<br>A:父类的构造器在new子类实例时被调用<br>1<br>B:代码块<br>B:构造函数<br>C:静态代码块甚至早于父类构造器<br>A:父类的代码块总是在父类构造方法被调用前先执行<br>A:父类的构造器在new子类实例时被调用<br>1<br>C:代码块<br>C:构造函数</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;通常，在一个类中定义一个方法为static，那就是说，无需本类的对象即可调用此方法，关于static方法，声明为static的方法有以下几条限制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它们仅能调用其他的static方法。&lt;/li&gt;
+&lt;li&gt;它们只能访问static数据。  &lt;/li&gt;
+&lt;li&gt;它们不能以任何方式引用this或super。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;无论是static修饰的变量，还是static修饰的方法，我们都知道他们是属于类本身的，不是属于某一个对象的，当声明一个对象时，并不产生static变量和方法的拷贝。也就是说，用static修饰的变量和方法在类加载的时候，只分配一块存储空间，所有此类的对象都可以操控此块存储空间。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当子类没有与之同名的static变量（或方法时），子类的对象也可以操控这块内存空间。但是子类并没有继承父类中static修饰的变量和方法。因为static修饰的变量和方法是属于父类本身的。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+    
+    
+      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+    
+      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+    
+      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git使用</title>
+    <link href="http://blade6.top/posts/ca675cd4/"/>
+    <id>http://blade6.top/posts/ca675cd4/</id>
+    <published>2017-09-10T02:12:24.461Z</published>
+    <updated>2017-09-10T02:18:43.432Z</updated>
+    
+    <content type="html"><![CDATA[<p>github:<br>ssh生成的.pub文件查看方法：cmd进入所在目录后用“more 文件名”查看。</p>
+<p>安装git后的第一个命令：<br>git config –global user.name “Your name”<br>git config –global user.email “Your email”</p>
+<p>把更新后的项目同步到本地：<br>进入本地master分支的目录，用命令git pull进行同步，如果是git clone下来的会自动合并。<br>具体参考《Pro Git》：<a href="http://iissnan.com/progit/" rel="external nofollow noopener noreferrer" target="_blank">http://iissnan.com/progit/</a></p>
+<p>关联已有项目：<br>1.在github上创建项目<br>2.在本地项目目录下git init后git remote add origin 地址<br>3.git add. -&gt;git commit -m “” -&gt; git push origin master</p>
+<p>git init之后生成的是空文件夹，需要先git add .之后才能提交</p>
+<blockquote>
+<p>注意暂存区存储的是文件的修改信息，不是文件本身！</p>
+</blockquote>
+<a id="more"></a>
+<p>提交代码三步走：<br>1.git add .    //添加所有文件到暂存区stage<br>2.git commit -m “提交说明”  //提交暂存区的所有内容到当前分支<br>3.git push origin master</p>
+<h3 id="操作整个仓库"><a href="#操作整个仓库" class="headerlink" title="操作整个仓库"></a>操作整个仓库</h3><p><strong>git log</strong>：显示版本库提交历史，从上到下依次是从最近到最远的提交。<br>（使用git log –pretty=oneline简化每个commit输出为一行；git log –graph –pretty=oneline –abbrev-commit用图表显示commit历史，可以很清楚地看到merge的过程）<br><strong>git status</strong>：显示暂存区（Changes to be committed）和工作区（Changes not staged for commit）的状态，此命令是后悔药的使用说明。<br><strong>git commit -m “message”</strong>：提交暂存区的文件到版本库，相当于给当前文件拍一个快照，如果崩溃了，可以恢复到拍照的状态。<br><strong>git reset –hard HEAD^</strong>：回退到最新commit的上一个提交的状态，操作对象是版本库<br>（HEAD表示最新提交的状态，加一个^表示往前推前一次，往上100个版本写成HEAD~100）<br><strong>git reset SHA</strong>：SHA为commit id的前七位，任意跳至想要的状态<br><strong>git reflog</strong>：查看commit和reset命令历史，利用里面的commit id和上一步的git reset SHA可以跳至未来的版本，有时候reset成过去的版本之后后悔想回到未来的版本可以使用。</p>
+<h3 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h3><blockquote>
+<p>Git鼓励使用分支</p>
+</blockquote>
+<p><strong>git branch</strong>：查看分支<br><strong>git branch branchname</strong>：在当前分支基础上，创建名为branchname的分支（branchname分支具有和当前分支一模一样的内容）<br><strong>git checkout branchname</strong>：切换至branchname分支</p>
+<blockquote>
+<p>分支的理解：<br>1.我在master分支创建了demo.txt文件，里面写了Hello World!，提交了<br>2.我新建了分支new，并修改demo.txt文件为Hello!，提交了<br>3.在git bash处于new分支的时候，我打开demo.txt，看到里面写了Hello!，然后关闭了demo.txt文件<br>4.我回到master分支，打开demo.txt文件，看到里面写了Hello World!，然后我关闭了demo.txt文件<br>5.我关闭了git bash，打开demo.txt文件，看到里面写了Hello World!<br>6.如果我是在new分支没有切换回master分支的情况下关闭git bash，那么打开demo.txt文件将看到Hello!</p>
+</blockquote>
+<p><strong>git checkout -b branchname</strong>：创建并切换至branchname<br><strong>git merge branchname</strong>：合并branchname分支至本分支</p>
+<blockquote>
+<p>合并的时候可能会conflict，此时打开文件进行修改后—&gt;注意删除干净git的标记符，再执行git add file,git commit -m “message”即可</p>
+</blockquote>
+<p>Fast-forward合并<br><img src="https://www.liaoxuefeng.com/files/attachments/00138490883510324231a837e5d4aee844d3e4692ba50f5000/0" alt="此处输入图片的描述"><br> git merge –no-ff -m “message” branchname：禁用Fast forward合并，使用普通模式合并并提交<br><img src="https://www.liaoxuefeng.com/files/attachments/001384909222841acf964ec9e6a4629a35a7a30588281bb000/0" alt="此处输入图片的描述"><br><strong>git branch -d branchname</strong>：删除branchname分支</p>
+<blockquote>
+<p>git stash：保存工作现场如果正在dev分支上开发，此时突然有任务，但是dev分支的开发还未完成，不能提交，那么可以保存dev工作的现场，保存现场后使用git status可以看到工作区很干净</p>
+<p>完成任务后，需要继续开发dev分支，使用git stash list可以查看工作现场；<br>使用git stash pop恢复时间上最新的现场也就是stash@{0}，并删除stash内容（stash是被git存储在某个地方了）;<br>或者使用git stash apply stash@{number}恢复stash@{number}现场，然后使用git stash drop stash@{number}删除编号为stash@{number}的现场，如果直接写git stash drop则删除时间上最新的现场；<br>git stash clear是清除所有stash。</p>
+</blockquote>
+<p><strong>git branch -D branchname</strong>：强行删除未合并的分支</p>
+<h3 id="操作单个文件"><a href="#操作单个文件" class="headerlink" title="操作单个文件"></a>操作单个文件</h3><blockquote>
+<p>文件每次有修改的保存后，称为一个状态</p>
+</blockquote>
+<p><strong>git add filename</strong>：添加文件到暂存区，如果添加后又对文件做了修改，需要再次git add否则最新的修改就只是停留在工作区，因为每次git commit都是把暂存区提交到版本库。<br><strong>git rm filename</strong>：删除工作区文件，同时删除操作会被添加到暂存区等待提交（如果工作区和暂存区或版本库不同会报错，报错的解决方法：首先保证暂存区没有添加该文件，既然删除就完全没有道理再修改该文件；然后保证工作区和版本库的最新版本中的该文件相同，可使用git checkout – filename；最后使用本命令删除文件）<br><strong>git diff filename</strong>：以该文件的最新的提交为起点，输出文件当前的状态和它上一步的状态之前的区别，如果文件从未被提交过，那么不输出任何信息。</p>
+<blockquote>
+<p>以下是我对这个命令做的一个小实验：<br>1.假设本地有个demo.txt文件，里面的内容是”Hello World”，版本库中最新版本也是如此<br>2.修改demo.txt为”Hello Wold”，使用命令后显示-“Hello World” +”Hello Wold”<br>3.git add demo.txt后修改demo.txt为”Hello Wrld”，使用命令显示</p>
+<blockquote>
+<p>-“Hello Wold”<br>+”Hello Wrld” </p>
+</blockquote>
+</blockquote>
+<p>4.关闭git bash后重新打开后使用命令显示内容和第3步一样<br>5.假如我现在删除了该文件，再新建一个一模一样的，使用命令输出和第3步的输出一样<br>6.我新建的文件写的是”Hello!”的话，输出</p>
+<blockquote>
+<p>-“Hello World”<br>+”Hello!”</p>
+</blockquote>
+<p>从5,6可知：新建的文件的对比对象是版本库最新版本，即使是把原删除文件放回去，对比对象也是版本库最新版本；而第3步呈现的结果说明对于某一个文件的修改，是有线性记录的，且该记录是和该文件捆绑的）</p>
+<p><strong>git diff HEAD – filename</strong>：查看工作区的文件和版本库里的最新版本的区别<br><strong>git checkout – filename</strong>：放弃对工作区文件的修改，回退到上一次git add或git commit时的状态，这个命令改变的对象是工作区（如果工作区的文件被误删了，使用此命令也可以恢复，效果也有以下两种）<br>{如果文件修改后没有放到暂存区，该命令会使得文件和版本库的最新版本保持一致；<br>如果文件添加到暂存区后又做了修改，该命令回到添加到暂存区时的状态}<br><strong>git checkout HEAD filename</strong>：用head指向的目录（版本库）替换暂存区和工作区的文件<br><strong>git reset HEAD filename</strong>：放弃添加到暂存区的文件，相当于git not add filename/git no rm filename，这个命令改变的对象是暂存区。</p>
+<h3 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h3><p><strong>git remote</strong>：查看远程仓库名</p>
+<blockquote>
+<p>git remote -v：显示更详细的信息</p>
+</blockquote>
+<p><strong>git clone xxx DirectoryName</strong>：克隆xxx到DirectoryName目录下。</p>
+<blockquote>
+<p>DirectoryName和.git是同级的，如果不写DirectoryName，则默认使用远程仓库的名字；xxx处可以使用https协议和ssh支持的原生git协议，后者更快，且前者每次push都要输入口令。</p>
+<p>git clone的时候，所有本地分支默认与远程仓库的同名分支建立追踪关系，当存在追踪关系时，使用git pull或者git push都不需要写后面的远程分支名，比如git pull origin为取回x分支合并到本地的x分支，x分支为当前分支；<br>git branch –set-upstream master origin/next：git允许手动建立追踪关系，该命令指定master分支追踪origin/next分支；<br>如果当前分支只有一个追踪分支，使用git pull命令连远程仓库名都不需要写。</p>
+</blockquote>
+<p><strong>git fetch remotename</strong>：把远程仓库remotename的更新取回本地，默认取回所有分支的更新</p>
+<blockquote>
+<p>git fetch origin master取回远程仓库origin的master分支的更新；取回的更新在本地用”remotename/branchname”的形式表示，比如使用git branch -r查看远程分支，可以看到origin/master</p>
+</blockquote>
+<p><strong>git merge origin/master</strong>：合并origin/master分支到当前分支上<br>git pull remotename <strong>remote-branchname:local-branchname</strong>：取回remotename的remote-branchname分支并合并到本地的local-branchname分支上</p>
+<blockquote>
+<p>例：git pull origin next:master取回origin仓库的next分支并合并到本地的master分支上，如果写git pull origin next则为取回next分支合并到本地的当前分支上</p>
+</blockquote>
+<p><strong>git push remotename local-branchname:remote-branchname</strong>：把本地的local-branchname分支推送到名为remotename的远程仓库的remote-branchname分支。</p>
+<blockquote>
+<p>省略remote-branchname的话，则表示将本地分支推送至与之具有追踪关系的远程分支，通常同名，如果该远程分支不存在，则会新建，比如git push origin master表示将本地的master分支推送到远程仓库；<br>如果省略本地分支名，则表示删除指定的远程分支，比如git push origin :master等同于git push origin –delete master表示删除origin仓库的master分支；<br>如果当前分支与远程分支之间存在追踪关系，则最后两个都可以省略，比如git push origin表示将当前分支推送到origin仓库的对应分支，如果当前分支只有一个追踪分支，那么可以写成git push；<br>如果当前分支与多个远程仓库存在追踪关系，可以使用命令git push -u origin master设置origin远程仓库为当前分支的默认远程仓库，以后使用git push则会将当前分支推送到origin远程仓库的master分支</p>
+</blockquote>
+<p><strong>多人协作</strong>：<br>1.首先使用git push origin branch-name推送自己的代码<br>2.如果失败，说明远程分支比本地更新，需要先用git pull把远程的修改拉下来合并<br>3.如果哦合并有冲突，则解决冲突，并在本地提交<br>4.没有冲突或者解决掉冲突后，再重复步骤1</p>
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><blockquote>
+<p>默认在本地建立，不会自动推送到远程</p>
+</blockquote>
+<p><strong>git tag</strong>：查看所有标签<br><strong>git tag tagname</strong>：打标签，在某个分支下敲此命令即可<br>（默认情况标签是打在最新提交的commit上的，如果要给历史commit打标签，则使用命令git tag tagname commit-id，commit-id为七位数）<br><strong>git show tagname</strong>：查看标签具体信息<br><strong>git tag -a tagname -m “message”</strong>：打带说明信息的标签<br><strong>git tag -d tagname</strong>：删除本地标签<br><strong>git push origin tagname</strong>：推送本地标签到远程<br><strong>git push origin –tags</strong>：推送全部未推送过的标签到远程<br><strong>git push origin :refs/tags/tagname</strong>：删除远程标签，需要先删除本地标签之后才使用这条命令删除远程的标签。</p>
+<h3 id="忽略特殊文件"><a href="#忽略特殊文件" class="headerlink" title="忽略特殊文件"></a>忽略特殊文件</h3><p>1.文件.gitignore里面写忽略的文件的名字，支持通配符*，写好后提交到git，以后git就不会把被忽略的文件提交到版本库。<br>（Windows新建.gitignore文件是在记事本里写好了之后另存为，名称写.gitignore）<br>2.如果某个文件被通配符忽略了（被忽略的文件无法添加到暂存区，自然无法提交到版本库），但是这个文件想特殊对待，想提交到版本库，可以使用git add -f filename强行添加到暂存区之后再提交到版本库<br>3.如果想知道.gitignore文件里面哪条规则使某文件被忽略，可以使用命令git check-ignore -v filename查看。</p>
+<h3 id="自定义Git"><a href="#自定义Git" class="headerlink" title="自定义Git"></a>自定义Git</h3><p>git config –global color.ui true：开启颜色，这样git会显示不同的颜色<br>git config –global alias.st status：此命令告诉git，使用st作为status的别名，以后就可以敲git st而不用敲git status了<br>（配置git时，–global是针对当前用户起作用，如果不加就只是针对当前仓库起作用；每个仓库的配置文件都放在.git/config中，而当前用户的配置文件放在用户主目录下的一个隐藏文件.gitconfig中）</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" rel="external nofollow noopener noreferrer" target="_blank">廖雪峰的Git教程</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;github:&lt;br&gt;ssh生成的.pub文件查看方法：cmd进入所在目录后用“more 文件名”查看。&lt;/p&gt;
+&lt;p&gt;安装git后的第一个命令：&lt;br&gt;git config –global user.name “Your name”&lt;br&gt;git config –global user.email “Your email”&lt;/p&gt;
+&lt;p&gt;把更新后的项目同步到本地：&lt;br&gt;进入本地master分支的目录，用命令git pull进行同步，如果是git clone下来的会自动合并。&lt;br&gt;具体参考《Pro Git》：&lt;a href=&quot;http://iissnan.com/progit/&quot; rel=&quot;external nofollow noopener noreferrer&quot; target=&quot;_blank&quot;&gt;http://iissnan.com/progit/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关联已有项目：&lt;br&gt;1.在github上创建项目&lt;br&gt;2.在本地项目目录下git init后git remote add origin 地址&lt;br&gt;3.git add. -&amp;gt;git commit -m “” -&amp;gt; git push origin master&lt;/p&gt;
+&lt;p&gt;git init之后生成的是空文件夹，需要先git add .之后才能提交&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意暂存区存储的是文件的修改信息，不是文件本身！&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://blade6.top/categories/Tools/"/>
+    
+    
+      <category term="Git" scheme="http://blade6.top/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java源码解读 Object类</title>
+    <link href="http://blade6.top/posts/c7aac6b0/"/>
+    <id>http://blade6.top/posts/c7aac6b0/</id>
+    <published>2017-08-07T16:24:00.353Z</published>
+    <updated>2017-08-07T16:28:37.626Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="getClass-方法："><a href="#getClass-方法：" class="headerlink" title="getClass()方法："></a>getClass()方法：</h3><p>Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class.<br>这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的类的Class对象。返回的对象是由这个Class对象所表示的类（.class）的static synchronized方法锁定的对象，意思就是说，如果所表示的这个类有static synchronized方法，这个方法在执行时所锁定的那个对象和这里返回的是同一个对象。<br>P.S.我们常常定义class或者使用已有的class，如String，我们常常说一切皆对象，也就是一切都可以定义为class。假如我们这里把class翻译为类型，那么类型本身也是对象，那么用什么描述它？答案是Class。所以对于任意xx.class，the type of xx.class is Class<xx>。因为Class类型封装一个对象和接口运行时的状态，当装载类时，Class类型的对象自动创建。<br>JVM为每种类型管理一个独一无二的Class对象。每个类（型）都有一个Class对象。运行程序时，JVM首先检查是否所要加载的类对应的Class对象已经加载。如果没有加载，JVM就会根据类名查找.class文件，并将其Class对象载入。<br><a id="more"></a></xx></p>
+<h3 id="hashCode-方法有三点宗旨："><a href="#hashCode-方法有三点宗旨：" class="headerlink" title="hashCode()方法有三点宗旨："></a>hashCode()方法有三点宗旨：</h3><p>1.在Java程序的一次执行中，对于同一个对象，每次调用hashCode()都应该返回相同的结果。但Java程序的不同执行，对于同一个对象，hashCode()方法返回的结果可以不同。<br>2.如果equals(Object)方法判断两个对象相同，则hashCode()对这两个对象应返回相同的结果。<br>3.如果两个对象不同，hashCode()方法对这两个对象可以返回相同的结果。但返回不同的结果无疑是更佳的。</p>
+<h3 id="equals-方法："><a href="#equals-方法：" class="headerlink" title="equals()方法："></a>equals()方法：</h3><p>以下都针对非null的对象：<br>自反性：x.equals(x)返回真<br>对称性：x.equals(y)返回真当且仅当y.equals(x)返回真<br>传递性：x.equals(y)和y.equals(z)返回真，则x.equals(z)返回真<br>一致性：多次调用x.equals(y)应返回一致的结果，说明没有对象发生改变。<br>其他：x.equals(null)返回假。<br>为什么要针对非null对象，因为null对象无法调用equals()方法。<br>在equals()的实现中仅有一句，return this == obj，它是内存地址的比较。<br>注意：重写equals()方法，则必须重写hashCode()方法，以保证相同对象含有相同hash值。</p>
+<h3 id="toString-方法："><a href="#toString-方法：" class="headerlink" title="toString()方法："></a>toString()方法：</h3><p>当打印引用，如调用System.out.println()时，会自动调用对象的toString()方法，打印出引用所指的对象的toString()方法的返回值，因为每个类都直接或间接地继承自Object，因此每个类都有toString()方法。<br>源码如下：<br>public String toString()<br>{<br>return getClass().getName() + “@” + Integer.toHexString(hashCode());<br>}</p>
+<h3 id="notify-方法："><a href="#notify-方法：" class="headerlink" title="notify()方法："></a>notify()方法：</h3><p>final方法，唤醒等待对象锁的其中一个线程。选择是任意的。被唤醒的线程将无动于衷，直到当前线程（调用notify()方法的线程）让出对象锁。被唤醒的线程会和其他线程一起竞争这个对象锁，被唤醒并不意味着有privilege或者disadvantage。<br>只有持有对象锁的线程才能调用此方法。一个线程可以通过以下三种途径成为对象锁的主人：<br>1）By executing a synchronized instance method of that object<br>2）By executing the body of a synchronized statement that synchronized on the object<br>3）For objects of type Class, by executing a synchronized static method of that class.<br>一个对象的锁在一个时刻里只能被一个线程所持有。</p>
+<h3 id="notifyAll-方法："><a href="#notifyAll-方法：" class="headerlink" title="notifyAll()方法："></a>notifyAll()方法：</h3><p>final方法，唤醒等待该对象锁的所有线程。其他和notify()方法一致。</p>
+<h3 id="wait-方法："><a href="#wait-方法：" class="headerlink" title="wait()方法："></a>wait()方法：</h3><p>wait(long timeout)，这是个final native方法：导致当前线程等待直到另一个线程在这个对象上调用notify()或者notifyAll()方法，或者是其他线程中断当前线程，或者当前线程等待了一定的时间。调用此方法的线程必须拥有这个对象的对象锁（The current thread must own this object’s monitor）。调用此方法时，当前线程会释放该对象锁，然后进入等待状态。非持锁线程调用此方法会抛出IllegalMonitorStateException；等待线程被中断会抛出InterruptedException.<br>wait()是final方法，具体逻辑是调用wait(0)：导致当前线程等待，除非另一个线程在这个对象上调用了noitfy()或者notifyAll()方法。<br>wait(long timeout, int nanos)也是final方法：导致当前线程等待直到另一个线程在这个对象上调用notify()或者notifyAll()方法，或者是其他线程中断当前线程，或者当前线程等待了一定的时间。注意timeout的单位是milliseconds，而nanos的单位是nanoseconds，所以当等待时间达到10^6*timeout+nanos(微秒)时，当前线程将放弃等待。 其他基本和wait(long timeout)方法一致。</p>
+<h3 id="clone-方法："><a href="#clone-方法：" class="headerlink" title="clone()方法："></a>clone()方法：</h3><p>P.S.在下面的描述中，拷贝是一个名词，而复制是一个动词，但二者的英译都是copy。<br>protected Object clone() throws CloneNotSupportedException<br>使用这个方法的类必须实现java.lang.Cloneable接口，否则会抛出CloneNotSupportedException异常。<br>Cloneable接口中不包含任何方法，所以实现它时只要在类声明中加上implements语句即可。<br>这个方法是protected修饰的，覆写clone()方法的时候需要写成public，才能让类外部的代码调用。<br>这个方法创建并返回该对象的拷贝，但是“拷贝”的含义依赖于具体的对象。这个方法实现的目的是满足下列规则：<br>x.clone != x                                                      returns true<br>x.clone().getClass() == x.getClass()                returns true<br>通常还会有x.clone.equals(x)                           returns true<br>这些规则并不是绝对性的要求（these are not absolute requirements）。<br>按照惯例，我们如果通过调用super.clone来获得拷贝的话，x.clone().getClass == x.getClass()就会为真。<br>按照惯例，拷贝和原对象应该是相互独立的。为了达成这一点，涉及到deep copy。也就是说，如果原对象内部有引用类型的话，也应该复制这些引用类型的内容而不是复制这些引用类型的内存地址。至于基本类型和不可变对象，没有deep copy这一概念。<br>所有的数组都被认为应该去实现Cloneable接口，否则调用clone()方法最终会导致shallow copy。</p>
+<h3 id="finalize-方法："><a href="#finalize-方法：" class="headerlink" title="finalize()方法："></a>finalize()方法：</h3><p>垃圾收集器调用对象的该方法，当对象不再被引用时。可重写此方法来布置系统资源或者cleanup工作。可以通过此方法重新使对象活过来。但对于一个对象来说，JVM永远不会调用这个方法两次。当在此方法内部发生异常时，该异常会被忽略，然后该对象将中止。调用finalize()方法的线程不能持有用户可见的同步锁。<br>Object类中这是个空方法，需要子类去实现具体逻辑。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;getClass-方法：&quot;&gt;&lt;a href=&quot;#getClass-方法：&quot; class=&quot;headerlink&quot; title=&quot;getClass()方法：&quot;&gt;&lt;/a&gt;getClass()方法：&lt;/h3&gt;&lt;p&gt;Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class.&lt;br&gt;这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的类的Class对象。返回的对象是由这个Class对象所表示的类（.class）的static synchronized方法锁定的对象，意思就是说，如果所表示的这个类有static synchronized方法，这个方法在执行时所锁定的那个对象和这里返回的是同一个对象。&lt;br&gt;P.S.我们常常定义class或者使用已有的class，如String，我们常常说一切皆对象，也就是一切都可以定义为class。假如我们这里把class翻译为类型，那么类型本身也是对象，那么用什么描述它？答案是Class。所以对于任意xx.class，the type of xx.class is Class&lt;xx&gt;。因为Class类型封装一个对象和接口运行时的状态，当装载类时，Class类型的对象自动创建。&lt;br&gt;JVM为每种类型管理一个独一无二的Class对象。每个类（型）都有一个Class对象。运行程序时，JVM首先检查是否所要加载的类对应的Class对象已经加载。如果没有加载，JVM就会根据类名查找.class文件，并将其Class对象载入。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="源码" scheme="http://blade6.top/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+    
+      <category term="源码解读" scheme="http://blade6.top/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+  </entry>
+  
+  <entry>
     <title>指令重排</title>
     <link href="http://blade6.top/posts/c12d9bbd/"/>
     <id>http://blade6.top/posts/c12d9bbd/</id>
     <published>2017-05-21T02:12:54.530Z</published>
-    <updated>2017-05-21T02:19:52.574Z</updated>
+    <updated>2017-05-21T02:20:01.495Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>节选自《实战Java高并发程序设计》，有删改</p>
@@ -305,9 +503,9 @@
     
       <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
-      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
-    
       <category term="List" scheme="http://blade6.top/tags/List/"/>
+    
+      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
     
   </entry>
   

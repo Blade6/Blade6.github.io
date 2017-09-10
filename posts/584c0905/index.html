@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="hexo,blog,">
+  <meta name="keywords" content="Java,leetcode,分治,">
 
 
 
@@ -89,19 +89,34 @@
 
 
 
-<meta name="description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
+<meta name="description" content="通常，在一个类中定义一个方法为static，那就是说，无需本类的对象即可调用此方法，关于static方法，声明为static的方法有以下几条限制：
+
+它们仅能调用其他的static方法。
+它们只能访问static数据。  
+它们不能以任何方式引用this或super。
+
+无论是static修饰的变量，还是static修饰的方法，我们都知道他们是属于类本身的，不是属于某一个对象的，当声明一个对象时，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Hexo搭建个人博客小记">
-<meta property="og:url" content="http://blade6.top/posts/21637/index.html">
+<meta property="og:title" content="Java的static关键字">
+<meta property="og:url" content="http://blade6.top/posts/584c0905/index.html">
 <meta property="og:site_name" content="Blade6">
-<meta property="og:description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
-<meta property="og:updated_time" content="2017-03-29T07:45:32.497Z">
+<meta property="og:description" content="通常，在一个类中定义一个方法为static，那就是说，无需本类的对象即可调用此方法，关于static方法，声明为static的方法有以下几条限制：
+
+它们仅能调用其他的static方法。
+它们只能访问static数据。  
+它们不能以任何方式引用this或super。
+
+无论是static修饰的变量，还是static修饰的方法，我们都知道他们是属于类本身的，不是属于某一个对象的，当声明一个对象时，">
+<meta property="og:updated_time" content="2017-09-10T02:36:59.980Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Hexo搭建个人博客小记">
-<meta name="twitter:description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
-动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
+<meta name="twitter:title" content="Java的static关键字">
+<meta name="twitter:description" content="通常，在一个类中定义一个方法为static，那就是说，无需本类的对象即可调用此方法，关于static方法，声明为static的方法有以下几条限制：
+
+它们仅能调用其他的static方法。
+它们只能访问static数据。  
+它们不能以任何方式引用this或super。
+
+无论是static修饰的变量，还是static修饰的方法，我们都知道他们是属于类本身的，不是属于某一个对象的，当声明一个对象时，">
 
 
 
@@ -129,13 +144,13 @@
 
 
 
-  <link rel="canonical" href="http://blade6.top/posts/21637/">
+  <link rel="canonical" href="http://blade6.top/posts/584c0905/">
 
 
 
 
 
-  <title> 使用Hexo搭建个人博客小记 | Blade6 </title>
+  <title> Java的static关键字 | Blade6 </title>
 </head>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +321,7 @@
   
 
   <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://blade6.top/posts/21637/">
+    <link itemprop="mainEntityOfPage" href="http://blade6.top/posts/584c0905/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Blade6">
@@ -327,7 +342,7 @@
             
             
               
-                使用Hexo搭建个人博客小记
+                Java的static关键字
               
             
           </h1>
@@ -342,8 +357,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-01T11:26:18+08:00">
-                2016-11-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-10T10:35:30+08:00">
+                2017-09-10
               </time>
             
 
@@ -365,8 +380,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Blog/" itemprop="url" rel="index">
-                    <span itemprop="name">Blog</span>
+                  <a href="/categories/ACM/" itemprop="url" rel="index">
+                    <span itemprop="name">ACM</span>
                   </a>
                 </span>
 
@@ -382,7 +397,7 @@
 
           
           
-             <span id="/posts/21637/" class="leancloud_visitors" data-flag-title="使用Hexo搭建个人博客小记">
+             <span id="/posts/584c0905/" class="leancloud_visitors" data-flag-title="Java的static关键字">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -411,24 +426,34 @@
       
 
       
-        <p>今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~</p>
-<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学生怎么能没有自己的个人网站，于是我萌生了搭建博客网站的想法。因为现在Nodejs+Hexo+Github Pages搭建博客很流行，于是我也加入了这股潮流。说干就干，网上的资料十分多，可能是每个搭建博客的都写了一篇建站日志, : )<br><a id="more"></a></p>
-<h3 id="建站大致过程"><a href="#建站大致过程" class="headerlink" title="建站大致过程"></a>建站大致过程</h3><ol>
-<li>安装Git Bash,Nodejs,Hexo.</li>
-<li>GitHub新建repo，并设置SSH.</li>
-<li>下载安装next主题，并按照<a href="http://theme-next.iissnan.com/getting-started.html" rel="external nofollow noopener noreferrer" target="_blank">NexT</a>的内容进行各项参数的设置。<ul>
-<li>多说评论、分享、热评文章</li>
-<li>LeanCloud阅读次数统计</li>
-<li>Local Search</li>
+        <p>通常，在一个类中定义一个方法为static，那就是说，无需本类的对象即可调用此方法，关于static方法，声明为static的方法有以下几条限制：</p>
+<ul>
+<li>它们仅能调用其他的static方法。</li>
+<li>它们只能访问static数据。  </li>
+<li>它们不能以任何方式引用this或super。</li>
 </ul>
-</li>
-<li>购买域名。</li>
-<li>SEO推广</li>
-<li>文章链接唯一永久化</li>
-</ol>
-<h4 id="更改阅读全文样式"><a href="#更改阅读全文样式" class="headerlink" title="更改阅读全文样式"></a>更改阅读全文样式</h4><p>打开<code>\themes\next\source\css\_common\components\post\post-button.styl</code>文件，修改成<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">.post-button &#123;</div><div class="line">  margin-top: 50px;</div><div class="line"></div><div class="line">  .btn &#123;</div><div class="line">    display: inline-block;</div><div class="line"></div><div class="line">    border-width: 2px;</div><div class="line">    border-style: solid;</div><div class="line">    border-color: rgb(85,85,85);</div><div class="line"></div><div class="line">    padding: 0 20px;</div><div class="line"></div><div class="line">    line-height: 2;</div><div class="line"></div><div class="line">    font-size: 14px;</div><div class="line"></div><div class="line">    color: #555555;</div><div class="line"></div><div class="line">    text-decoration: none;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">  .btn:hover &#123;</div><div class="line">    color: white;</div><div class="line">    background-color: #222222;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.shijinrong.cn/2016/01/03/How-to-build-a-blog/" rel="external nofollow noopener noreferrer" target="_blank">如何使用10个小时搭建出个人域名而又Geek的独立博客</a><br><a href="http://opiece.me/2015/04/09/hexo-guide/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建个人博客(基于hexo3.0)</a><br><a href="http://willxue.coding.me/categories/hexo/" rel="external nofollow noopener noreferrer" target="_blank">Hexo系列教程</a><br><a href="http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/" rel="external nofollow noopener noreferrer" target="_blank">Hexo+nexT主题搭建个人博客</a><br><a href="http://blog.tangxiaozhu.com/p/45374067/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建博客的深度优化</a><br><a href="http://www.jianshu.com/p/7ad9d3cd4d6e#" rel="external nofollow noopener noreferrer" target="_blank">将hexo博客同时托管到github和coding</a><br><a href="http://www.cnblogs.com/tengj/p/5357879.html" rel="external nofollow noopener noreferrer" target="_blank">hexo提交搜索引擎</a></p>
-<p>在此致谢所有无形中帮助到我的人，谢谢你们的分享。互联网精神万岁！</p>
+<p>无论是static修饰的变量，还是static修饰的方法，我们都知道他们是属于类本身的，不是属于某一个对象的，当声明一个对象时，并不产生static变量和方法的拷贝。也就是说，用static修饰的变量和方法在类加载的时候，只分配一块存储空间，所有此类的对象都可以操控此块存储空间。</p>
+<blockquote>
+<p>当子类没有与之同名的static变量（或方法时），子类的对象也可以操控这块内存空间。但是子类并没有继承父类中static修饰的变量和方法。因为static修饰的变量和方法是属于父类本身的。</p>
+</blockquote>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">T</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">3</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">T</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">5</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		System.out.println(Test.i);</div><div class="line">		++Test.i;</div><div class="line">		System.out.println(Test.i);</div><div class="line">		System.out.println(T.i);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果为<br>5 6 3<br>如果把第7行去掉，输出结果为<br>3 4 4<br>这说明子类的确没有继承父类的static字段，因为如果是继承的话，子类和父类的应该是区分的，而不会出现T.i和Test.i访问的是同一个字段的情况。</p>
+<blockquote>
+<p>静态方法不能被覆盖，但如果子类重新实现的话，会被隐藏，需要使用父类名.方法名来访问。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">T</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">A</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"T.A"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">B</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"T.B"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">T</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">B</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"Test.B"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Test.A(); <span class="comment">// 访问父类方法</span></div><div class="line">		Test.B(); <span class="comment">// 访问类方法</span></div><div class="line">		</div><div class="line">		T t1 = <span class="keyword">new</span> Test();</div><div class="line">		t1.A(); <span class="comment">// 访问父类方法</span></div><div class="line">		t1.B(); <span class="comment">// 访问父类方法</span></div><div class="line">		</div><div class="line">		Test t2 = <span class="keyword">new</span> Test();</div><div class="line">		t2.A(); <span class="comment">// 访问父类方法</span></div><div class="line">		t2.B(); <span class="comment">// 访问类方法</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果为：<br>T.A<br>Test.B<br>T.A<br>T.B<br>T.A<br>Test.B</p>
+<p>static修饰变量、方法、内部类：不用实例化类，可直接通过类名.xx访问静态变量、方法、内部类。<br>修饰代码块：对于静态代码块，仅在类加载时执行，仅执行一次。</p>
+<blockquote>
+<p>对于定义于类中的非静态的初始化语句或代码块，这些是与对象捆绑的，这些语句将在构造方法之前执行，实际上是JVM把这些类之中的非static语句或块和构造方法合并在一起，形成了<init>方法，每次使用new调用构造方法会使实例构造器<init>方法执行。而static修饰的代码块，语句都合并在一起，形成<clinit>方法，仅在类加载的时候执行一次。</clinit></init></init></p>
+</blockquote>
+<p>最后再来欣赏一段代码，关于static代码块和普通代码块的执行时机，各大企业的笔试题最喜欢考了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;	</div><div class="line">	</div><div class="line">	&#123;</div><div class="line">		System.out.println(<span class="string">"A:父类的代码块总是在父类构造方法被调用前先执行"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		System.out.println(<span class="string">"A:父类的静态代码块是最早加载的"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">	</div><div class="line">	A() &#123;</div><div class="line">		System.out.println(<span class="string">"A:父类的构造器在new子类实例时被调用"</span>);</div><div class="line">		System.out.println(++i);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LearnStatic</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		System.out.println(<span class="string">"B:静态代码块只加载一次"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	&#123;</div><div class="line">		System.out.println(<span class="string">"B:代码块"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	LearnStatic() &#123;</div><div class="line">		System.out.println(<span class="string">"B:构造函数"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		System.out.println(<span class="string">"C:静态代码块甚至早于父类构造器"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	&#123;</div><div class="line">		System.out.println(<span class="string">"C:代码块"</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	C() &#123;</div><div class="line">		System.out.println(<span class="string">"C:构造函数"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>新建一个类来测试刚才的内容：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLearnStatic</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		LearnStatic b = <span class="keyword">new</span> LearnStatic();</div><div class="line">		A b2 = <span class="keyword">new</span> LearnStatic();</div><div class="line">		C c = <span class="keyword">new</span> C();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果为</p>
+<blockquote>
+<p>A:父类的静态代码块是最早加载的<br>B:静态代码块只加载一次<br>A:父类的代码块总是在父类构造方法被调用前先执行<br>A:父类的构造器在new子类实例时被调用<br>1<br>B:代码块<br>B:构造函数<br>A:父类的代码块总是在父类构造方法被调用前先执行<br>A:父类的构造器在new子类实例时被调用<br>1<br>B:代码块<br>B:构造函数<br>C:静态代码块甚至早于父类构造器<br>A:父类的代码块总是在父类构造方法被调用前先执行<br>A:父类的构造器在new子类实例时被调用<br>1<br>C:代码块<br>C:构造函数</p>
+</blockquote>
 
       
     </div>
@@ -474,9 +499,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
-            <a href="/tags/blog/" rel="tag"># blog</a>
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+            <a href="/tags/分治/" rel="tag"># 分治</a>
           
         </div>
       
@@ -489,15 +516,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/posts/ca675cd4/" rel="next" title="Git使用">
+                <i class="fa fa-chevron-left"></i> Git使用
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/posts/285ba2a7/" rel="prev" title="回车符与换行符">
-                回车符与换行符 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -544,17 +571,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/uploads/Blade6.jpg" alt="Blade6">
           <p class="site-author-name" itemprop="name">Blade6</p>
@@ -671,22 +689,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建站大致过程"><span class="nav-number">2.</span> <span class="nav-text">建站大致过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改阅读全文样式"><span class="nav-number">2.1.</span> <span class="nav-text">更改阅读全文样式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
