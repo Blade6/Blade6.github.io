@@ -89,16 +89,25 @@
 
 
 
-<meta name="description" content="getClass()方法：Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class.这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的">
+<meta name="description" content="getClass()
+Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class. 
+
+这是一个final方法，功能是在程序运行期返回调用该方法的对象所属">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java源码解读 Object类">
 <meta property="og:url" content="http://blade6.top/posts/c7aac6b0/index.html">
 <meta property="og:site_name" content="Blade6">
-<meta property="og:description" content="getClass()方法：Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class.这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的">
-<meta property="og:updated_time" content="2017-08-07T16:28:37.626Z">
+<meta property="og:description" content="getClass()
+Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class. 
+
+这是一个final方法，功能是在程序运行期返回调用该方法的对象所属">
+<meta property="og:updated_time" content="2017-09-10T02:54:19.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java源码解读 Object类">
-<meta name="twitter:description" content="getClass()方法：Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class.这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的">
+<meta name="twitter:description" content="getClass()
+Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class. 
+
+这是一个final方法，功能是在程序运行期返回调用该方法的对象所属">
 
 
 
@@ -408,15 +417,52 @@
       
 
       
-        <h3 id="getClass-方法："><a href="#getClass-方法：" class="headerlink" title="getClass()方法："></a>getClass()方法：</h3><p>Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class.<br>这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的类的Class对象。返回的对象是由这个Class对象所表示的类（.class）的static synchronized方法锁定的对象，意思就是说，如果所表示的这个类有static synchronized方法，这个方法在执行时所锁定的那个对象和这里返回的是同一个对象。<br>P.S.我们常常定义class或者使用已有的class，如String，我们常常说一切皆对象，也就是一切都可以定义为class。假如我们这里把class翻译为类型，那么类型本身也是对象，那么用什么描述它？答案是Class。所以对于任意xx.class，the type of xx.class is Class<xx>。因为Class类型封装一个对象和接口运行时的状态，当装载类时，Class类型的对象自动创建。<br>JVM为每种类型管理一个独一无二的Class对象。每个类（型）都有一个Class对象。运行程序时，JVM首先检查是否所要加载的类对应的Class对象已经加载。如果没有加载，JVM就会根据类名查找.class文件，并将其Class对象载入。<br><a id="more"></a></xx></p>
-<h3 id="hashCode-方法有三点宗旨："><a href="#hashCode-方法有三点宗旨：" class="headerlink" title="hashCode()方法有三点宗旨："></a>hashCode()方法有三点宗旨：</h3><p>1.在Java程序的一次执行中，对于同一个对象，每次调用hashCode()都应该返回相同的结果。但Java程序的不同执行，对于同一个对象，hashCode()方法返回的结果可以不同。<br>2.如果equals(Object)方法判断两个对象相同，则hashCode()对这两个对象应返回相同的结果。<br>3.如果两个对象不同，hashCode()方法对这两个对象可以返回相同的结果。但返回不同的结果无疑是更佳的。</p>
-<h3 id="equals-方法："><a href="#equals-方法：" class="headerlink" title="equals()方法："></a>equals()方法：</h3><p>以下都针对非null的对象：<br>自反性：x.equals(x)返回真<br>对称性：x.equals(y)返回真当且仅当y.equals(x)返回真<br>传递性：x.equals(y)和y.equals(z)返回真，则x.equals(z)返回真<br>一致性：多次调用x.equals(y)应返回一致的结果，说明没有对象发生改变。<br>其他：x.equals(null)返回假。<br>为什么要针对非null对象，因为null对象无法调用equals()方法。<br>在equals()的实现中仅有一句，return this == obj，它是内存地址的比较。<br>注意：重写equals()方法，则必须重写hashCode()方法，以保证相同对象含有相同hash值。</p>
-<h3 id="toString-方法："><a href="#toString-方法：" class="headerlink" title="toString()方法："></a>toString()方法：</h3><p>当打印引用，如调用System.out.println()时，会自动调用对象的toString()方法，打印出引用所指的对象的toString()方法的返回值，因为每个类都直接或间接地继承自Object，因此每个类都有toString()方法。<br>源码如下：<br>public String toString()<br>{<br>return getClass().getName() + “@” + Integer.toHexString(hashCode());<br>}</p>
-<h3 id="notify-方法："><a href="#notify-方法：" class="headerlink" title="notify()方法："></a>notify()方法：</h3><p>final方法，唤醒等待对象锁的其中一个线程。选择是任意的。被唤醒的线程将无动于衷，直到当前线程（调用notify()方法的线程）让出对象锁。被唤醒的线程会和其他线程一起竞争这个对象锁，被唤醒并不意味着有privilege或者disadvantage。<br>只有持有对象锁的线程才能调用此方法。一个线程可以通过以下三种途径成为对象锁的主人：<br>1）By executing a synchronized instance method of that object<br>2）By executing the body of a synchronized statement that synchronized on the object<br>3）For objects of type Class, by executing a synchronized static method of that class.<br>一个对象的锁在一个时刻里只能被一个线程所持有。</p>
-<h3 id="notifyAll-方法："><a href="#notifyAll-方法：" class="headerlink" title="notifyAll()方法："></a>notifyAll()方法：</h3><p>final方法，唤醒等待该对象锁的所有线程。其他和notify()方法一致。</p>
-<h3 id="wait-方法："><a href="#wait-方法：" class="headerlink" title="wait()方法："></a>wait()方法：</h3><p>wait(long timeout)，这是个final native方法：导致当前线程等待直到另一个线程在这个对象上调用notify()或者notifyAll()方法，或者是其他线程中断当前线程，或者当前线程等待了一定的时间。调用此方法的线程必须拥有这个对象的对象锁（The current thread must own this object’s monitor）。调用此方法时，当前线程会释放该对象锁，然后进入等待状态。非持锁线程调用此方法会抛出IllegalMonitorStateException；等待线程被中断会抛出InterruptedException.<br>wait()是final方法，具体逻辑是调用wait(0)：导致当前线程等待，除非另一个线程在这个对象上调用了noitfy()或者notifyAll()方法。<br>wait(long timeout, int nanos)也是final方法：导致当前线程等待直到另一个线程在这个对象上调用notify()或者notifyAll()方法，或者是其他线程中断当前线程，或者当前线程等待了一定的时间。注意timeout的单位是milliseconds，而nanos的单位是nanoseconds，所以当等待时间达到10^6*timeout+nanos(微秒)时，当前线程将放弃等待。 其他基本和wait(long timeout)方法一致。</p>
-<h3 id="clone-方法："><a href="#clone-方法：" class="headerlink" title="clone()方法："></a>clone()方法：</h3><p>P.S.在下面的描述中，拷贝是一个名词，而复制是一个动词，但二者的英译都是copy。<br>protected Object clone() throws CloneNotSupportedException<br>使用这个方法的类必须实现java.lang.Cloneable接口，否则会抛出CloneNotSupportedException异常。<br>Cloneable接口中不包含任何方法，所以实现它时只要在类声明中加上implements语句即可。<br>这个方法是protected修饰的，覆写clone()方法的时候需要写成public，才能让类外部的代码调用。<br>这个方法创建并返回该对象的拷贝，但是“拷贝”的含义依赖于具体的对象。这个方法实现的目的是满足下列规则：<br>x.clone != x                                                      returns true<br>x.clone().getClass() == x.getClass()                returns true<br>通常还会有x.clone.equals(x)                           returns true<br>这些规则并不是绝对性的要求（these are not absolute requirements）。<br>按照惯例，我们如果通过调用super.clone来获得拷贝的话，x.clone().getClass == x.getClass()就会为真。<br>按照惯例，拷贝和原对象应该是相互独立的。为了达成这一点，涉及到deep copy。也就是说，如果原对象内部有引用类型的话，也应该复制这些引用类型的内容而不是复制这些引用类型的内存地址。至于基本类型和不可变对象，没有deep copy这一概念。<br>所有的数组都被认为应该去实现Cloneable接口，否则调用clone()方法最终会导致shallow copy。</p>
-<h3 id="finalize-方法："><a href="#finalize-方法：" class="headerlink" title="finalize()方法："></a>finalize()方法：</h3><p>垃圾收集器调用对象的该方法，当对象不再被引用时。可重写此方法来布置系统资源或者cleanup工作。可以通过此方法重新使对象活过来。但对于一个对象来说，JVM永远不会调用这个方法两次。当在此方法内部发生异常时，该异常会被忽略，然后该对象将中止。调用finalize()方法的线程不能持有用户可见的同步锁。<br>Object类中这是个空方法，需要子类去实现具体逻辑。</p>
+        <h3 id="getClass"><a href="#getClass" class="headerlink" title="getClass()"></a>getClass()</h3><blockquote>
+<p>Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class. </p>
+</blockquote>
+<p>这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的类的Class对象。返回的对象是由这个Class对象所表示的类（.class）的static synchronized方法锁定的对象，意思就是说，如果所表示的这个类有static synchronized方法，这个方法在执行时所锁定的那个对象和这里返回的是同一个对象。</p>
+<blockquote>
+<p>我们常常定义class或者使用已有的class，如String，我们常常说一切皆对象，也就是一切都可以定义为class。假如我们这里把class翻译为类型，那么类型本身也是对象，那么用什么描述它？答案是Class。所以对于任意xx.class，the type of xx.class is Class<xx>。因为Class类型封装一个对象和接口运行时的状态，当装载类时，Class类型的对象自动创建。</xx></p>
+</blockquote>
+<p>JVM为每种类型管理一个独一无二的Class对象。每个类（型）都有一个Class对象。运行程序时，JVM首先检查是否所要加载的类对应的Class对象已经加载。如果没有加载，JVM就会根据类名查找.class文件，并将其Class对象载入。<br><a id="more"></a></p>
+<h3 id="hashCode"><a href="#hashCode" class="headerlink" title="hashCode()"></a>hashCode()</h3><ol>
+<li>在Java程序的一次执行中，对于同一个对象，每次调用hashCode()都应该返回相同的结果。但Java程序的不同执行，对于同一个对象，hashCode()方法返回的结果可以不同。</li>
+<li>如果equals(Object)方法判断两个对象相同，则hashCode()对这两个对象应返回相同的结果。</li>
+<li>如果两个对象不同，hashCode()方法对这两个对象可以返回相同的结果。但返回不同的结果无疑是更佳的</li>
+</ol>
+<h3 id="equals"><a href="#equals" class="headerlink" title="equals()"></a>equals()</h3><p>以下都针对非null的对象：</p>
+<ul>
+<li>自反性：x.equals(x)返回真</li>
+<li>对称性：x.equals(y)返回真当且仅当y.equals(x)返回真</li>
+<li>传递性：x.equals(y)和y.equals(z)返回真，则x.equals(z)返回真</li>
+<li>一致性：多次调用x.equals(y)应返回一致的结果，说明没有对象发生改变。</li>
+<li>其他：x.equals(null)返回假。<br>为什么要针对非null对象，因为null对象无法调用equals()方法。<br>在equals()的实现中仅有一句，<code>return this == obj</code>，它是内存地址的比较。<blockquote>
+<p>重写equals()方法，则必须重写hashCode()方法，以保证相同对象含有相同hash值。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="toString-NaN"><a href="#toString-NaN" class="headerlink" title="toString()"></a>toString()</h3><p>当打印引用，如调用System.out.println()时，会自动调用对象的toString()方法，打印出引用所指的对象的toString()方法的返回值，因为每个类都直接或间接地继承自Object，因此每个类都有toString()方法。<br>源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line"><span class="keyword">return</span> getClass().getName() + <span class="string">"@"</span> + Integer.toHexString(hashCode());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="notify"><a href="#notify" class="headerlink" title="notify()"></a>notify()</h3><p>final方法，唤醒等待对象锁的其中一个线程。选择是任意的。被唤醒的线程将无动于衷，直到当前线程（调用notify()方法的线程）让出对象锁。被唤醒的线程会和其他线程一起竞争这个对象锁，被唤醒并不意味着有privilege或者disadvantage。<br>只有持有对象锁的线程才能调用此方法。</p>
+<blockquote>
+<p>一个线程可以通过以下三种途径成为对象锁的主人：</p>
+<ol>
+<li>By executing a synchronized instance method of that object</li>
+<li>By executing the body of a synchronized statement that synchronized on the object</li>
+<li>For objects of type Class, by executing a synchronized static method of that class.</li>
+</ol>
+</blockquote>
+<p>一个对象的锁在一个时刻里只能被一个线程所持有。</p>
+<h3 id="notifyAll"><a href="#notifyAll" class="headerlink" title="notifyAll()"></a>notifyAll()</h3><p>final方法，唤醒等待该对象锁的所有线程。其他和notify()方法一致。</p>
+<h3 id="wait"><a href="#wait" class="headerlink" title="wait()"></a>wait()</h3><p>wait(long timeout)，是个final native方法：导致当前线程等待直到另一个线程在这个对象上调用notify()或者notifyAll()方法，或者是其他线程中断当前线程，或者当前线程等待了一定的时间。调用此方法的线程必须拥有这个对象的对象锁（The current thread must own this object’s monitor）。调用此方法时，当前线程会释放该对象锁，然后进入等待状态。非持锁线程调用此方法会抛出IllegalMonitorStateException；等待线程被中断会抛出InterruptedException.<br>wait()是final方法，具体逻辑是调用wait(0)：导致当前线程等待，除非另一个线程在这个对象上调用了noitfy()或者notifyAll()方法。<br>wait(long timeout, int nanos)也是final方法：导致当前线程等待直到另一个线程在这个对象上调用notify()或者notifyAll()方法，或者是其他线程中断当前线程，或者当前线程等待了一定的时间。注意timeout的单位是milliseconds，而nanos的单位是nanoseconds，所以当等待时间达到10^6*timeout+nanos(微秒)时，当前线程将放弃等待。 其他基本和wait(long timeout)方法一致。</p>
+<h3 id="clone"><a href="#clone" class="headerlink" title="clone()"></a>clone()</h3><blockquote>
+<p>在下面的描述中，拷贝是一个名词，而复制是一个动词，但二者的英译都是copy。</p>
+</blockquote>
+<p>protected Object clone() throws CloneNotSupportedException<br>使用这个方法的类必须实现java.lang.Cloneable接口，否则会抛出CloneNotSupportedException异常。<br>Cloneable接口中不包含任何方法，所以实现它时只要在类声明中加上implements语句即可。<br>这个方法是protected修饰的，覆写clone()方法的时候需要写成public，才能让类外部的代码调用。<br>这个方法创建并返回该对象的拷贝，但是“拷贝”的含义依赖于具体的对象。这个方法实现的目的是满足下列规则：</p>
+<blockquote>
+<p>x.clone != x                                                      returns true<br>x.clone().getClass() == x.getClass()                returns true<br>通常还会有x.clone.equals(x)                           returns true</p>
+</blockquote>
+<p>这些规则并不是绝对性的要求（these are not absolute requirements）。<br>按照惯例，我们如果通过调用super.clone来获得拷贝的话，<code>x.clone().getClass == x.getClass()</code>就会为真。<br>按照惯例，拷贝和原对象应该是相互独立的。为了达成这一点，涉及到deep copy。也就是说，如果原对象内部有引用类型的话，也应该复制这些引用类型的内容而不是复制这些引用类型的内存地址。至于基本类型和不可变对象，没有deep copy这一概念。<br>所有的数组都被认为应该去实现Cloneable接口，否则调用clone()方法最终会导致shallow copy。</p>
+<h3 id="finalize"><a href="#finalize" class="headerlink" title="finalize()"></a>finalize()</h3><p>垃圾收集器调用对象的该方法，当对象不再被引用时。可重写此方法来布置系统资源或者cleanup工作。可以通过此方法重新使对象活过来。但对于一个对象来说，JVM永远不会调用这个方法两次。当在此方法内部发生异常时，该异常会被忽略，然后该对象将中止。调用finalize()方法的线程不能持有用户可见的同步锁。<br>Object类中这是个空方法，需要子类去实现具体逻辑。</p>
 
       
     </div>
@@ -673,7 +719,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#getClass-方法："><span class="nav-number">1.</span> <span class="nav-text">getClass()方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashCode-方法有三点宗旨："><span class="nav-number">2.</span> <span class="nav-text">hashCode()方法有三点宗旨：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#equals-方法："><span class="nav-number">3.</span> <span class="nav-text">equals()方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#toString-方法："><span class="nav-number">4.</span> <span class="nav-text">toString()方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#notify-方法："><span class="nav-number">5.</span> <span class="nav-text">notify()方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#notifyAll-方法："><span class="nav-number">6.</span> <span class="nav-text">notifyAll()方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wait-方法："><span class="nav-number">7.</span> <span class="nav-text">wait()方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clone-方法："><span class="nav-number">8.</span> <span class="nav-text">clone()方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#finalize-方法："><span class="nav-number">9.</span> <span class="nav-text">finalize()方法：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#getClass"><span class="nav-number">1.</span> <span class="nav-text">getClass()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashCode"><span class="nav-number">2.</span> <span class="nav-text">hashCode()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#equals"><span class="nav-number">3.</span> <span class="nav-text">equals()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#toString-NaN"><span class="nav-number">4.</span> <span class="nav-text">toString()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#notify"><span class="nav-number">5.</span> <span class="nav-text">notify()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#notifyAll"><span class="nav-number">6.</span> <span class="nav-text">notifyAll()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wait"><span class="nav-number">7.</span> <span class="nav-text">wait()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clone"><span class="nav-number">8.</span> <span class="nav-text">clone()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#finalize"><span class="nav-number">9.</span> <span class="nav-text">finalize()</span></a></li></ol></div>
             
 
           </div>

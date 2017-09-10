@@ -366,8 +366,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ACM/" itemprop="url" rel="index">
-                    <span itemprop="name">ACM</span>
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
                   </a>
                 </span>
 
@@ -745,7 +745,14 @@
 
       
         
-          <h3 id="getClass-方法："><a href="#getClass-方法：" class="headerlink" title="getClass()方法："></a>getClass()方法：</h3><p>Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class.<br>这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的类的Class对象。返回的对象是由这个Class对象所表示的类（.class）的static synchronized方法锁定的对象，意思就是说，如果所表示的这个类有static synchronized方法，这个方法在执行时所锁定的那个对象和这里返回的是同一个对象。<br>P.S.我们常常定义class或者使用已有的class，如String，我们常常说一切皆对象，也就是一切都可以定义为class。假如我们这里把class翻译为类型，那么类型本身也是对象，那么用什么描述它？答案是Class。所以对于任意xx.class，the type of xx.class is Class<xx>。因为Class类型封装一个对象和接口运行时的状态，当装载类时，Class类型的对象自动创建。<br>JVM为每种类型管理一个独一无二的Class对象。每个类（型）都有一个Class对象。运行程序时，JVM首先检查是否所要加载的类对应的Class对象已经加载。如果没有加载，JVM就会根据类名查找.class文件，并将其Class对象载入。<br>
+          <h3 id="getClass"><a href="#getClass" class="headerlink" title="getClass()"></a>getClass()</h3><blockquote>
+<p>Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class. </p>
+</blockquote>
+<p>这是一个final方法，功能是在程序运行期返回调用该方法的对象所属的类的Class对象。返回的对象是由这个Class对象所表示的类（.class）的static synchronized方法锁定的对象，意思就是说，如果所表示的这个类有static synchronized方法，这个方法在执行时所锁定的那个对象和这里返回的是同一个对象。</p>
+<blockquote>
+<p>我们常常定义class或者使用已有的class，如String，我们常常说一切皆对象，也就是一切都可以定义为class。假如我们这里把class翻译为类型，那么类型本身也是对象，那么用什么描述它？答案是Class。所以对于任意xx.class，the type of xx.class is Class<xx>。因为Class类型封装一个对象和接口运行时的状态，当装载类时，Class类型的对象自动创建。</xx></p>
+</blockquote>
+<p>JVM为每种类型管理一个独一无二的Class对象。每个类（型）都有一个Class对象。运行程序时，JVM首先检查是否所要加载的类对应的Class对象已经加载。如果没有加载，JVM就会根据类名查找.class文件，并将其Class对象载入。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/posts/c7aac6b0/#more" rel="contents">
@@ -755,7 +762,7 @@
           <!--/noindex-->
         
       
-    </xx></p></div>
+    </p></div>
 
     <div>
       
