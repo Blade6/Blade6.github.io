@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="hexo,blog,">
+  <meta name="keywords" content="Blog,">
 
 
 
@@ -97,7 +97,7 @@
 <meta property="og:site_name" content="Blade6">
 <meta property="og:description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
 动机其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学">
-<meta property="og:updated_time" content="2017-03-29T07:45:32.497Z">
+<meta property="og:updated_time" content="2017-10-11T15:45:35.975Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Hexo搭建个人博客小记">
 <meta name="twitter:description" content="今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~
@@ -365,8 +365,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Blog/" itemprop="url" rel="index">
-                    <span itemprop="name">Blog</span>
+                  <a href="/categories/Programming/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming</span>
                   </a>
                 </span>
 
@@ -427,6 +427,17 @@
 <li>文章链接唯一永久化</li>
 </ol>
 <h4 id="更改阅读全文样式"><a href="#更改阅读全文样式" class="headerlink" title="更改阅读全文样式"></a>更改阅读全文样式</h4><p>打开<code>\themes\next\source\css\_common\components\post\post-button.styl</code>文件，修改成<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">.post-button &#123;</div><div class="line">  margin-top: 50px;</div><div class="line"></div><div class="line">  .btn &#123;</div><div class="line">    display: inline-block;</div><div class="line"></div><div class="line">    border-width: 2px;</div><div class="line">    border-style: solid;</div><div class="line">    border-color: rgb(85,85,85);</div><div class="line"></div><div class="line">    padding: 0 20px;</div><div class="line"></div><div class="line">    line-height: 2;</div><div class="line"></div><div class="line">    font-size: 14px;</div><div class="line"></div><div class="line">    color: #555555;</div><div class="line"></div><div class="line">    text-decoration: none;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">  .btn:hover &#123;</div><div class="line">    color: white;</div><div class="line">    background-color: #222222;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="代码区块缩进问题"><a href="#代码区块缩进问题" class="headerlink" title="代码区块缩进问题"></a>代码区块缩进问题</h4><p>markdown语言中，代码块的写法有以下三种：<br>1.嵌入代码块，使用</p>
+<blockquote>
+<p>` Your code here `</p>
+</blockquote>
+<p>适用于小块的代码<br>2.大段代码块，令上一行为空行，然后在行首使用4个空格，则该行会自动成为代码块<br>3.大段代码块，使用</p>
+<blockquote>
+<p>```<br>Your code here<br>```</p>
+</blockquote>
+<p>（2和3会自动添加行号并且高亮）</p>
+<p>推荐使用第三种方式写代码块，但是要注意：<br>使用此方式时，不可避免代码块中间会有空行，从而导致我们虽然无意却写出了第二种方式的代码块，但是没关系，实际上显示的效果是正常的。</p>
+<p>唯一要注意的是，不要使用TAB键，理由是TAB键在不同编辑器上的解释不同，不一定一直是4个空格，使用后会无法达到我们想要的效果。如果和空格混用，那么排版不堪入目。<br>推荐使用4个空格作为缩进。</p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.shijinrong.cn/2016/01/03/How-to-build-a-blog/" rel="external nofollow noopener noreferrer" target="_blank">如何使用10个小时搭建出个人域名而又Geek的独立博客</a><br><a href="http://opiece.me/2015/04/09/hexo-guide/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建个人博客(基于hexo3.0)</a><br><a href="http://willxue.coding.me/categories/hexo/" rel="external nofollow noopener noreferrer" target="_blank">Hexo系列教程</a><br><a href="http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/" rel="external nofollow noopener noreferrer" target="_blank">Hexo+nexT主题搭建个人博客</a><br><a href="http://blog.tangxiaozhu.com/p/45374067/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建博客的深度优化</a><br><a href="http://www.jianshu.com/p/7ad9d3cd4d6e#" rel="external nofollow noopener noreferrer" target="_blank">将hexo博客同时托管到github和coding</a><br><a href="http://www.cnblogs.com/tengj/p/5357879.html" rel="external nofollow noopener noreferrer" target="_blank">hexo提交搜索引擎</a></p>
 <p>在此致谢所有无形中帮助到我的人，谢谢你们的分享。互联网精神万岁！</p>
 
@@ -474,9 +485,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
-          
-            <a href="/tags/blog/" rel="tag"># blog</a>
+            <a href="/tags/Blog/" rel="tag"># Blog</a>
           
         </div>
       
@@ -567,7 +576,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -578,7 +587,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -589,7 +598,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -681,7 +690,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建站大致过程"><span class="nav-number">2.</span> <span class="nav-text">建站大致过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改阅读全文样式"><span class="nav-number">2.1.</span> <span class="nav-text">更改阅读全文样式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建站大致过程"><span class="nav-number">2.</span> <span class="nav-text">建站大致过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改阅读全文样式"><span class="nav-number">2.1.</span> <span class="nav-text">更改阅读全文样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码区块缩进问题"><span class="nav-number">2.2.</span> <span class="nav-text">代码区块缩进问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>

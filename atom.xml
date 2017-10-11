@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blade6.top/"/>
-  <updated>2017-09-10T02:43:26.307Z</updated>
+  <updated>2017-10-11T15:46:25.727Z</updated>
   <id>http://blade6.top/</id>
   
   <author>
@@ -16,11 +16,143 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>字符串常量池与String.intern()详解</title>
+    <link href="http://blade6.top/posts/39c461ed/"/>
+    <id>http://blade6.top/posts/39c461ed/</id>
+    <published>2017-10-11T06:46:16.878Z</published>
+    <updated>2017-10-11T15:46:25.727Z</updated>
+    
+    <content type="html"><![CDATA[<p>String.intern()是一个Native方法，它的作用是：如果字符串常量池中已经包含了一个等于（由Object的equals方法判断）此String对象的字符串，则返回代表池中这个字符串的String对象；否则，将此String对象包含的字符串添加到常量池中，并且返回此String对象的引用。在JDK 1.6及之前的版本中，常量池分配在永久代中，从JDK 1.7开始，常量池分配在堆中。在JDK 1.6及之前，intern()方法会把首次遇到的字符串实例复制到永久代中，返回的也是永久代中这个字符串实例的引用，而JDK 1.7及之后则不会再复制实例，只是在常量池中记录首次出现的实例引用。<br>可以这样理解：String.intern()方法返回一个字符串，返回的字符串与调用intern()方法的字符串内容相同，但是intern()返回的字符串必然来自字符串常量池中。</p>
+<a id="more"></a>
+<p>所有字面值字符串和字符串赋值常量表达式都会直接在字符串常量池中生成，比如<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String a = <span class="string">"a"</span>;</div><div class="line">String ty = <span class="string">"t"</span> + <span class="string">"y"</span>;</div><div class="line">String hi = <span class="keyword">new</span> String(<span class="string">"hi"</span>);</div><div class="line">String mm = <span class="keyword">new</span> String(<span class="string">"m"</span>) + <span class="keyword">new</span> String(<span class="string">"m"</span>);</div></pre></td></tr></table></figure></p>
+<p>则”a”和“ty”会放入字符串常量池中；<br>而行3执行后会使得堆中有字符串对象”hi”，常量池中有”hi”，后者存在的原因是new String()调用构造方法时传的参数其实是字符串，而这个字符串使用引号括住的，因此会直接在常量池中生成。<br>行4执行会在堆中生成”mm”，在常量池生成”m”。</p>
+<p>如下有代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">String s = <span class="keyword">new</span> String(<span class="string">"1"</span>);  </div><div class="line">s.intern();  </div><div class="line">String s2 = <span class="string">"1"</span>;  </div><div class="line">System.out.println(s == s2);  </div><div class="line">  </div><div class="line">String s3 = <span class="keyword">new</span> String(<span class="string">"1"</span>) + <span class="keyword">new</span> String(<span class="string">"1"</span>);  </div><div class="line">s3.intern();  </div><div class="line">String s4 = <span class="string">"11"</span>;  </div><div class="line">System.out.println(s3 == s4);</div></pre></td></tr></table></figure></p>
+<p>这段代码在JDK 1.6中执行的结果是false false，在JDK 1.7中执行的结果是false true。<br>原因如下：<br>在JDK 1.6中，行1会在字符串常量池中生成”1”，在堆中生成”1”，并且s指向堆中的”1”；<br>执行s.intern()无效，因为字符串常量池已经存在“1”；<br>行3执行会使s2指向字符串常量池中的”1”；<br>因为s和s2的内存地址不同，故输出false。<br>行6会在堆中生成2个不同的”1”，以及1个”11”，s3指向堆中的”11”，在池中生成”1”，但因为已经有了，所以跳过；<br>行7会把堆中的”11”复制到池中，行8会使s4指向池中的”11”；<br>s3和s4内存地址不同，故输出false。</p>
+<p>在JDK 1.7中，第一个false的原因和JDK 1.6一模一样；<br>行6会在堆中生成2个”1”和1个”11”，；<br>行7不会在池中生成一个”11”，但会存储指向堆中的”11”的引用，即&amp;”11”；<br>行8使s4指向池中的&amp;”11”，换言之，即指向堆中的”11”；<br>所以s3和s4指向相同的内存地址，故输出true。</p>
+<p>如果把代码稍加修改，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">String s = <span class="keyword">new</span> String(<span class="string">"1"</span>);  </div><div class="line">String s2 = <span class="string">"1"</span>;  </div><div class="line">s.intern();  </div><div class="line">System.out.println(s == s2);  </div><div class="line">  </div><div class="line">String s3 = <span class="keyword">new</span> String(<span class="string">"1"</span>) + <span class="keyword">new</span> String(<span class="string">"1"</span>);  </div><div class="line">String s4 = <span class="string">"11"</span>;  </div><div class="line">s3.intern();  </div><div class="line">System.out.println(s3 == s4);</div></pre></td></tr></table></figure></p>
+<p>在JDK 1.6和JDK 1.7中都将输出两个false。<br>原因如下：<br>在JDK 1.6中，行1会在池中和堆中都生成”1”；<br>行2使s2指向池中的”1”，行3无效，因池中已经存在”1”了；<br>故s和s2内存地址不同，输出为false。<br>行6在堆中生成2个”1”，和1个”11”，且s3指向”11”；<br>行7在池中生成”11”，行8无效，因池中已经存在”11”；<br>故s3和s4内存地址不同，输出为false。</p>
+<p>在JDK 1.7中，分析将与JDK 1.6一模一样，此处省略。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.csdn.net/seu_calvin/article/details/52291082" rel="external nofollow noopener noreferrer" target="_blank">你真的了解String类的intern()方法吗</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;String.intern()是一个Native方法，它的作用是：如果字符串常量池中已经包含了一个等于（由Object的equals方法判断）此String对象的字符串，则返回代表池中这个字符串的String对象；否则，将此String对象包含的字符串添加到常量池中，并且返回此String对象的引用。在JDK 1.6及之前的版本中，常量池分配在永久代中，从JDK 1.7开始，常量池分配在堆中。在JDK 1.6及之前，intern()方法会把首次遇到的字符串实例复制到永久代中，返回的也是永久代中这个字符串实例的引用，而JDK 1.7及之后则不会再复制实例，只是在常量池中记录首次出现的实例引用。&lt;br&gt;可以这样理解：String.intern()方法返回一个字符串，返回的字符串与调用intern()方法的字符串内容相同，但是intern()返回的字符串必然来自字符串常量池中。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Java" scheme="http://blade6.top/categories/Java/"/>
+    
+    
+      <category term="String" scheme="http://blade6.top/tags/String/"/>
+    
+      <category term="Heap" scheme="http://blade6.top/tags/Heap/"/>
+    
+      <category term="ConstantPool" scheme="http://blade6.top/tags/ConstantPool/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>动态绑定</title>
+    <link href="http://blade6.top/posts/568964dc/"/>
+    <id>http://blade6.top/posts/568964dc/</id>
+    <published>2017-10-11T06:20:42.309Z</published>
+    <updated>2017-10-11T15:49:56.856Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Java虚拟机调用一个类方法时，它会基于对象引用的类型(通常在编译时可知)来选择所调用的方法。相反，当虚拟机调用一个实例方法时，它会基于对象实际的类型(只能在运行时得知)来选择所调用的方法，这就是动态绑定，是多态的一种。<br>比如代码：</p>
+<blockquote>
+<p>Object a = new String(“a”);</p>
+</blockquote>
+<p>a的声明类型是Object，实际类型是String。<strong>声明类型用于编译期进行检查，实际类型用于运行期动态绑定。</strong><br>例如：假设A继承于B，B重写了toString()方法</p>
+<blockquote>
+<p>Object a = new A();<br>a.toString();</p>
+</blockquote>
+<a id="more"></a>
+<p>因为a的声明类型是Object，所以在编译期会进行检查Object类是否有toString()方法，如果没有就会编译不通过。<br>在运行期，调用toString()方法时，首先会调用a的实际类型中定义的toString()方法，然后JVM发现A类中没有toString()方法，于是去找A的父类B，发现有toString()方法，于是调用了定义在B类中的toString()方法。<br>因此，<strong>所谓动态绑定，就是声明类型与实际类型不一致时，JVM会按照继承链去调用方法，首先从实际类型去找，找不到的话，就去其父类（或父接口）中寻找，一定会在到达声明类型之前找到或者是声明类型中定义了该方法</strong>（如果声明类型中也没定义该方法，则编译根本不通过，也没有后面那么多事了）。<strong>注意，这里提到的这个方法，是一个重写方法</strong>，这里有两个信息量，一是方法，换言之，成员变量不具有动态绑定，JVM会直接用声明类型的成员变量；二是重写，重载不具有动态绑定的效果，实例二中会进一步解释这一点。</p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>下面我们通过实例来进一步理解：<br>实例一：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Wine</span> </span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun1</span><span class="params">()</span></span>&#123;  </div><div class="line">        System.out.println(<span class="string">"Wine 的Fun....."</span>);  </div><div class="line">        fun2();  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun2</span><span class="params">()</span></span>&#123;  </div><div class="line">        System.out.println(<span class="string">"Wine 的Fun2..."</span>);  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">JNC</span> <span class="keyword">extends</span> <span class="title">Wine</span></span>&#123;   </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun1</span><span class="params">(String a)</span></span>&#123;  </div><div class="line">        System.out.println(<span class="string">"JNC 的 Fun1..."</span>);  </div><div class="line">        fun2();  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun2</span><span class="params">()</span></span>&#123;  </div><div class="line">        System.out.println(<span class="string">"JNC 的Fun2..."</span>);  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        Wine a = <span class="keyword">new</span> JNC();  </div><div class="line">        a.fun1();  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里的输出结果是</p>
+<blockquote>
+<p>Wine 的Fun…..<br>JNC 的Fun2…</p>
+</blockquote>
+<p>首先，在main()方法中，a的声明类型为Wine，而Wine中有fun1()方法，所以编译通过。然后运行期会首先去a的实际类型JNC中寻找它重写父类的fun1()方法，没有找到，于是去其父类Wine也即声明类型中寻找，无疑找到fun1()方法，调用该fun1()方法，首先输出“Wine 的Fun…..”然后，在该fun1()方法中又继续调用了fun2()，JVM会继续执行寻找过程：首先去a的实际类型JNC中寻找它重写父类的fun2()方法，结果找到了，于是输出“JNC 的Fun2…”。</p>
+<p>实例二：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(D obj)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> (<span class="string">"A and D"</span>);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(A obj)</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> (<span class="string">"A and A"</span>);  </div><div class="line">    &#125;   </div><div class="line">  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(B obj)</span></span>&#123;  </div><div class="line">        <span class="keyword">return</span> (<span class="string">"B and B"</span>);  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(A obj)</span></span>&#123;  </div><div class="line">        <span class="keyword">return</span> (<span class="string">"B and A"</span>);  </div><div class="line">    &#125;   </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;  </div><div class="line">  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;  </div><div class="line">  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        A a1 = <span class="keyword">new</span> A();  </div><div class="line">        A a2 = <span class="keyword">new</span> B();  </div><div class="line">        B b = <span class="keyword">new</span> B();  </div><div class="line">        C c = <span class="keyword">new</span> C();  </div><div class="line">        D d = <span class="keyword">new</span> D();  </div><div class="line">          </div><div class="line">        System.out.println(<span class="string">"1--"</span> + a1.show(b));  </div><div class="line">        System.out.println(<span class="string">"2--"</span> + a1.show(c));  </div><div class="line">        System.out.println(<span class="string">"3--"</span> + a1.show(d));  </div><div class="line">        System.out.println(<span class="string">"4--"</span> + a2.show(b));  </div><div class="line">        System.out.println(<span class="string">"5--"</span> + a2.show(c));  </div><div class="line">        System.out.println(<span class="string">"6--"</span> + a2.show(d));  </div><div class="line">        System.out.println(<span class="string">"7--"</span> + b.show(b));  </div><div class="line">        System.out.println(<span class="string">"8--"</span> + b.show(c));  </div><div class="line">        System.out.println(<span class="string">"9--"</span> + b.show(d));        </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果为：</p>
+<blockquote>
+<p>1–A and A<br>2–A and A<br>3–A and D<br>4–B and A<br>5–B and A<br>6–A and D<br>7–B and B<br>8–B and B<br>9–A and D</p>
+</blockquote>
+<p>1、2、3都很好理解，无非是考察重载和自动类型转换。4中a2的声明类型为A，实际类型为B，在4中调用show()方法，传入B类型的参数：因为声明类型和实际类型不一致，这里要用到动态绑定。首先在B中寻找签名为show(B b)的方法，注意这个方法要求是重写父类中的方法，在B中找到了签名为show(B b)的方法，但B的父类中没有这个签名的方法，所以这里不是重写，是重载，这个方法不符合动态绑定的定义，不能被调用，这说明B中没有符合要求的方法，于是去B的父类中寻找，自然也找不到，于是去Object类中寻找，无功而返；这就进行到下一步，把传入的参数进行向上转型为A类型，然后在a2的实际类型中寻找签名为show(A a)的方法，这里找到了，于是调用该方法，输出“4–B and A”。<br>后面的案例同理。</p>
+<p>动态绑定的总结：</p>
+<blockquote>
+<p>当超类对象引用变量引用子类对象时，被引用对象的类型而不是引用变量的类型决定了调用谁的成员方法，但是这个被调用的方法必须是在超类中定义过的，也就是说被子类覆盖的方法，但是它仍然要根据继承链中方法调用的优先级来确认方法，该优先级为：this.show(O)、super.show(O)、this.show((super)O)、super.show((super)O)。</p>
+</blockquote>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.csdn.net/chenssy/article/details/12786385" rel="external nofollow noopener noreferrer" target="_blank">理解java的三大特性之多态</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot; title=&quot;基本概念&quot;&gt;&lt;/a&gt;基本概念&lt;/h3&gt;&lt;p&gt;Java虚拟机调用一个类方法时，它会基于对象引用的类型(通常在编译时可知)来选择所调用的方法。相反，当虚拟机调用一个实例方法时，它会基于对象实际的类型(只能在运行时得知)来选择所调用的方法，这就是动态绑定，是多态的一种。&lt;br&gt;比如代码：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Object a = new String(“a”);&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;a的声明类型是Object，实际类型是String。&lt;strong&gt;声明类型用于编译期进行检查，实际类型用于运行期动态绑定。&lt;/strong&gt;&lt;br&gt;例如：假设A继承于B，B重写了toString()方法&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Object a = new A();&lt;br&gt;a.toString();&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Java" scheme="http://blade6.top/categories/Java/"/>
+    
+    
+      <category term="OOP" scheme="http://blade6.top/tags/OOP/"/>
+    
+      <category term="Polymorphism" scheme="http://blade6.top/tags/Polymorphism/"/>
+    
+      <category term="Override" scheme="http://blade6.top/tags/Override/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>内部类</title>
+    <link href="http://blade6.top/posts/9bc01b38/"/>
+    <id>http://blade6.top/posts/9bc01b38/</id>
+    <published>2017-10-11T03:15:45.915Z</published>
+    <updated>2017-10-11T15:50:28.401Z</updated>
+    
+    <content type="html"><![CDATA[<p>内部类<br>以下四种内部类都可以在其内部在定义内部类，至于这些内内部类将视为内部类的成员变量或方法代码块，受到成员变量的限制或方法的限制。比如，匿名内部类里不能有static变量，所以其内部不能有嵌套内部类，而嵌套内部类允许内部有嵌套内部类。<br><a id="more"></a></p>
+<h3 id="成员内部类"><a href="#成员内部类" class="headerlink" title="成员内部类"></a>成员内部类</h3><p>作为外部类的一个成员存在。<br>成员内部类可以访问它的外部类的所有成员变量和方法，不管是静态的还是非静态的。访问静态变量则“类名.变量”，访问非静态变量则使用“类名.this.变量”，方法同理。<br>在外部类里面创建成员内部类的实例可以直接<code>new memberClass()</code>或者<code>this.new memberClass()</code>。如果在外部类之外创建内部类的实例则需要先创建外部类的实例，然后再创建成员内部类的实例，如<code>(new outerClass()).new memberClass()</code>。<br>成员内部类中不能有静态方法，也不能有静态变量，同时也不允许静态代码块。但是可以有静态常量，也就是static和final同时出现修饰变量。<br>可以是抽象类。</p>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>比成员内部类多了一个static修饰，又称嵌套内部类。<br>静态内部类只能访问它的外部类的静态变量和静态方法。外部类的变量和方法通过<code>类名.变量</code>、<code>类名.方法</code>只能访问静态内部类的静态变量和静态方法，通过new构建实例可以访问静态内部类的非静态变量和非静态方法。<br>静态内部类中可以有静态变量、方法，也可以有非静态变量、方法，还可以有静态代码块。<br>这里说一句，对于内部类，Java虚拟机会生成对应的Class文件，因此实际上静态内部类作为一个类，有和其所在外部类隔离的地方，体现在比如静态内部类有静态代码块，但是该静态代码块可以读取出现在其后面定义的外部的静态变量的值，外部类的静态代码块也可以读取定义在其后面的静态内部类中的静态变量的值。<br>可以是抽象类。</p>
+<h3 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h3><p>又称方法内部类，定义在方法中，作用域就在方法内部。<br>像局部变量一样，不能被public, protected, private和static修饰。但可以被final或abstract修饰。<br>不能有静态变量或方法，可以有静态常量。<br>可以是抽象类，可以有抽象方法。<br>局部内部类内部是否能访问外部类的静态变量或方法取决于该局部内部类在静态方法中还是在非静态方法中。<br>局部内部类只能访问所在方法定义的常量，而不能访问所在方法中定义的变量。<br>这里多说一句，Java局部变量只允许被final修饰。</p>
+<h3 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h3><p>匿名内部类就是没有名字的内部类。<br>匿名内部类为局部内部类，所以局部内部类的所有限制同样对匿名内部类生效。换言之，局部内部类不能做的事情，匿名内部类也不能做，但是局部内部类能做的事情，匿名内部类未必能做。<br>在使用的时候都是<code>new parentClass(){}</code>或<code>new parentInterface(){}</code>的形式，所以它没有自己的名字，因此其内部不能有构造函数。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Thread t = <span class="keyword">new</span> Thread() &#123;</div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</div><div class="line">                    System.out.print(i + <span class="string">" "</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        t.start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Runnable r = <span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</div><div class="line">                    System.out.print(i + <span class="string">" "</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        Thread t = <span class="keyword">new</span> Thread(r);</div><div class="line">        t.start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>又或者<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Person p = <span class="keyword">new</span> Person() &#123;</div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"eat something"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        p.eat();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>匿名内部类中的方法不能是抽象的，匿名内部类必须实现它的父类或接口中的所有抽象方法。在创建匿名内部类的时候，已经通过new创建实例了，自然不能是抽象的。<br>匿名内部类会继承一个父类（有且只有一个）或实现一个接口（有且只有一个）。<br>匿名内部类不能定义任何静态成员变量、方法、代码块，但可以定义静态成员常量。<br>匿名内部类内部是否能访问外部类的静态变量或方法取决于该匿名内部类在静态方法中还是在非静态方法中。</p>
+<p>匿名内部类如果所在的方法有形参，而且在匿名内部类里使用了该形参，则该形参必然是final类型的，否则编译不通过（因为Android中经常使用匿名内部类，所以这一条，Android开发者非常了解）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpUtil</span> </span>&#123;</div><div class="line">​</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendHttpRequest</span><span class="params">(<span class="keyword">final</span> String address, </span></span></div><div class="line">            <span class="keyword">final</span> HttpCallbackListener listener) &#123;</div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;         </div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                HttpURLConnection connection = <span class="keyword">null</span>;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    URL url = <span class="keyword">new</span> URL(address);</div><div class="line">                    connection = (HttpURLConnection) url.openConnection();</div><div class="line">                    connection.setRequestMethod(<span class="string">"GET"</span>);</div><div class="line">                    connection.setConnectTimeout(<span class="number">8000</span>);</div><div class="line">                    connection.setReadTimeout(<span class="number">8000</span>);</div><div class="line">                    InputStream in = connection.getInputStream();</div><div class="line">                    BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(in));</div><div class="line">                    StringBuilder response = <span class="keyword">new</span> StringBuilder();</div><div class="line">                    String line;</div><div class="line">                    <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                        response.append(line);</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">                        listener.onFinish(response.toString());</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">                        listener.onError(e);</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    <span class="keyword">if</span> (connection != <span class="keyword">null</span>) &#123;</div><div class="line">                        connection.disconnect();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是CoolWeather项目中的一个文件，从上可以看出这一点。<br>而这又是为什么呢？<br>首先我们知道在内部类编译成功后，它会产生一个class文件，该class文件与外部类并不是同一class文件，仅仅只保留对外部类的引用。当外部类传入的参数需要被内部类调用时，从Java程序的角度来看是直接被调用，实际上是内部类利用自身的构造器对传入的参数进行备份，自己内部方法调用的实际上是自己的属性而不是外部方法传递进来的参数。<br>在内部类中的属性和外部方法的参数两者从外表上看是同一个东西，但实际上却不是，所以他们两者是可以任意变化的，也就是说在内部类中我对属性的改变并不会影响到外部的形参，然而这从程序员的角度来看这是不可行的，毕竟站在程序的角度来看这两个根本就是同一个，如果内部类里改变了，而外部方法的形参却没有改变这是难以理解和不可接受的，所以为了保持参数的一致性，就规定使用final来避免形参的不改变。<br>简而言之，拷贝引用，为了避免引用值发生改变，例如被外部类的方法修改等，而导致内部类得到的值不一致，于是用final来让该引用不可改变。故如果定义了一个匿名内部类，并且希望它使用一个其外部定义的参数，那么编译器会要求该参数引用是final的。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="http://www.cnblogs.com/lgk1002/p/6069784.html" rel="external nofollow noopener noreferrer" target="_blank">java基础：熟悉3种内部类的写法，重点匿名内部类的使用</a><br><a href="http://blog.csdn.net/chenssy/article/details/13170015" rel="external nofollow noopener noreferrer" target="_blank">详解匿名内部类</a><br><a href="http://android.blog.51cto.com/268543/384844" rel="external nofollow noopener noreferrer" target="_blank">Java内部类的使用小结</a><br><a href="http://android.blog.51cto.com/268543/384809" rel="external nofollow noopener noreferrer" target="_blank">【解惑】领略Java内部类的“内部”</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;内部类&lt;br&gt;以下四种内部类都可以在其内部在定义内部类，至于这些内内部类将视为内部类的成员变量或方法代码块，受到成员变量的限制或方法的限制。比如，匿名内部类里不能有static变量，所以其内部不能有嵌套内部类，而嵌套内部类允许内部有嵌套内部类。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Java" scheme="http://blade6.top/categories/Java/"/>
+    
+    
+      <category term="OOP" scheme="http://blade6.top/tags/OOP/"/>
+    
+      <category term="InnerClass" scheme="http://blade6.top/tags/InnerClass/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Java的static关键字</title>
     <link href="http://blade6.top/posts/584c0905/"/>
     <id>http://blade6.top/posts/584c0905/</id>
     <published>2017-09-10T02:35:30.750Z</published>
-    <updated>2017-09-10T02:43:26.307Z</updated>
+    <updated>2017-10-11T15:52:32.937Z</updated>
     
     <content type="html"><![CDATA[<p>通常，在一个类中定义一个方法为static，那就是说，无需本类的对象即可调用此方法，关于static方法，声明为static的方法有以下几条限制：</p>
 <ul>
@@ -67,10 +199,12 @@
     
     </summary>
     
-      <category term="编程" scheme="http://blade6.top/categories/%E7%BC%96%E7%A8%8B/"/>
+      <category term="Java" scheme="http://blade6.top/categories/Java/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+      <category term="Keywords" scheme="http://blade6.top/tags/Keywords/"/>
+    
+      <category term="static" scheme="http://blade6.top/tags/static/"/>
     
   </entry>
   
@@ -79,7 +213,7 @@
     <link href="http://blade6.top/posts/ca675cd4/"/>
     <id>http://blade6.top/posts/ca675cd4/</id>
     <published>2017-09-10T02:12:24.461Z</published>
-    <updated>2017-09-10T02:18:43.432Z</updated>
+    <updated>2017-10-11T15:53:12.472Z</updated>
     
     <content type="html"><![CDATA[<p>github:<br>ssh生成的.pub文件查看方法：cmd进入所在目录后用“more 文件名”查看。</p>
 <p>安装git后的第一个命令：<br>git config –global user.name “Your name”<br>git config –global user.email “Your email”</p>
@@ -169,8 +303,10 @@
     
     </summary>
     
-      <category term="Tools" scheme="http://blade6.top/categories/Tools/"/>
+      <category term="Programming" scheme="http://blade6.top/categories/Programming/"/>
     
+    
+      <category term="Tools" scheme="http://blade6.top/tags/Tools/"/>
     
       <category term="Git" scheme="http://blade6.top/tags/Git/"/>
     
@@ -181,7 +317,7 @@
     <link href="http://blade6.top/posts/c7aac6b0/"/>
     <id>http://blade6.top/posts/c7aac6b0/</id>
     <published>2017-08-07T16:24:00.353Z</published>
-    <updated>2017-09-10T02:54:19.107Z</updated>
+    <updated>2017-10-11T15:51:34.499Z</updated>
     
     <content type="html"><![CDATA[<h3 id="getClass"><a href="#getClass" class="headerlink" title="getClass()"></a>getClass()</h3><blockquote>
 <p>Returns the runtime class of this Object. The returned Class object is the object that is locked by static synchronized methods of the represented class. </p>
@@ -244,12 +380,14 @@
     
     </summary>
     
-      <category term="源码" scheme="http://blade6.top/categories/%E6%BA%90%E7%A0%81/"/>
+      <category term="Java" scheme="http://blade6.top/categories/Java/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+      <category term="SourceCode" scheme="http://blade6.top/tags/SourceCode/"/>
     
-      <category term="源码解读" scheme="http://blade6.top/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+      <category term="Object" scheme="http://blade6.top/tags/Object/"/>
+    
+      <category term="Class" scheme="http://blade6.top/tags/Class/"/>
     
   </entry>
   
@@ -258,7 +396,7 @@
     <link href="http://blade6.top/posts/c12d9bbd/"/>
     <id>http://blade6.top/posts/c12d9bbd/</id>
     <published>2017-05-21T02:12:54.530Z</published>
-    <updated>2017-05-21T02:20:01.495Z</updated>
+    <updated>2017-10-11T15:56:09.902Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>节选自《实战Java高并发程序设计》，有删改</p>
@@ -304,12 +442,12 @@
     
     </summary>
     
-      <category term="编程" scheme="http://blade6.top/categories/%E7%BC%96%E7%A8%8B/"/>
+      <category term="Programming" scheme="http://blade6.top/categories/Programming/"/>
     
     
-      <category term="编译原理" scheme="http://blade6.top/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="Excerpts" scheme="http://blade6.top/tags/Excerpts/"/>
     
-      <category term="节选" scheme="http://blade6.top/tags/%E8%8A%82%E9%80%89/"/>
+      <category term="Assemble" scheme="http://blade6.top/tags/Assemble/"/>
     
   </entry>
   
@@ -318,7 +456,7 @@
     <link href="http://blade6.top/posts/9799a86c/"/>
     <id>http://blade6.top/posts/9799a86c/</id>
     <published>2017-05-03T08:17:20.647Z</published>
-    <updated>2017-05-03T08:20:16.937Z</updated>
+    <updated>2017-10-11T15:59:57.058Z</updated>
     
     <content type="html"><![CDATA[<p>罗马数字转整数。首先需要知道罗马数字的表示，百度一下就能找到。然后我首先想到了用HashMap把罗马符号和它对应的数字存起来，方便之后取用。<br><a id="more"></a><br>于是写出了第一个程序：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">romanToInt</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">    String[] signs = <span class="keyword">new</span> String[]&#123;</div><div class="line">        <span class="string">"I"</span>,<span class="string">"II"</span>,<span class="string">"III"</span>,<span class="string">"IV"</span>,<span class="string">"V"</span>,<span class="string">"VI"</span>,<span class="string">"VII"</span>,<span class="string">"VIII"</span>,<span class="string">"IX"</span>,</div><div class="line">        <span class="string">"X"</span>,<span class="string">"XX"</span>,<span class="string">"XXX"</span>,<span class="string">"XL"</span>,<span class="string">"L"</span>,<span class="string">"LX"</span>,<span class="string">"LXX"</span>,<span class="string">"LXXX"</span>,<span class="string">"XC"</span>,</div><div class="line">        <span class="string">"C"</span>,<span class="string">"CC"</span>,<span class="string">"CCC"</span>,<span class="string">"CD"</span>,<span class="string">"D"</span>,<span class="string">"DC"</span>,<span class="string">"DCC"</span>,<span class="string">"DCCC"</span>,<span class="string">"CM"</span>,</div><div class="line">        <span class="string">"M"</span>,<span class="string">"MM"</span>,<span class="string">"MMM"</span>&#125;;</div><div class="line">    <span class="keyword">int</span>[] number = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;</div><div class="line">        <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,</div><div class="line">        <span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>,<span class="number">50</span>,<span class="number">60</span>,<span class="number">70</span>,<span class="number">80</span>,<span class="number">90</span>,</div><div class="line">        <span class="number">100</span>,<span class="number">200</span>,<span class="number">300</span>,<span class="number">400</span>,<span class="number">500</span>,<span class="number">600</span>,<span class="number">700</span>,<span class="number">800</span>,<span class="number">900</span>,</div><div class="line">        <span class="number">1000</span>,<span class="number">2000</span>,<span class="number">3000</span></div><div class="line">    &#125;;</div><div class="line">    HashMap&lt;String, Integer&gt; num = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; signs.length; i++) &#123;</div><div class="line">        num.put(signs[i], number[i]);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">int</span> length = s.length();</div><div class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length;) &#123;</div><div class="line">        <span class="keyword">if</span> (length - i &gt;= <span class="number">4</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (num.containsKey(s.substring(i, i + <span class="number">4</span>))) &#123;</div><div class="line">                result += num.get(s.substring(i, i + <span class="number">4</span>));</div><div class="line">                i += <span class="number">4</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;    </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (length - i &gt;= <span class="number">3</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (num.containsKey(s.substring(i, i + <span class="number">3</span>))) &#123;</div><div class="line">                result += num.get(s.substring(i, i + <span class="number">3</span>));</div><div class="line">                i += <span class="number">3</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;        </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (length - i &gt;= <span class="number">2</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (num.containsKey(s.substring(i, i + <span class="number">2</span>))) &#123;</div><div class="line">                result += num.get(s.substring(i, i + <span class="number">2</span>));</div><div class="line">                i += <span class="number">2</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;    </div><div class="line">        &#125;</div><div class="line">        result += num.get(s.substring(i, i + <span class="number">1</span>));</div><div class="line">        ++i;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>提交后虽然AC了，但是排名12%还是不太满意。仔细看看程序，发现可以优化，VIII实际上只需要存V和I就行了，并不需要单独存储。这样一来，程序可以简化如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">romanToInt</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">    String[] signs = <span class="keyword">new</span> String[]&#123;</div><div class="line">        <span class="string">"I"</span>,<span class="string">"IV"</span>,<span class="string">"V"</span>,<span class="string">"VI"</span>,<span class="string">"IX"</span>,</div><div class="line">        <span class="string">"X"</span>,<span class="string">"XL"</span>,<span class="string">"L"</span>,<span class="string">"LX"</span>,<span class="string">"XC"</span>,</div><div class="line">        <span class="string">"C"</span>,<span class="string">"CD"</span>,<span class="string">"D"</span>,<span class="string">"DC"</span>,<span class="string">"CM"</span>,</div><div class="line">        <span class="string">"M"</span>&#125;;</div><div class="line">    <span class="keyword">int</span>[] number = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;</div><div class="line">        <span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">9</span>,</div><div class="line">        <span class="number">10</span>,<span class="number">40</span>,<span class="number">50</span>,<span class="number">60</span>,<span class="number">90</span>,</div><div class="line">        <span class="number">100</span>,<span class="number">400</span>,<span class="number">500</span>,<span class="number">600</span>,<span class="number">900</span>,</div><div class="line">        <span class="number">1000</span></div><div class="line">    &#125;;</div><div class="line">    HashMap&lt;String, Integer&gt; num = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; signs.length; i++)</div><div class="line">        num.put(signs[i], number[i]);</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length();) &#123;</div><div class="line">        <span class="keyword">if</span> (i + <span class="number">1</span> &lt; s.length()) &#123;</div><div class="line">            <span class="keyword">if</span> (num.containsKey(s.substring(i, i+<span class="number">2</span>))) &#123;</div><div class="line">                result += num.get(s.substring(i, i+<span class="number">2</span>));</div><div class="line">                i += <span class="number">2</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                result += num.get(s.substring(i, i+<span class="number">1</span>));</div><div class="line">                ++i;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            result += num.get(s.substring(i, i+<span class="number">1</span>));</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -333,14 +471,12 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
-    
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
       <category term="String" scheme="http://blade6.top/tags/String/"/>
+    
+      <category term="Easy" scheme="http://blade6.top/tags/Easy/"/>
     
   </entry>
   
@@ -349,7 +485,7 @@
     <link href="http://blade6.top/posts/ecbf921f/"/>
     <id>http://blade6.top/posts/ecbf921f/</id>
     <published>2017-05-02T13:13:24.234Z</published>
-    <updated>2017-05-03T08:20:16.941Z</updated>
+    <updated>2017-10-11T16:00:10.887Z</updated>
     
     <content type="html"><![CDATA[<p>把字符串转整数。这是一道考察代码健壮性的题目。当我第一次写好代码以为自己很厉害时，现实很快就狠狠地打脸。<br>我觉得代码之所以没写好，主要是想象力不够。总是有些脑回路特殊的人写出一些出乎意料的TestCase，真够变态的。<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">myAtoi</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">    <span class="comment">// 处理字符串包含空格的情况，比如"   010"</span></div><div class="line">    str = str.trim();</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (str == <span class="keyword">null</span> || str.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;   </div><div class="line">    <span class="keyword">if</span> (str.length() == <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (!Character.isDigit(str.charAt(<span class="number">0</span>))) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">return</span> str.charAt(<span class="number">0</span>) - <span class="string">'0'</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">char</span>[] array = str.toCharArray();</div><div class="line">    <span class="comment">// 默认为正数</span></div><div class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span> (array[<span class="number">0</span>] == <span class="string">'-'</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (Character.isDigit(array[<span class="number">1</span>])) &#123;</div><div class="line">            ans = - (array[<span class="number">1</span>] - <span class="string">'0'</span>);</div><div class="line">            flag = <span class="keyword">false</span>;</div><div class="line">            index = <span class="number">2</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (array[<span class="number">0</span>] == <span class="string">'+'</span>) &#123;</div><div class="line">        index = <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (; index &lt; array.length ; index++) &#123;</div><div class="line">        <span class="keyword">if</span> (Character.isDigit(array[index])) &#123;</div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (ans * <span class="number">10</span> / <span class="number">10</span> != ans) &#123;</div><div class="line">                <span class="keyword">if</span> (flag) <span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">            &#125; <span class="keyword">else</span> ans *= <span class="number">10</span>;</div><div class="line">            </div><div class="line">            <span class="comment">//System.out.println("ans: " + ans);</span></div><div class="line">            </div><div class="line">            <span class="keyword">if</span> (flag) ans += array[index] - <span class="string">'0'</span>;</div><div class="line">            <span class="keyword">else</span> ans -= array[index] - <span class="string">'0'</span>;</div><div class="line">            </div><div class="line">            <span class="comment">// 当为正数时，结果却为负数，说明溢出了，返回最大正整数</span></div><div class="line">            <span class="keyword">if</span> (ans == Integer.MIN_VALUE &amp;&amp; flag) <span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">            <span class="comment">// 与上述正相反</span></div><div class="line">            <span class="keyword">if</span> (ans == Integer.MAX_VALUE &amp;&amp; !flag) <span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">            </div><div class="line">            <span class="comment">//System.out.println("ans: " + ans);</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> </div><div class="line">            <span class="keyword">return</span> ans;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (index == array.length) <span class="keyword">return</span> ans;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>写出来的代码虽然AC了，但是惨不忍睹，也不便于维护。看了看leetcode大神们写的简洁的代码，每一步都是如此地恰到好处，完美地演绎Just Enough的哲学。而我等小白，路还很长。</p>
@@ -362,12 +498,10 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+      <category term="Medium" scheme="http://blade6.top/tags/Medium/"/>
     
       <category term="String" scheme="http://blade6.top/tags/String/"/>
     
@@ -378,7 +512,7 @@
     <link href="http://blade6.top/posts/64c8f80f/"/>
     <id>http://blade6.top/posts/64c8f80f/</id>
     <published>2017-04-25T02:59:37.092Z</published>
-    <updated>2017-04-25T03:02:24.555Z</updated>
+    <updated>2017-10-11T16:02:48.204Z</updated>
     
     <content type="html"><![CDATA[<p>给定两个非空链表，计算这两个链表所代表的数字的和。比如2-&gt;3-&gt;4和3-&gt;1-&gt;7表示的数字是432和713，需要求出和1145并返回链表5-&gt;4-&gt;1-&gt;1。</p>
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于两个链表都从左往右进行扫描，相加，注意处理边界条件（两个链表一长一短）和进位情况，算法时间复杂度为O(N)。<br><a id="more"></a></p>
@@ -399,12 +533,10 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+      <category term="Medium" scheme="http://blade6.top/tags/Medium/"/>
     
       <category term="List" scheme="http://blade6.top/tags/List/"/>
     
@@ -415,7 +547,7 @@
     <link href="http://blade6.top/posts/8e8877f3/"/>
     <id>http://blade6.top/posts/8e8877f3/</id>
     <published>2017-04-24T08:27:26.188Z</published>
-    <updated>2017-04-24T08:41:02.894Z</updated>
+    <updated>2017-10-11T16:04:26.315Z</updated>
     
     <content type="html"><![CDATA[<p>给定字符串，求出它的不重复最长子串的长度。以下提供两种方法，时间复杂度都是O(N)级别，但因为O(N)只是描述了一个上界，而且是很模糊的，所以以下两个算法的真实运行时间还是有差异的。不过以下两个算法在本质上都是一样的，读者通读代码后不难发现这一点。</p>
 <h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于字符串s，用指针i从左往右顺序扫描该字符串，用temp记录当前的子字符串。当i所指向的字符未在temp中出现时，则temp加上i所指向的字符，同时i右移一位。当i所指向的字符x已经出现了时，判断temp的长度和最大值max，以决定是否将temp的长度赋给max。则temp应自行截断从起点到x为止的字符串，然后temp的剩余部分加上i所指向的字符构成新的temp，同时i右移一位。需要注意的是整个循环结束后，仍然要判断temp的长度和max的大小，因为循环体会漏掉最后一次判断。<br><a id="more"></a></p>
@@ -434,12 +566,10 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+      <category term="Medium" scheme="http://blade6.top/tags/Medium/"/>
     
       <category term="String" scheme="http://blade6.top/tags/String/"/>
     
@@ -450,7 +580,7 @@
     <link href="http://blade6.top/posts/b8913e5e/"/>
     <id>http://blade6.top/posts/b8913e5e/</id>
     <published>2017-04-23T14:05:29.819Z</published>
-    <updated>2017-04-24T12:07:34.763Z</updated>
+    <updated>2017-10-11T16:03:44.532Z</updated>
     
     <content type="html"><![CDATA[<p>给定数组，求数组中的所有子串中最大的子串和。<br>很容易就能想到O(n^3)的算法，一个一个遍历，但一定会超时的。下面介绍两种方法，第一种的时间复杂度为O(NlogN)，但是仍然超时，第二种为O(N)。</p>
 <h2 id="分治法"><a href="#分治法" class="headerlink" title="分治法"></a>分治法</h2><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于给定数组，可以把该数组分成两部分，左半部分和右半部分。对于该数组的最大的子串和，要么出现在左半部分，要么出现在右半部分，要么出现在左半部分和右半部分的交叉部分。对于交叉部分，一定是从中间向两侧扩散的，写代码的时候要注意这一点。<br><a id="more"></a></p>
@@ -470,16 +600,14 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
-    
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
       <category term="Array" scheme="http://blade6.top/tags/Array/"/>
     
-      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
+      <category term="Divide&amp;Rule" scheme="http://blade6.top/tags/Divide-Rule/"/>
+    
+      <category term="Easy" scheme="http://blade6.top/tags/Easy/"/>
     
   </entry>
   
@@ -488,7 +616,7 @@
     <link href="http://blade6.top/posts/c59bb016/"/>
     <id>http://blade6.top/posts/c59bb016/</id>
     <published>2017-04-23T02:38:48.778Z</published>
-    <updated>2017-04-24T08:39:10.818Z</updated>
+    <updated>2017-10-11T16:11:46.326Z</updated>
     
     <content type="html"><![CDATA[<p>给定n，求n对括号可以生成的括号嵌套种数。这道题其实不难，很快就能想出解题思路。</p>
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于n，记录的是括号的数目，本质上也是左括号和右括号的出现次数。假设t记录左括号的剩余出现次数，cur记录当前未匹配的左括号个数，str记录单次结果，str的长度是固定的，必然是2n。<br>首先要初始化：t=n，cur=0，str=””。当循环开始时，第1个符号必须是左括号，然后t-=1，表示左括号的剩余出现次数变成n-1了。同时str+=”(“，cur+=1，表示str中有1个左括号未匹配。<br><a id="more"></a><br>对于第i个符号：<br>如果t==0且cur==0，说明循环结束，将str加到结果集中。<br>如果t==0，说明左括号的剩余出现次数已用完，那么第i个符号只能取右括号，同时cur-=1；<br>如果cur==0，说明str中不存在未匹配的左括号，那么第i个符号只能取左括号，同时t-=1；<br>如果t&gt;0且cur&gt;0，则第i个符号可以是左括号也可以是右括号，如果第i个符号取左括号，那么t-=1，cur+=1，如果第i个符号取右括号，那么cur-=1。<br><strong>注意：因为对于第i个符号，当t&gt;0且cur&gt;0的时候，第i个符号可以有两种取值，所以使用递归会取得事半功倍的效果。</strong></p>
@@ -503,14 +631,12 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+      <category term="Medium" scheme="http://blade6.top/tags/Medium/"/>
     
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
-    
-      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
+      <category term="Divide&amp;Rule" scheme="http://blade6.top/tags/Divide-Rule/"/>
     
   </entry>
   
@@ -519,7 +645,7 @@
     <link href="http://blade6.top/posts/a72883c7/"/>
     <id>http://blade6.top/posts/a72883c7/</id>
     <published>2017-04-22T07:20:51.174Z</published>
-    <updated>2017-04-24T08:37:24.508Z</updated>
+    <updated>2017-10-11T16:08:17.633Z</updated>
     
     <content type="html"><![CDATA[<p>合并两个有序链表。因为是链表，所以可以写出空间复杂度为O(1)的算法。</p>
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于这两条链表，给定指针l1和l2，分别指向两条链表的结点。给定指针result，指向结果链表的尾结点。每次比较l1指向结点和l2指向结点的值的大小，然后把小的那个结点插入到结果链表的尾部，同时使存储该结点的指针指向其下一个结点，结果链表的指针result指向下一个结点。注意result每次都指向结果链表的尾结点，而不是尾结点的next部，否则会导致空指针错误。<br><a id="more"></a><br>操作如图：<br>橙色为上一步，蓝色为下一步。</p>
@@ -536,16 +662,14 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
-    
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
       <category term="List" scheme="http://blade6.top/tags/List/"/>
     
-      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
+      <category term="Divide&amp;Rule" scheme="http://blade6.top/tags/Divide-Rule/"/>
+    
+      <category term="Easy" scheme="http://blade6.top/tags/Easy/"/>
     
   </entry>
   
@@ -554,7 +678,7 @@
     <link href="http://blade6.top/posts/bbe3cb45/"/>
     <id>http://blade6.top/posts/bbe3cb45/</id>
     <published>2017-04-22T03:35:30.327Z</published>
-    <updated>2017-04-28T09:33:15.148Z</updated>
+    <updated>2017-10-11T16:01:55.867Z</updated>
     
     <content type="html"><![CDATA[<p>这道题是实现内置函数pow(x,n)。思路没什么复杂的，我很快就想出了第一个答案：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">myPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1.0</span>;</div><div class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> x;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> m = n;</div><div class="line">        <span class="keyword">if</span>(n &lt; <span class="number">0</span>) m = -n;</div><div class="line">        <span class="keyword">double</span> result = x;</div><div class="line">        </div><div class="line">        <span class="keyword">while</span>(m &gt; <span class="number">1</span>) &#123;</div><div class="line">            result *= x;</div><div class="line">            --m;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span>(n &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span> / result;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <a id="more"></a>
@@ -573,14 +697,12 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+      <category term="Medium" scheme="http://blade6.top/tags/Medium/"/>
     
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
-    
-      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
+      <category term="Divide&amp;Rule" scheme="http://blade6.top/tags/Divide-Rule/"/>
     
   </entry>
   
@@ -589,7 +711,7 @@
     <link href="http://blade6.top/posts/6d08e17c/"/>
     <id>http://blade6.top/posts/6d08e17c/</id>
     <published>2017-04-20T16:10:43.434Z</published>
-    <updated>2017-04-24T08:34:44.096Z</updated>
+    <updated>2017-10-11T16:08:54.443Z</updated>
     
     <content type="html"><![CDATA[<p>一开始看到题目的时候，我是搞不清楚情况的。主要原因是不明白ZigZag的意思。</p>
 <h3 id="ZigZag"><a href="#ZigZag" class="headerlink" title="ZigZag"></a>ZigZag</h3><p>比如有数字序列0,1,2,3，…，12，按照ZigZag排序如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">0   4   8     12</div><div class="line">1 3 5 7 9  11</div><div class="line">2   6   10</div></pre></td></tr></table></figure></p>
@@ -609,12 +731,10 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+      <category term="Medium" scheme="http://blade6.top/tags/Medium/"/>
     
       <category term="String" scheme="http://blade6.top/tags/String/"/>
     
@@ -625,7 +745,7 @@
     <link href="http://blade6.top/posts/757ce68a/"/>
     <id>http://blade6.top/posts/757ce68a/</id>
     <published>2017-04-19T13:04:14.632Z</published>
-    <updated>2017-04-24T08:35:43.366Z</updated>
+    <updated>2017-10-11T16:09:18.430Z</updated>
     
     <content type="html"><![CDATA[<p>要求出两个有序数组的中位数，试想，如果我们能够求出两个有序数组合并后的第k个数，那么中位数只是一种特殊情况，问题迎刃而解。<br>题目要求时间复杂度要在O(log(m+n))，通常出现对数，应该考虑分治法。</p>
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>求解两个有序数组的第k个数：<br>假设给定有序数组A和B,A的前指针aLow和后指针aHigh，B的前指针bLow和bHigh，以及k。求出A数组区间[aLow,aHigh]的中间数A[aMid]，B也做同样操作，同时求出A[aLow,aMid]和B[bLow,bMid]一共有多少个数并赋给HalfPart<br><strong>注意是闭区间，所以A[aMid]和B[bMid]都包含在HalfPart里面，HalfPart=A[aLow,aMid]+B[bLow,bMid]</strong>。<br><a id="more"></a></p>
@@ -641,16 +761,14 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
-    
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
       <category term="Array" scheme="http://blade6.top/tags/Array/"/>
     
-      <category term="分治" scheme="http://blade6.top/tags/%E5%88%86%E6%B2%BB/"/>
+      <category term="Divide&amp;Rule" scheme="http://blade6.top/tags/Divide-Rule/"/>
+    
+      <category term="Hard" scheme="http://blade6.top/tags/Hard/"/>
     
   </entry>
   
@@ -659,7 +777,7 @@
     <link href="http://blade6.top/posts/92e6a03a/"/>
     <id>http://blade6.top/posts/92e6a03a/</id>
     <published>2017-04-19T06:20:21.975Z</published>
-    <updated>2017-04-24T08:39:58.107Z</updated>
+    <updated>2017-10-11T16:05:11.488Z</updated>
     
     <content type="html"><![CDATA[<p>3数和为0问题，对于这个问题，网上一致认为，这个问题是两数和问题的升级版，最终能够优化到O(n^2)级别。</p>
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>对于给定数组中的每个下标i，用前指针left指向其下一个数，后指针right指向数组最后的数。如果三个数的和为0，则判断结果是否已出现，如果出现过，不添加，否则添加到结果集。如果三数和小于0，则前指针指向后一个数，否则后指针指向前一个数。<br><a id="more"></a><br>根据解题思路，结合网上找到的别人的代码，我迅速地写出了第一个答案：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; threeSum(<span class="keyword">int</span>[] nums) &#123;</div><div class="line">        List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        Arrays.sort(nums);</div><div class="line">        <span class="keyword">int</span> length = nums.length;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">            <span class="keyword">int</span> left = i + <span class="number">1</span>;</div><div class="line">            <span class="keyword">int</span> right = length - <span class="number">1</span>;</div><div class="line">            <span class="keyword">while</span> (left &lt; right) &#123;</div><div class="line">                <span class="keyword">int</span> sum = nums[i] + nums[left] + nums[right];</div><div class="line">                <span class="keyword">if</span> (sum == <span class="number">0</span>) &#123;</div><div class="line">                    List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">                    list.add(nums[i]);</div><div class="line">                    list.add(nums[left]);</div><div class="line">                    list.add(nums[right]);</div><div class="line">                    <span class="keyword">if</span> (!Compare(result, list)) result.add(list);</div><div class="line">                    ++left;</div><div class="line">                    --right;</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</div><div class="line">                    ++left;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    --right;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">Compare</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; result, List&lt;Integer&gt; list)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; result.size(); i++) &#123;</div><div class="line">            List&lt;Integer&gt; test = result.get(i);</div><div class="line">            <span class="keyword">if</span> (test.contains(list.get(<span class="number">0</span>)) &amp;&amp; test.contains(list.get(<span class="number">1</span>)) </div><div class="line">                    &amp;&amp; test.contains(list.get(<span class="number">2</span>)))</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -682,14 +800,12 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
-    
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
     
       <category term="Array" scheme="http://blade6.top/tags/Array/"/>
+    
+      <category term="Medium" scheme="http://blade6.top/tags/Medium/"/>
     
   </entry>
   
@@ -698,7 +814,7 @@
     <link href="http://blade6.top/posts/c9c9e9c7/"/>
     <id>http://blade6.top/posts/c9c9e9c7/</id>
     <published>2017-04-17T16:17:41.355Z</published>
-    <updated>2017-04-19T06:23:45.424Z</updated>
+    <updated>2017-10-11T16:10:56.736Z</updated>
     
     <content type="html"><![CDATA[<p>Java中的方法的参数是值传递还是引用传递争论已久，实际上取决于我们怎么定义这两个名词，但如果仅从定义层面去分辨，还是很难有比较好的效果。本文通过实例讲解。</p>
 <h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><p>这毫无疑问是值传递，换言之形参和实参互不影响。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">change</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</div><div class="line">        a=<span class="number">50</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> a=<span class="number">10</span>;</div><div class="line">        System.out.print(a + <span class="string">" "</span>);</div><div class="line">        change(a);</div><div class="line">        System.out.print(a);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -717,10 +833,10 @@
     
     </summary>
     
-      <category term="编程" scheme="http://blade6.top/categories/%E7%BC%96%E7%A8%8B/"/>
+      <category term="Java" scheme="http://blade6.top/categories/Java/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
+      <category term="Parameter" scheme="http://blade6.top/tags/Parameter/"/>
     
   </entry>
   
@@ -729,7 +845,7 @@
     <link href="http://blade6.top/posts/8872b998/"/>
     <id>http://blade6.top/posts/8872b998/</id>
     <published>2017-03-28T16:03:28.126Z</published>
-    <updated>2017-04-24T08:38:54.359Z</updated>
+    <updated>2017-10-11T16:07:32.623Z</updated>
     
     <content type="html"><![CDATA[<h3 id="问题：给定字符串s，求出其最长回文子串。"><a href="#问题：给定字符串s，求出其最长回文子串。" class="headerlink" title="问题：给定字符串s，求出其最长回文子串。"></a>问题：给定字符串s，求出其最长回文子串。</h3><h4 id="方法一：动态规划。"><a href="#方法一：动态规划。" class="headerlink" title="方法一：动态规划。"></a>方法一：动态规划。</h4><p><strong>思想描述：</strong><br>假设 s[i][j] 表示字符串 s 下标从 i 到 j 的子串，如果该子串是回文子串，则令 dp[i][j] 为 true 。如果我们已经得到了最优解，这个最优解是 s[i][j] ，无疑 dp[i][j] = true 。而 dp[i][j]=true 实际上等价于 dp[i+1][j-1] = true &amp;&amp; s[i] == s[j] ，这就是<strong>推导式</strong>。<br>考虑 i+1 == j-1 ， i+1 == (j-1)-1 ，分别对应回文子串长度为1和为2的情况，这就是<strong>基准情况</strong>：<br>a. dp[i][i] = true<br>b. dp[i][i+1] = true if s[i] == s[i+1]<br><a id="more"></a></p>
 <p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//Dynamic Programming</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(s.length()==<span class="number">0</span> || s.length() == <span class="number">1</span>) <span class="keyword">return</span> s;</div><div class="line">        <span class="keyword">int</span> length = s.length();</div><div class="line">        <span class="keyword">int</span> max = <span class="number">1</span>;</div><div class="line">        String result = <span class="string">""</span> +s.charAt(<span class="number">0</span>);</div><div class="line">        <span class="keyword">boolean</span>[][] dp = <span class="keyword">new</span> <span class="keyword">boolean</span>[length][length];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++) dp[i][i] = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length-<span class="number">1</span>;i++)&#123;</div><div class="line">            <span class="keyword">if</span>(s.charAt(i) == s.charAt(i+<span class="number">1</span>))&#123;</div><div class="line">                dp[i][i+<span class="number">1</span>] = <span class="keyword">true</span>;</div><div class="line">                <span class="keyword">if</span>(max != <span class="number">2</span>)&#123;</div><div class="line">                    max = <span class="number">2</span>;</div><div class="line">                    result = s.substring(i, i+<span class="number">2</span>);</div><div class="line">                &#125;                </div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">       </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = length - <span class="number">3</span>; i &gt;= <span class="number">0</span>; i--)&#123;</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i+<span class="number">2</span>; j &lt; length; j++)&#123;</div><div class="line">                <span class="keyword">if</span>(dp[i+<span class="number">1</span>][j-<span class="number">1</span>] &amp;&amp; s.charAt(i) == s.charAt(j))&#123;</div><div class="line">                    dp[i][j] = <span class="keyword">true</span>;</div><div class="line">                    <span class="keyword">if</span>(j-i+<span class="number">1</span> &gt; max)&#123;</div><div class="line">                        max = j-i+<span class="number">1</span>;</div><div class="line">                        result = s.substring(i, j+<span class="number">1</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;<span class="keyword">else</span>&#123;</div><div class="line">                    dp[i][j] = <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -745,129 +861,14 @@
     
     </summary>
     
-      <category term="ACM" scheme="http://blade6.top/categories/ACM/"/>
+      <category term="leetCode" scheme="http://blade6.top/categories/leetCode/"/>
     
     
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="leetcode" scheme="http://blade6.top/tags/leetcode/"/>
+      <category term="Medium" scheme="http://blade6.top/tags/Medium/"/>
     
       <category term="String" scheme="http://blade6.top/tags/String/"/>
     
       <category term="DP" scheme="http://blade6.top/tags/DP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>回车符与换行符</title>
-    <link href="http://blade6.top/posts/285ba2a7/"/>
-    <id>http://blade6.top/posts/285ba2a7/</id>
-    <published>2017-03-25T09:26:47.294Z</published>
-    <updated>2017-04-24T08:40:17.721Z</updated>
-    
-    <content type="html"><![CDATA[<p>昨天晚上做NLP的时候，需要对文件做一些预处理。然后无意中发现一点小问题。通过用python和java分别对文件进行输出文本行数，发现不同。<br>输入文本文件:199801.txt<br>下面是Java实现的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</div><div class="line">        java.io.File in_file = <span class="keyword">new</span> java.io.File(<span class="string">"199801.txt"</span>); </div><div class="line">        Scanner input = <span class="keyword">new</span> Scanner(in_file);</div><div class="line">        java.io.File out_file = <span class="keyword">new</span> java.io.File(<span class="string">"test.txt"</span>);</div><div class="line">        java.io.PrintWriter output = <span class="keyword">new</span> java.io.PrintWriter(out_file);</div><div class="line">        <span class="comment">//p_num表示文本总行数，q_num表示存在有效文字的行数</span></div><div class="line">        <span class="keyword">int</span> p_num = <span class="number">0</span>,q_num = <span class="number">0</span>;</div><div class="line">        <span class="keyword">while</span>(input.hasNextLine())&#123;</div><div class="line">            String line = input.nextLine();</div><div class="line">            ++p_num;</div><div class="line">            <span class="keyword">if</span>(<span class="string">""</span>.equals(line))&#123;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            ++q_num;</div><div class="line">            output.println(q_num+<span class="string">" "</span>+line);                </div><div class="line">        &#125;</div><div class="line">        System.out.println(p_num+<span class="string">" "</span>+q_num);</div><div class="line">        input.close();</div><div class="line">        output.close();</div><div class="line">        System.out.println(<span class="string">"Done!"</span>);    </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>控制台上输出：<br>23064 19484<br>Done!<br>用Python实现的情况如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">f = open(<span class="string">'199801.txt'</span>,<span class="string">'r'</span>)</div><div class="line">g = open(<span class="string">'test1.txt'</span>,<span class="string">'w'</span>)</div><div class="line"></div><div class="line">p_num = <span class="number">0</span></div><div class="line">q_num = <span class="number">0</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    line = f.readline()    </div><div class="line">    <span class="keyword">if</span> len(line):</div><div class="line">        p_num += <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> line != <span class="string">'\n'</span>:</div><div class="line">            <span class="keyword">continue</span>    </div><div class="line">        q_num += <span class="number">1</span></div><div class="line">        g.write(str(q_num)+<span class="string">" "</span>+line)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">break</span></div><div class="line"></div><div class="line">f.close()</div><div class="line">g.close()</div><div class="line"><span class="keyword">print</span> p_num,q_num</div></pre></td></tr></table></figure></p>
-<p>控制台输出：<br>22722 19538</p>
-<p>可以观察到总行数Java这边较大，有效行数Python这边较大。<br>我决定首先解决有效行数不一致的问题。因为我在代码中还写了把有效行写成文件的内容，所以我决定检查一下test.txt和text1.txt文件有什么不同。手动打开两个文件，通过粗略估计+二分搜索法，确定第一次输出不同在第341行。<br>(P.S.有效行是指该行中存在文字。)<br>text.txt line341:</p>
-<blockquote>
-<p>341 19980101-07-007-001/m  细语/n  （/w  中国画/n  ）/w </p>
-</blockquote>
-<p>tex1.txt line341:</p>
-<blockquote>
-<p>341 </p>
-</blockquote>
-<p>也就是text1.txt的341行实际上不是有效行，说明Python代码中判断是否是有效行的逻辑有错误。于是我认为输入的文本文件中可能混有回车符和换行符。<br>（P.S.这里考虑到文章的整体的流畅性，省略了很多细节。实际上最初我认为问题出在Java，因为我引入了C++语言，统计文本行数的结果和Python是一致的。当时我认为问题出在Java代码中的input.nextLine()处，所以搜索了很多关于这个函数返回值的问题，知道了nextLine()会吞掉换行符。然后通过百度换行符，我又了解到了回车符这个概念，其实以前学过，忘记了。。）<br>于是我对Python代码稍加修改，增加在原代码13行和14行之间:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> q_num == <span class="number">341</span>:</div><div class="line">    <span class="keyword">print</span> len(line)</div><div class="line">    <span class="keyword">if</span> line == <span class="string">'\r\n'</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'bingo'</span></div></pre></td></tr></table></figure></p>
-<p>控制台显示：</p>
-<blockquote>
-<p>2<br>bingo<br>22722 19538</p>
-</blockquote>
-<p>于是判断出问题的关键在于’\r’和’\n’。于是我对Python代码进行了再次修改：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">f = open(<span class="string">'199801.txt'</span>,<span class="string">'r'</span>)</div><div class="line">g = open(<span class="string">'test1.txt'</span>,<span class="string">'w'</span>)</div><div class="line"></div><div class="line">p_num = <span class="number">0</span></div><div class="line">q_num = <span class="number">0</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    line = f.readline()    </div><div class="line">    <span class="keyword">if</span> len(line):</div><div class="line">        p_num += <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> line == <span class="string">'\n'</span> <span class="keyword">or</span> line == <span class="string">'\r\n'</span> <span class="keyword">or</span> line == <span class="string">'\r'</span>:</div><div class="line">            <span class="keyword">continue</span>    </div><div class="line">        q_num += <span class="number">1</span></div><div class="line">        g.write(str(q_num)+<span class="string">" "</span>+line)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">break</span></div><div class="line"></div><div class="line">f.close()</div><div class="line">g.close()</div><div class="line"><span class="keyword">print</span> p_num,q_num</div></pre></td></tr></table></figure></p>
-<p>再执行了一遍，控制台输出：</p>
-<blockquote>
-<p>22722 19485</p>
-</blockquote>
-<p>为什么有效行数仍然多了一行？首先需要找出有问题的行，于是我写了一段Python代码，避免手工排查：<br>（P.S.其实第一次手工排查前我就尝试写脚本排查，无奈因为不知道回车符，导致没有写出有效的脚本）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">f = open(<span class="string">'test1.txt'</span>,<span class="string">'r'</span>)</div><div class="line">g = open(<span class="string">'D:\\java\\Dev\\test.txt'</span>,<span class="string">'r'</span>)</div><div class="line"></div><div class="line">num = <span class="number">0</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    line1 = f.readline()</div><div class="line">    line2 = g.readline()</div><div class="line">    num += <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> line1 != line2:</div><div class="line">        <span class="keyword">if</span> len(line1) == len(line2)+<span class="number">1</span>:</div><div class="line">             <span class="keyword">continue</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">             <span class="keyword">break</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> len(line1):</div><div class="line">        <span class="keyword">break</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> num,len(line1),len(line2)</div><div class="line"></div><div class="line">f.close()</div><div class="line">g.close()</div></pre></td></tr></table></figure></p>
-<p>因为text1.txt有些行有\r，所以有些行的长度会比text.txt中的对应行大1，但实际上有效内容是一致的，所以代码中进行了忽略这样的行。<br>执行后控制台输出：</p>
-<blockquote>
-<p>1265 8 77</p>
-</blockquote>
-<p>可以看到两个文件是在第1265行出现分歧的。有了之前的经验教训，我怀疑text1.txt的1265行的内容是”1265 \r\r\n”，通过对脚本的代码稍加修改：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">f = open(<span class="string">'test1.txt'</span>,<span class="string">'r'</span>)</div><div class="line">g = open(<span class="string">'D:\\java\\Dev\\test.txt'</span>,<span class="string">'r'</span>)</div><div class="line"></div><div class="line">num = <span class="number">0</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    line1 = f.readline()</div><div class="line">    line2 = g.readline()</div><div class="line">    num += <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> line1 != line2:</div><div class="line">        <span class="keyword">if</span> len(line1) == len(line2)+<span class="number">1</span>:</div><div class="line">            <span class="keyword">continue</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">if</span> num == <span class="number">1265</span>:</div><div class="line">                <span class="keyword">print</span> len(line1)</div><div class="line">                <span class="keyword">if</span> line1 == <span class="string">"1265 \r\r\n"</span>:</div><div class="line">                    <span class="keyword">print</span> <span class="string">'bingo'</span></div><div class="line">            <span class="keyword">break</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> len(line1):</div><div class="line">        <span class="keyword">break</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> num,len(line1),len(line2)</div><div class="line"></div><div class="line">f.close()</div><div class="line">g.close()</div></pre></td></tr></table></figure></p>
-<p>控制台输出：</p>
-<blockquote>
-<p>8<br>bingo<br>1265 8 77</p>
-</blockquote>
-<p>证明我的判断是正确的。<br>至此，解决了有效行数不一致的问题。<br>那么为什么总行数会不相等呢？实际上，Python中f.readline()返回一行，不对这行做任何处理。而Java中input.nextLine()会获取从当前位置开始到一个结束符前的内容，然后去掉末尾的结束符返回。通过对本文Java代码稍加改写，可以发现’\r’，’\n’都会被认为是结束符。<br>比如：当文本中有一行的内容为”\r\n”时，<br>f.readline()会返回”\r\n”，行数加1。<br>input.nextLine()返回”\r”前的内容，也就是””，行数加1；<br>然后input.nextLine()会返回”\n”前的内容，也是””，行数加1。<br>读取这一行后，Java和Python的行数就出现不一致了。</p>
-<blockquote>
-<p>综上，对于Java中的Scanner的nextLine()方法，其名字中的nextline并不是真正意义上的下一行，准确地说应该是从当前位置到下一个结束符之前的内容。<br>Python的readline()方法返回真正意义上的一行，所以在对行做处理时，需要考虑行末是换行符或回车+换行符的情况。</p>
-</blockquote>
-<p>附上回车符与换行符的区别：</p>
-<blockquote>
-<p>CR：CarriageReturn，回车符，用’\r’表示，16进制代码为0x0D，光标移动到当前行的最左边。<br>LF：LineFeed，换行符，用’\n’表示，16进制代码为0x0A，把光标向下移动一行。</p>
-<p>不同操作系统表示一行的结束不同：<br>Unix、Linux：\n表示回车+换行，\r无意义<br>Windows、DOS：\r\n表示回车+换行，顺序不能颠倒<br>Mac：\r表示回车+换行<br>(P.S.Mac OS 9以及之前的系统的换行符是CR，从Mac OS X（后来改名为OS X）开始的换行符是LF，和Unix/Linux统一了。)</p>
-<p>影响：<br>（1）一个直接后果是，Unix/Mac系统下的文件在Windows里打开的话，所有文字会变成一行；<br>（2）而Windows里的文件在Unix/Mac下打开的话，在每行的结尾可能会多出一个^M符号。<br>（3）Linux保存的文件在windows上用记事本看的话会出现黑点。</p>
-<p>相互转换：<br>在linux下，命令unix2dos 是把linux文件格式转换成windows文件格式，命令dos2unix 是把windows格式转换成linux文件格式。</p>
-<p>在不同平台间使用FTP软件传送文件时, 在ascii文本模式传输模式下, 一些FTP客户端程序会自动对换行格式进行转换. 经过这种传输的文件字节数可能会发生变化.<br>如果你不想ftp修改原文件, 可以使用bin模式(二进制模式)传输文本。<br>一个程序在windows上运行就生成CR/LF换行格式的文本文件，而在Linux上运行就生成LF格式换行的文本文件。</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;昨天晚上做NLP的时候，需要对文件做一些预处理。然后无意中发现一点小问题。通过用python和java分别对文件进行输出文本行数，发现不同。&lt;br&gt;输入文本文件:199801.txt&lt;br&gt;下面是Java实现的代码：&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;21&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;22&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;23&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;24&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;25&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; java.io.*;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; java.util.*;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(String[] args)&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;throws&lt;/span&gt; FileNotFoundException &lt;/span&gt;&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        java.io.File in_file = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; java.io.File(&lt;span class=&quot;string&quot;&gt;&quot;199801.txt&quot;&lt;/span&gt;); &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        Scanner input = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Scanner(in_file);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        java.io.File out_file = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; java.io.File(&lt;span class=&quot;string&quot;&gt;&quot;test.txt&quot;&lt;/span&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        java.io.PrintWriter output = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; java.io.PrintWriter(out_file);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;comment&quot;&gt;//p_num表示文本总行数，q_num表示存在有效文字的行数&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; p_num = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;,q_num = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;while&lt;/span&gt;(input.hasNextLine())&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            String line = input.nextLine();&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            ++p_num;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&quot;&quot;&lt;/span&gt;.equals(line))&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;continue&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            ++q_num;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            output.println(q_num+&lt;span class=&quot;string&quot;&gt;&quot; &quot;&lt;/span&gt;+line);                &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        System.out.println(p_num+&lt;span class=&quot;string&quot;&gt;&quot; &quot;&lt;/span&gt;+q_num);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        input.close();&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        output.close();&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        System.out.println(&lt;span class=&quot;string&quot;&gt;&quot;Done!&quot;&lt;/span&gt;);    &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="编程" scheme="http://blade6.top/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="Java" scheme="http://blade6.top/tags/Java/"/>
-    
-      <category term="技术" scheme="http://blade6.top/tags/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="Python" scheme="http://blade6.top/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用Hexo搭建个人博客小记</title>
-    <link href="http://blade6.top/posts/21637/"/>
-    <id>http://blade6.top/posts/21637/</id>
-    <published>2016-11-01T03:26:18.000Z</published>
-    <updated>2017-03-29T07:45:32.497Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~</p>
-<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学生怎么能没有自己的个人网站，于是我萌生了搭建博客网站的想法。因为现在Nodejs+Hexo+Github Pages搭建博客很流行，于是我也加入了这股潮流。说干就干，网上的资料十分多，可能是每个搭建博客的都写了一篇建站日志, : )<br><a id="more"></a></p>
-<h3 id="建站大致过程"><a href="#建站大致过程" class="headerlink" title="建站大致过程"></a>建站大致过程</h3><ol>
-<li>安装Git Bash,Nodejs,Hexo.</li>
-<li>GitHub新建repo，并设置SSH.</li>
-<li>下载安装next主题，并按照<a href="http://theme-next.iissnan.com/getting-started.html" rel="external nofollow noopener noreferrer" target="_blank">NexT</a>的内容进行各项参数的设置。<ul>
-<li>多说评论、分享、热评文章</li>
-<li>LeanCloud阅读次数统计</li>
-<li>Local Search</li>
-</ul>
-</li>
-<li>购买域名。</li>
-<li>SEO推广</li>
-<li>文章链接唯一永久化</li>
-</ol>
-<h4 id="更改阅读全文样式"><a href="#更改阅读全文样式" class="headerlink" title="更改阅读全文样式"></a>更改阅读全文样式</h4><p>打开<code>\themes\next\source\css\_common\components\post\post-button.styl</code>文件，修改成<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">.post-button &#123;</div><div class="line">  margin-top: 50px;</div><div class="line"></div><div class="line">  .btn &#123;</div><div class="line">    display: inline-block;</div><div class="line"></div><div class="line">    border-width: 2px;</div><div class="line">    border-style: solid;</div><div class="line">    border-color: rgb(85,85,85);</div><div class="line"></div><div class="line">    padding: 0 20px;</div><div class="line"></div><div class="line">    line-height: 2;</div><div class="line"></div><div class="line">    font-size: 14px;</div><div class="line"></div><div class="line">    color: #555555;</div><div class="line"></div><div class="line">    text-decoration: none;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">  .btn:hover &#123;</div><div class="line">    color: white;</div><div class="line">    background-color: #222222;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.shijinrong.cn/2016/01/03/How-to-build-a-blog/" rel="external nofollow noopener noreferrer" target="_blank">如何使用10个小时搭建出个人域名而又Geek的独立博客</a><br><a href="http://opiece.me/2015/04/09/hexo-guide/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建个人博客(基于hexo3.0)</a><br><a href="http://willxue.coding.me/categories/hexo/" rel="external nofollow noopener noreferrer" target="_blank">Hexo系列教程</a><br><a href="http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/" rel="external nofollow noopener noreferrer" target="_blank">Hexo+nexT主题搭建个人博客</a><br><a href="http://blog.tangxiaozhu.com/p/45374067/" rel="external nofollow noopener noreferrer" target="_blank">使用Hexo搭建博客的深度优化</a><br><a href="http://www.jianshu.com/p/7ad9d3cd4d6e#" rel="external nofollow noopener noreferrer" target="_blank">将hexo博客同时托管到github和coding</a><br><a href="http://www.cnblogs.com/tengj/p/5357879.html" rel="external nofollow noopener noreferrer" target="_blank">hexo提交搜索引擎</a></p>
-<p>在此致谢所有无形中帮助到我的人，谢谢你们的分享。互联网精神万岁！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天购买了域名，基本上完成了博客的各项配置，接下来就可以开始写博客了。因为目前暂时没有什么干货，只好把建站的一些过程发上来撑撑场面，~_~&lt;/p&gt;
-&lt;h3 id=&quot;动机&quot;&gt;&lt;a href=&quot;#动机&quot; class=&quot;headerlink&quot; title=&quot;动机&quot;&gt;&lt;/a&gt;动机&lt;/h3&gt;&lt;p&gt;其实在今年年初的时候，师兄就让我们搭建自己的博客。那个时候的我，完全0基础。硬是一个寒假在虚拟机上搭建了一个博客，那个时候只是把它当成作业来完成的，做得十分简陋，这里就不po上来献丑了。做好之后就搁置了。直到这个学期，前几周，计算机英语老师说计算机专业的学生怎么能没有自己的个人网站，于是我萌生了搭建博客网站的想法。因为现在Nodejs+Hexo+Github Pages搭建博客很流行，于是我也加入了这股潮流。说干就干，网上的资料十分多，可能是每个搭建博客的都写了一篇建站日志, : )&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Blog" scheme="http://blade6.top/categories/Blog/"/>
-    
-    
-      <category term="hexo" scheme="http://blade6.top/tags/hexo/"/>
-    
-      <category term="blog" scheme="http://blade6.top/tags/blog/"/>
     
   </entry>
   
